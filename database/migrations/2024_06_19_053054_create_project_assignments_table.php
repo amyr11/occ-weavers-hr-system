@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('employee_no')->constrained('employees', 'employee_no')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('project_id')->constrained();
             $table->date('transfer_date');
-            $table->strign('transfer_memo_link')->nullable();
+            $table->string('transfer_memo_link')->nullable();
             $table->timestamps();
         });
     }

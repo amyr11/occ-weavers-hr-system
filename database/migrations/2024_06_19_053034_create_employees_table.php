@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('suffix')->nullable();
             $table->date('birthdate');
-            $table->int('age')->virtualAs('YEAR(CURDATE()) - YEAR(birthdate)');
+            $table->integer('age')->virtualAs('YEAR(CURDATE()) - YEAR(birthdate)');
             $table->string('mobile_number');
             $table->string('email')->unique();
             $table->string('photo_link')->nullable();
@@ -45,8 +45,8 @@ return new class extends Migration
 
             // Company information
             $table->date('company_start_date');
-            $table->int('max_leave_days'); // not sure
-            $table->int('current_leave_days'); // not sure
+            $table->integer('max_leave_days'); // not sure
+            $table->integer('current_leave_days'); // not sure
 
             $table->timestamps();
         });
