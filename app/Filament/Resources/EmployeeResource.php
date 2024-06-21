@@ -173,8 +173,11 @@ class EmployeeResource extends Resource
                     ->sortable()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->extraAttributes([
-                        'style' => 'min-width: 200px',
+                        'style' => 'min-width: 150px',
                     ]),
+                TextColumn::make('status')
+                    ->toggleable()
+                    ->sortable(),
                 TextColumn::make('full_name')
                     ->copyable()
                     ->toggleable()
