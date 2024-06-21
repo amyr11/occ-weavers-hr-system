@@ -147,6 +147,7 @@ class EmployeeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->searchOnBlur()
             ->defaultSort('status', 'asc')
             ->recordClasses(function (Model $record) {
                 if ($record->final_exit_date != null) {
@@ -168,37 +169,69 @@ class EmployeeResource extends Resource
                     ->label('No.')
                     ->copyable()
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('full_name')
                     ->copyable()
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('age')
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('email')
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('mobile_number')
                     ->label('Mobile no.')
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('labor_office_number')
                     ->label('Labor Office no.')
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('iban_number')
                     ->label('IBAN no.')
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('iqama_number')
                     ->label('IQAMA no.')
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('iqama_job_title')
                     ->label('IQAMA Job Title')
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('iqama_expiration')
                     ->label('IQAMA Expiration')
                     ->copyable()
@@ -206,8 +239,12 @@ class EmployeeResource extends Resource
                     ->sortable(),
                 TextColumn::make('passport_number')
                     ->label('Passport no.')
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('passport_date_issue')
                     ->date()
                     ->copyable()
@@ -223,7 +260,11 @@ class EmployeeResource extends Resource
                     ->sortable(),
                 TextColumn::make('insurance_classification')
                     ->copyable()
-                    ->sortable(),
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->sortable()
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('company_start_date')
                     ->date()
                     ->copyable()
@@ -267,8 +308,8 @@ class EmployeeResource extends Resource
                     ->form(function () {
                         return [
                             TextInput::make('employee_number')
-                                ->label('Employee No.')
-                                ->placeholder('Search No.'),
+                                ->label('Employee no.')
+                                ->placeholder('Enter Employee no.'),
                         ];
                     }),
                 SelectFilter::make('status')
@@ -280,34 +321,34 @@ class EmployeeResource extends Resource
                     ]),
                 QueryBuilder::make()
                     ->constraints([
-                        NumberConstraint::make('employee_number')
-                            ->icon('heroicon-o-hashtag'),
-                        TextConstraint::make('full_name')
-                            ->icon('heroicon-o-user'),
+                        // NumberConstraint::make('employee_number')
+                        //     ->icon('heroicon-o-hashtag'),
+                        // TextConstraint::make('full_name')
+                        //     ->icon('heroicon-o-user'),
                         NumberConstraint::make('age')
                             ->icon('heroicon-o-hashtag'),
-                        TextConstraint::make('mobile_number')
-                            ->icon('heroicon-o-user'),
-                        TextConstraint::make('email')
-                            ->icon('heroicon-o-user'),
+                        // TextConstraint::make('mobile_number')
+                        //     ->icon('heroicon-o-user'),
+                        // TextConstraint::make('email')
+                        //     ->icon('heroicon-o-user'),
                         DateConstraint::make('college_graduation_date')
                             ->icon('heroicon-o-calendar'),
-                        TextConstraint::make('labor_office_number')
-                            ->icon('heroicon-o-hashtag'),
-                        TextConstraint::make('iban_number')
-                            ->label('IBAN Number')
-                            ->icon('heroicon-o-hashtag'),
-                        TextConstraint::make('iqama_number')
-                            ->label('IQAMA Number')
-                            ->icon('heroicon-o-hashtag'),
-                        TextConstraint::make('iqama_job_title')
-                            ->label('IQAMA Job Title')
-                            ->icon('heroicon-o-briefcase'),
+                        // TextConstraint::make('labor_office_number')
+                        //     ->icon('heroicon-o-hashtag'),
+                        // TextConstraint::make('iban_number')
+                        //     ->label('IBAN Number')
+                        //     ->icon('heroicon-o-hashtag'),
+                        // TextConstraint::make('iqama_number')
+                        //     ->label('IQAMA Number')
+                        //     ->icon('heroicon-o-hashtag'),
+                        // TextConstraint::make('iqama_job_title')
+                        //     ->label('IQAMA Job Title')
+                        //     ->icon('heroicon-o-briefcase'),
                         DateConstraint::make('iqama_expiration')
-                            ->label('IQAMA Expiration')
-                            ->icon('heroicon-o-calendar'),
-                        TextConstraint::make('passport_number')
-                            ->icon('heroicon-o-hashtag'),
+                            ->label('IQAMA Expiration'),
+                        //     ->icon('heroicon-o-calendar'),
+                        // TextConstraint::make('passport_number')
+                        //     ->icon('heroicon-o-hashtag'),
                         DateConstraint::make('passport_date_issue')
                             ->icon('heroicon-o-calendar'),
                         DateConstraint::make('passport_expiration')
@@ -315,8 +356,8 @@ class EmployeeResource extends Resource
                         DateConstraint::make('sce_expiration')
                             ->label('SCE Expiration')
                             ->icon('heroicon-o-calendar'),
-                        TextConstraint::make('insurance_classification')
-                            ->icon('heroicon-o-hashtag'),
+                        // TextConstraint::make('insurance_classification')
+                        //     ->icon('heroicon-o-hashtag'),
                         DateConstraint::make('company_start_date')
                             ->icon('heroicon-o-calendar'),
                         DateConstraint::make('final_exit_date')
@@ -330,7 +371,7 @@ class EmployeeResource extends Resource
                         NumberConstraint::make('current_leave_days')
                             ->icon('heroicon-o-hashtag'),
                     ])
-            ], layout: FiltersLayout::Dropdown)
+            ], layout: FiltersLayout::AboveContentCollapsible)
             ->filtersFormWidth(MaxWidth::TwoExtraLarge)
             ->actions([
                 Tables\Actions\ViewAction::make(),
