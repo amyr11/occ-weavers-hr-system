@@ -167,6 +167,7 @@ class EmployeeResource extends Resource
             ->columns([
                 TextColumn::make('employee_number')
                     ->label('No.')
+                    ->toggleable()
                     ->copyable()
                     ->searchable()
                     ->sortable()
@@ -176,6 +177,7 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('full_name')
                     ->copyable()
+                    ->toggleable()
                     ->searchable()
                     ->sortable()
                     ->searchable(isIndividual: true, isGlobal: false)
@@ -184,9 +186,11 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('age')
                     ->copyable()
+                    ->toggleable()
                     ->sortable(),
                 TextColumn::make('email')
                     ->copyable()
+                    ->toggleable()
                     ->sortable()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->extraAttributes([
@@ -194,6 +198,7 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('mobile_number')
                     ->label('Mobile no.')
+                    ->toggleable()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable()
@@ -202,6 +207,7 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('labor_office_number')
                     ->label('Labor Office no.')
+                    ->toggleable()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable()
@@ -210,6 +216,7 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('iban_number')
                     ->label('IBAN no.')
+                    ->toggleable()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable()
@@ -218,6 +225,7 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('iqama_number')
                     ->label('IQAMA no.')
+                    ->toggleable()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable()
@@ -226,6 +234,7 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('iqama_job_title')
                     ->label('IQAMA Job Title')
+                    ->toggleable()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable()
@@ -234,11 +243,13 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('iqama_expiration')
                     ->label('IQAMA Expiration')
+                    ->toggleable()
                     ->copyable()
                     ->date()
                     ->sortable(),
                 TextColumn::make('passport_number')
                     ->label('Passport no.')
+                    ->toggleable()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable()
@@ -247,19 +258,23 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('passport_date_issue')
                     ->date()
+                    ->toggleable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('passport_expiration')
                     ->date()
+                    ->toggleable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('sce_expiration')
                     ->label('SCE Expiration')
+                    ->toggleable()
                     ->copyable()
                     ->date()
                     ->sortable(),
                 TextColumn::make('insurance_classification')
                     ->copyable()
+                    ->toggleable()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->sortable()
                     ->extraAttributes([
@@ -267,28 +282,34 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('company_start_date')
                     ->date()
+                    ->toggleable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('final_exit_date')
                     ->date()
+                    ->toggleable()
                     ->copyable()
                     ->placeholder('-')
                     ->sortable(),
                 TextColumn::make('visa_expired_date')
                     ->date()
+                    ->toggleable()
                     ->copyable()
                     ->placeholder('-')
                     ->sortable(),
                 TextColumn::make('transferred_date')
                     ->date()
+                    ->toggleable()
                     ->copyable()
                     ->placeholder('-')
                     ->sortable(),
                 TextColumn::make('max_leave_days')
                     ->copyable()
+                    ->toggleable()
                     ->sortable(),
                 TextColumn::make('current_leave_days')
                     ->copyable()
+                    ->toggleable()
                     ->sortable(),
             ])
             ->filters([
@@ -371,7 +392,7 @@ class EmployeeResource extends Resource
                         NumberConstraint::make('current_leave_days')
                             ->icon('heroicon-o-hashtag'),
                     ])
-            ], layout: FiltersLayout::AboveContentCollapsible)
+            ], layout: FiltersLayout::Modal)
             ->filtersFormWidth(MaxWidth::TwoExtraLarge)
             ->actions([
                 Tables\Actions\ViewAction::make(),
