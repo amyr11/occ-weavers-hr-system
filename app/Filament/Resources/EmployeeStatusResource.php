@@ -6,9 +6,11 @@ use App\Filament\Resources\EmployeeStatusResource\Pages;
 use App\Filament\Resources\EmployeeStatusResource\RelationManagers;
 use App\Models\EmployeeStatus;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -27,7 +29,8 @@ class EmployeeStatusResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('status')
+                    ->required(),
             ]);
     }
 
@@ -35,7 +38,7 @@ class EmployeeStatusResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('status')
             ])
             ->filters([
                 //
@@ -45,9 +48,7 @@ class EmployeeStatusResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

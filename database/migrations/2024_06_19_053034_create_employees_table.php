@@ -12,18 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->id('employee_no');
+            $table->id('employee_number');
 
             // Relationships
-            $table->foreignId('employee_status_id')->constrained();
+            $table->foreignId('employee_status_id')->default(1)->constrained();
 
             // Personal Information
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('suffix')->nullable();
+            $table->string('full_name')->virtualAs('CONCAT(first_name, " ", middle_name, " ", last_name, " ", suffix)');
             $table->date('birthdate');
-            $table->integer('age')->virtualAs('YEAR(CURDATE()) - YEAR(birthdate)');
+            $table->integer('age')->virtualAs('TIMESTAMPDIFF(YEAR, birthdate, CURDATE())');
             $table->string('mobile_number');
             $table->string('email')->unique();
             $table->string('photo_link')->nullable();
@@ -32,12 +33,12 @@ return new class extends Migration
             $table->date('college_graduation_date');
 
             // Government information
-            $table->string('labor_office_num')->unique();
-            $table->string('iban_num')->unique();
-            $table->string('iqama_num')->unique();
+            $table->string('labor_office_number')->unique();
+            $table->string('iban_number')->unique();
+            $table->string('iqama_number')->unique();
             $table->string('iqama_job_title');
             $table->date('iqama_expiration');
-            $table->string('passport_num')->unique();
+            $table->string('passport_number')->unique();
             $table->date('passport_date_issue');
             $table->date('passport_expiration');
             $table->date('sce_expiration');

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('project_assignments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_no')->constrained('employees', 'employee_no')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('employee_number')->constrained('employees', 'employee_number')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('project_id')->constrained();
             $table->date('transfer_date');
             $table->string('transfer_memo_link')->nullable();
