@@ -14,9 +14,6 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->id('employee_number');
 
-            // Relationships
-            $table->foreignId('employee_status_id')->default(1)->constrained();
-
             // Personal Information
             $table->string('first_name');
             $table->string('middle_name');
@@ -46,6 +43,9 @@ return new class extends Migration
 
             // Company information
             $table->date('company_start_date');
+            $table->date('final_exit_date')->nullable();
+            $table->date('visa_expired_date')->nullable();
+            $table->date('transferred_date')->nullable();
             $table->integer('max_leave_days'); // not sure
             $table->integer('current_leave_days'); // not sure
 

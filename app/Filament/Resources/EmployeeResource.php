@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\EmployeeResource\Pages;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
 use App\Models\Employee;
-use App\Models\EmployeeStatus;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
@@ -27,6 +26,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class EmployeeResource extends Resource
@@ -128,10 +128,9 @@ class EmployeeResource extends Resource
                                 ->schema([
                                     DatePicker::make('company_start_date')
                                         ->required(),
-                                    Select::make('employee_status_id')
-                                        ->relationship('employeeStatus', 'status')
-                                        ->default(1)
-                                        ->required(),
+                                    DatePicker::make('final_exit_date'),
+                                    DatePicker::make('visa_expired_date'),
+                                    DatePicker::make('transferred_date'),
                                     TextInput::make('max_leave_days')
                                         ->required(),
                                     TextInput::make('current_leave_days')
@@ -144,14 +143,25 @@ class EmployeeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->recordClasses(function (Model $record) {
+                if ($record->final_exit_date != null) {
+                    return 'border-l-4 bg-[#ffe6e6] !border-l-danger-500 dark:bg-[#403030] hover:bg-[#fad7d7] dark:hover:bg-[#4d3535]';
+                }
+
+                if ($record->visa_expired_date != null) {
+                    return 'border-l-4 bg-[#fff5e6] !border-l-warning-500 dark:bg-[#403b30] hover:bg-[#faecd7] dark:hover:bg-[#665633]';
+                }
+
+                if ($record->transferred_date != null) {
+                    return 'border-l-4 bg-[#e6f0ff] !border-l-blue-500 dark:bg-[#303940] hover:bg-[#d7e8fa] dark:hover:bg-[#335066]';
+                }                
+
+                return null;
+            })
             ->columns([
                 TextColumn::make('employee_number')
                     ->label('No.')
                     ->copyable()
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('employeeStatus.status')
-                    ->label('Status')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('full_name')
@@ -222,6 +232,21 @@ class EmployeeResource extends Resource
                     ->date()
                     ->copyable()
                     ->sortable(),
+                TextColumn::make('final_exit_date')
+                    ->date()
+                    ->copyable()
+                    ->placeholder('-')
+                    ->sortable(),
+                TextColumn::make('visa_expired_date')
+                    ->date()
+                    ->copyable()
+                    ->placeholder('-')
+                    ->sortable(),
+                TextColumn::make('transferred_date')
+                    ->date()
+                    ->copyable()
+                    ->placeholder('-')
+                    ->sortable(),
                 TextColumn::make('max_leave_days')
                     ->copyable()
                     ->sortable(),
@@ -234,16 +259,10 @@ class EmployeeResource extends Resource
                     ->constraints([
                         NumberConstraint::make('employee_number')
                             ->icon('heroicon-o-hashtag'),
-                        RelationshipConstraint::make('employeeStatus')
-                            ->icon('heroicon-o-bars-3')
-                            ->selectable(
-                                IsRelatedToOperator::make()
-                                ->titleAttribute('status')
-                            ),
                         TextConstraint::make('full_name')
                             ->icon('heroicon-o-user'),
                         NumberConstraint::make('age')
-                            ->icon('heroicon-o-user'),
+                            ->icon('heroicon-o-hashtag'),
                         TextConstraint::make('mobile_number')
                             ->icon('heroicon-o-user'),
                         TextConstraint::make('email')
@@ -277,6 +296,12 @@ class EmployeeResource extends Resource
                             ->icon('heroicon-o-hashtag'),
                         DateConstraint::make('company_start_date')
                             ->icon('heroicon-o-calendar'),
+                        DateConstraint::make('final_exit_date')
+                            ->icon('heroicon-o-calendar'),
+                        DateConstraint::make('visa_expired_date')
+                            ->icon('heroicon-o-calendar'),
+                        DateConstraint::make('transferred_date')
+                            ->icon('heroicon-o-calendar'),
                         NumberConstraint::make('max_leave_days')
                             ->icon('heroicon-o-hashtag'),
                         NumberConstraint::make('current_leave_days')
@@ -289,6 +314,29 @@ class EmployeeResource extends Resource
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\BulkActionGroup::make([
+                    self::getUpdateBulkAction('final_exit_date', 'heroicon-o-calendar', 'Final Exit Date'),
+                    self::getUpdateBulkAction('visa_expired_date', 'heroicon-o-calendar', 'Visa Expired Date'),
+                    self::getUpdateBulkAction('transferred_date', 'heroicon-o-calendar', 'Transferred Date'),
+                ])
+                ->label('Edit')
+                ->icon('heroicon-o-pencil'),
+            ]);
+    }
+    
+    private static function getUpdateBulkAction($column, $icon, $label, $action = null): Tables\Actions\BulkAction
+    {
+        return Tables\Actions\BulkAction::make($column)
+            ->label($label)
+            ->requiresConfirmation()
+            ->icon($icon)
+            ->action($action ?? function ($records, array $data): void {
+                foreach ($records as $record) {
+                    $record->update($data);
+                }
+            })
+            ->form(fn ($records) => [
+                DatePicker::make($column)
             ]);
     }
 
