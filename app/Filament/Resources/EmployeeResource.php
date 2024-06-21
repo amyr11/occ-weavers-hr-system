@@ -167,43 +167,35 @@ class EmployeeResource extends Resource
                 TextColumn::make('employee_number')
                     ->label('No.')
                     ->copyable()
-                    ->searchable()
                     ->sortable(),
                 TextColumn::make('full_name')
                     ->copyable()
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('age')
-                    ->searchable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('email')
-                    ->searchable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('mobile_number')
                     ->label('Mobile no.')
-                    ->searchable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('labor_office_number')
                     ->label('Labor Office no.')
-                    ->searchable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('iban_number')
                     ->label('IBAN no.')
-                    ->searchable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('iqama_number')
                     ->label('IQAMA no.')
-                    ->searchable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('iqama_job_title')
                     ->label('IQAMA Job Title')
-                    ->searchable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('iqama_expiration')
@@ -214,7 +206,6 @@ class EmployeeResource extends Resource
                 TextColumn::make('passport_number')
                     ->label('Passport no.')
                     ->copyable()
-                    ->searchable()
                     ->sortable(),
                 TextColumn::make('passport_date_issue')
                     ->date()
@@ -230,7 +221,6 @@ class EmployeeResource extends Resource
                     ->date()
                     ->sortable(),
                 TextColumn::make('insurance_classification')
-                    ->searchable()
                     ->copyable()
                     ->sortable(),
                 TextColumn::make('company_start_date')
@@ -260,12 +250,26 @@ class EmployeeResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                SelectFilter::make('status')
-                    ->options([
-                        'Active' => 'Active',
-                        'Final Exit' => 'Final Exit',
-                        'Visa Expired' => 'Visa Expired',
-                    ]),
+                Filter::make('employee_number')
+                    ->indicateUsing(function (array $data) {
+                        if (empty($data['employee_number'])) {
+                            return null;
+                        }
+                        return 'Employee no.: ' . $data['employee_number'];
+                    })
+                    ->query(function (Builder $query, array $data) {
+                        if (empty($data['employee_number'])) {
+                            return;
+                        }
+                        return $query->where('employee_number', '=', $data['employee_number']);
+                    })
+                    ->form(function () {
+                        return [
+                            TextInput::make('employee_number')
+                                ->label('No.')
+                                ->placeholder('Search No.'),
+                        ];
+                    }),
                 QueryBuilder::make()
                     ->constraints([
                         NumberConstraint::make('employee_number')
