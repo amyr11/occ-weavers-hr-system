@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Exports\EmployeeExporter;
 use App\Filament\Resources\EmployeeResource\Pages;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
 use App\Models\Employee;
+use Filament\Actions\ExportAction;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
@@ -15,6 +17,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
@@ -408,8 +411,11 @@ class EmployeeResource extends Resource
                     self::getUpdateBulkAction('visa_expired_date', 'heroicon-o-calendar', 'Visa Expired Date'),
                     self::getUpdateBulkAction('transferred_date', 'heroicon-o-calendar', 'Transferred Date'),
                 ])
-                ->label('Edit')
-                ->icon('heroicon-o-pencil'),
+                    ->label('Edit')
+                    ->icon('heroicon-o-pencil'),
+                ExportBulkAction::make()
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->exporter(EmployeeExporter::class),
             ]);
     }
     

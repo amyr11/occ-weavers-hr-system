@@ -26,6 +26,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('/')
+            ->databaseNotifications()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
             ->brandLogo(fn () => view('filament.admin.logo'))
