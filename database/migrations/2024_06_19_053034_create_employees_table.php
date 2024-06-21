@@ -46,6 +46,7 @@ return new class extends Migration
             $table->date('final_exit_date')->nullable();
             $table->date('visa_expired_date')->nullable();
             $table->date('transferred_date')->nullable();
+            $table->string('status')->virtualAs('IF(final_exit_date IS NOT NULL, "Final Exit", IF(visa_expired_date IS NOT NULL, "Visa Expired", IF(transferred_date IS NOT NULL, "Transferred", "Active")))');
             $table->integer('max_leave_days'); // not sure
             $table->integer('current_leave_days'); // not sure
 

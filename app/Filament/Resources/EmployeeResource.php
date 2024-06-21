@@ -143,6 +143,10 @@ class EmployeeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultGroup('status')
+            ->groups([
+                'status',
+            ])
             ->recordClasses(function (Model $record) {
                 if ($record->final_exit_date != null) {
                     return 'border-l-4 bg-[#ffe6e6] !border-l-danger-500 dark:bg-[#403030] hover:bg-[#fad7d7] dark:hover:bg-[#4d3535]';
