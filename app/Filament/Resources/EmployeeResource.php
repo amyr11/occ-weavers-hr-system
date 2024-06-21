@@ -167,6 +167,7 @@ class EmployeeResource extends Resource
                 TextColumn::make('employee_number')
                     ->label('No.')
                     ->copyable()
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('full_name')
                     ->copyable()
@@ -266,10 +267,17 @@ class EmployeeResource extends Resource
                     ->form(function () {
                         return [
                             TextInput::make('employee_number')
-                                ->label('No.')
+                                ->label('Employee No.')
                                 ->placeholder('Search No.'),
                         ];
                     }),
+                SelectFilter::make('status')
+                    ->options([
+                        'Active' => 'Active',
+                        'Final Exit' => 'Final Exit',
+                        'Visa Expired' => 'Visa Expired',
+                        'Transferred' => 'Transferred',
+                    ]),
                 QueryBuilder::make()
                     ->constraints([
                         NumberConstraint::make('employee_number')
