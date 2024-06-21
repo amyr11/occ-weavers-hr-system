@@ -13,10 +13,12 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
@@ -24,6 +26,8 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\RelationshipConstraint\Operators\IsRelatedToOperator;
 use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -143,10 +147,7 @@ class EmployeeResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->defaultGroup('status')
-            ->groups([
-                'status',
-            ])
+            ->defaultSort('status', 'asc')
             ->recordClasses(function (Model $record) {
                 if ($record->final_exit_date != null) {
                     return 'border-l-4 bg-[#ffe6e6] !border-l-danger-500 dark:bg-[#403030] hover:bg-[#fad7d7] dark:hover:bg-[#4d3535]';
@@ -259,6 +260,12 @@ class EmployeeResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                SelectFilter::make('status')
+                    ->options([
+                        'Active' => 'Active',
+                        'Final Exit' => 'Final Exit',
+                        'Visa Expired' => 'Visa Expired',
+                    ]),
                 QueryBuilder::make()
                     ->constraints([
                         NumberConstraint::make('employee_number')
@@ -311,7 +318,8 @@ class EmployeeResource extends Resource
                         NumberConstraint::make('current_leave_days')
                             ->icon('heroicon-o-hashtag'),
                     ])
-            ], layout: FiltersLayout::AboveContent)
+            ], layout: FiltersLayout::Dropdown)
+            ->filtersFormWidth(MaxWidth::TwoExtraLarge)
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
