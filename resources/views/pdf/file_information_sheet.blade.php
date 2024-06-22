@@ -6,7 +6,7 @@
 	<script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="m-0 p-0 font-sans">
+<body>
 	<!-- class="mx-auto my-2 max-w-3xl p-2" -->
 	<div>
 		<!-- Company logo -->
@@ -113,6 +113,20 @@
 				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iban_number }}</p>
 			</div>
 		</div>
+	</div>
+
+	@pageBreak
+
+	<!-- Contract history header -->
+	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
+		<h1 class="mx-auto text-center text-sm font-medium">Transfer history</h1>
+	</div>
+
+	@pageBreak
+
+	<!-- Contract history header -->
+	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
+		<h1 class="mx-auto text-center text-sm font-medium">Contract history</h1>
 	</div>
 </body>
 
