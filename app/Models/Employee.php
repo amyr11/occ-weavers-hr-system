@@ -15,4 +15,9 @@ class Employee extends Model
     protected $primaryKey = 'employee_number';
 
     protected $guarded = [];
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
 }

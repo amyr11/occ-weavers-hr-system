@@ -74,7 +74,16 @@ class EmployeeResource extends Resource
                                         ->email()
                                         ->required(),
                                 ]),
-                        TextInput::make('photo_link'),
+                        Grid::make([
+                                'md' => 2,
+                            ])
+                                ->schema([
+                                    Select::make('country_id')
+                                        ->relationship('country', 'name')
+                                        ->searchable()
+                                        ->required(),
+                                    TextInput::make('photo_link'),
+                                ]),
                             ]),
                 Section::make('Education')
                     ->schema([
@@ -189,6 +198,14 @@ class EmployeeResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->searchable(isIndividual: true, isGlobal: false)
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
+                TextColumn::make('country.name')
+                    ->label('Country')
+                    ->toggleable()
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->sortable()
                     ->extraAttributes([
                         'style' => 'min-width: 200px',
                     ]),

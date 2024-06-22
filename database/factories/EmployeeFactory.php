@@ -18,7 +18,7 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            'country_id' => Country::all()->random()->id,
+            'country_id' => Country::whereIn('name', ['Saudi Arabia', 'Philippines', 'Pakistan', 'India'])->get()->random()->id,
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
