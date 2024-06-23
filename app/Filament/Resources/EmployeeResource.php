@@ -87,6 +87,19 @@ class EmployeeResource extends Resource
                             ]),
                 Section::make('Education')
                     ->schema([
+                        Grid::make([
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                Select::make('education_level_id')
+                                    ->relationship('educationLevel', 'level')
+                                    ->required(),
+                                Select::make('degree_id')
+                                    ->relationship('degree', 'degree')
+                                    ->searchable()
+                                    ->preload()
+                                    ->required(),
+                            ]),
                         DatePicker::make('college_graduation_date')
                             ->required(),
                     ]),
@@ -230,6 +243,17 @@ class EmployeeResource extends Resource
                     ->extraAttributes([
                         'style' => 'min-width: 200px',
                     ]),
+                TextColumn::make('educationLevel.level')
+                    ->toggleable()
+                    ->sortable(),
+                TextColumn::make('degree.degree')
+                    ->toggleable()
+                    ->placeholder('-')
+                    ->sortable(),
+                TextColumn::make('college_graduation_date')
+                    ->toggleable()
+                    ->copyable()
+                    ->sortable(),
                 TextColumn::make('mobile_number')
                     ->label('Mobile no.')
                     ->toggleable()
@@ -374,17 +398,35 @@ class EmployeeResource extends Resource
                 SelectFilter::make('country_id')
                     ->multiple()
                     ->label('Country')
+                    ->preload()
                     ->relationship('country', 'name')
                     ->options(function () {
                         return \App\Models\Country::pluck('name', 'id');
                     })
                     ->searchable(),
                 SelectFilter::make('insurance_class_id')
+                    ->label('Insurance Class')
                     ->multiple()
-                    ->label('Insurance class')
+                    ->preload()
                     ->relationship('insuranceClass', 'name')
                     ->options(function () {
                         return \App\Models\InsuranceClass::pluck('name', 'id');
+                    }),
+                SelectFilter::make('education_level_id')
+                    ->label('Education Level')
+                    ->multiple()
+                    ->preload()
+                    ->relationship('educationLevel', 'level')
+                    ->options(function () {
+                        return \App\Models\EducationLevel::pluck('level', 'id');
+                    }),
+                SelectFilter::make('degree_id')
+                    ->label('Degree')
+                    ->multiple()
+                    ->preload()
+                    ->relationship('degree', 'degree')
+                    ->options(function () {
+                        return \App\Models\Degree::pluck('degree', 'id');
                     }),
                 QueryBuilder::make()
                     ->constraints([

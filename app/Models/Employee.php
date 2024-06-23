@@ -31,8 +31,8 @@ class Employee extends Model
         return $this->belongsTo(EducationLevel::class);
     }
 
-    public function degrees()
+    public function degree()
     {
-        return $this->hasMany(Degree::class);
+        return $this->belongsTo(Degree::class);
     }
 }

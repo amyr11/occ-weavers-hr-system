@@ -13,14 +13,14 @@ class DegreeSeeder extends Seeder
     public function run(): void
     {
         $degrees = [
-            'Bachelor of Science in Computer Science',
-            'Bachelor of Science in Information Technology',
-            'Bachelor of Science in Civil Engineering',
-            'Bachelor of Science in Mechanical Engineering',
-            'Bachelor of Science in Electrical Engineering',
-            'Bachelor of Science in Financial Management',
-            'Bachelor of Science in Accountancy',
-            'Bachelor of Science in Business Administration',
+            'BS Computer Science',
+            'BS Information Technology',
+            'BS Civil Engineering',
+            'BS Mechanical Engineering',
+            'BS Electrical Engineering',
+            'BS Financial Management',
+            'BS Accountancy',
+            'BS Business Administration',
         ];
 
         foreach ($degrees as $degree) {

@@ -100,11 +100,11 @@
 		<div class="mb-2 grid grid-cols-2 gap-2">
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Education level</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">N/A</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->educationLevel->level }}</p>
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Degree (if applicable)</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">N/A</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->degree->degree ?? 'N/A' }}</p>
 			</div>
 		</div>
 		<div class="mb-2 grid grid-cols-2 gap-2">
