@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('suffix')->nullable();
-            $table->string('full_name')->virtualAs('CONCAT(first_name, " ", middle_name, " ", last_name, " ", suffix)');
+            $table->string('full_name')->virtualAs('CONCAT(first_name, " ", COALESCE(middle_name, ""), " ", last_name, CASE WHEN suffix IS NOT NULL AND suffix != "" THEN CONCAT(" ", suffix) ELSE "" END)');
             $table->date('birthdate');
             $table->integer('age')->virtualAs('TIMESTAMPDIFF(YEAR, birthdate, CURDATE())');
             $table->string('mobile_number');

@@ -97,8 +97,7 @@ class EmployeeResource extends Resource
                                 Select::make('degree_id')
                                     ->relationship('degree', 'degree')
                                     ->searchable()
-                                    ->preload()
-                                    ->required(),
+                                    ->preload(),
                             ]),
                         DatePicker::make('college_graduation_date')
                             ->required(),

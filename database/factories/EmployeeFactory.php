@@ -31,7 +31,7 @@ class EmployeeFactory extends Factory
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'suffix' => $this->faker->suffix(),
+            'suffix' => $this->faker->randomElement([$this->faker->suffix(), null]),
             'birthdate' => $this->faker->dateTimeBetween('-50 years', '-25 years')->format('Y-m-d'),
             'mobile_number' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
