@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             EducationLevelSeeder::class,
             DegreeSeeder::class,
             EmployeeSeeder::class,
+            EmployeeLeaveSeeder::class,
         ]);
     }
 }

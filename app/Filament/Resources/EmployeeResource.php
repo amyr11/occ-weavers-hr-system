@@ -215,6 +215,14 @@ class EmployeeResource extends Resource
                         'style' => 'min-width: 150px',
                     ]),
                 TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Active' => 'success',
+                        'Final Exit' => 'danger',
+                        'Visa Expired' => 'warning',
+                        'Transferred' => 'info',
+                        default => 'gray',
+                    })
                     ->toggleable()
                     ->sortable(),
                 TextColumn::make('full_name')
