@@ -94,7 +94,7 @@
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Insurance</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{  $employee->insuranceClass->name  }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->insuranceClass->name  }}</p>
 			</div>
 		</div>
 		<div class="mb-2 grid grid-cols-2 gap-2">
@@ -117,7 +117,7 @@
 
 	@pageBreak
 
-	<!-- Contract history header -->
+	<!-- Transfer history header -->
 	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
 		<h1 class="mx-auto text-center text-sm font-medium">Transfer history</h1>
 	</div>
@@ -128,6 +128,33 @@
 	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
 		<h1 class="mx-auto text-center text-sm font-medium">Contract history</h1>
 	</div>
+
+	@pageBreak
+
+	<!-- Leave history header -->
+	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
+		<h1 class="mx-auto text-center text-sm font-medium">Leave history</h1>
+	</div>
+
+	<!-- Leave history table -->
+	<table class="w-full mt-5">
+		<thead>
+			<tr class="bg-[#f0f7f2] text-[#086A38]">
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Start date</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">End date</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Duration (days)</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach ($employee->leaves->sortByDesc('start_date') as $leave)
+			<tr class="border-b border-gray-300">
+				<td class="px-2 py-2 text-xs text-black">{{ \Carbon\Carbon::parse($leave->start_date)->format('F j, Y') }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ \Carbon\Carbon::parse($leave->end_date)->format('F j, Y') }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $leave->duration_in_days . Illuminate\Support\Pluralizer::plural(' day', $leave->duration_in_days) }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
 </body>
 
 </html>
