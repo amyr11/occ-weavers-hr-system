@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CountrySeeder::class,
             InsuranceClassSeeder::class,
+            EducationLevelSeeder::class,
+            DegreeSeeder::class,
             EmployeeSeeder::class,
         ]);
     }

@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Country;
+use App\Models\Degree;
+use App\Models\EducationLevel;
 use App\Models\InsuranceClass;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +20,12 @@ class EmployeeFactory extends Factory
      */
     public function definition(): array
     {
+        $education_level = EducationLevel::all()->random();
+        $degree_id = $education_level->level === 'Bachelor\'s Degree' ? Degree::all()->random()->id: null;
+
         return [
+            'education_level_id' => $education_level->id,
+            'degree_id' => $degree_id,
             'insurance_class_id' => InsuranceClass::all()->random()->id,
             'country_id' => Country::all()->random()->id,
             'first_name' => $this->faker->firstName(),

@@ -25,4 +25,14 @@ class Employee extends Model
     {
         return $this->belongsTo(InsuranceClass::class);
     }
+
+    public function educationLevel()
+    {
+        return $this->belongsTo(EducationLevel::class);
+    }
+
+    public function degrees()
+    {
+        return $this->hasMany(Degree::class);
+    }
 }
