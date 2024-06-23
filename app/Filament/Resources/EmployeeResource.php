@@ -485,7 +485,7 @@ class EmployeeResource extends Resource
                 Tables\Actions\Action::make('file_information_sheet')
                     ->label('PDF')
                     ->color('danger')
-                    ->icon('heroicon-o-document')
+                    ->icon('heroicon-s-document')
                     ->url(fn (Employee $employee) => route('file-information-sheet', $employee)),
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
