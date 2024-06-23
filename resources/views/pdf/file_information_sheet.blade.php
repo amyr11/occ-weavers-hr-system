@@ -94,7 +94,7 @@
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Insurance</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">N/A</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{  $employee->insuranceClass->name  }}</p>
 			</div>
 		</div>
 		<div class="mb-2 grid grid-cols-2 gap-2">
