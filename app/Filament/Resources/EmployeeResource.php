@@ -468,6 +468,7 @@ class EmployeeResource extends Resource
             ->label($label)
             ->requiresConfirmation()
             ->icon($icon)
+            ->deselectRecordsAfterCompletion()
             ->action($action ?? function ($records, array $data): void {
                 foreach ($records as $record) {
                     $record->update($data);
