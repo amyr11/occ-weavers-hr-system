@@ -16,6 +16,7 @@ return new class extends Migration
 
             // Relationships
             $table->foreignId('country_id')->constrained()->cascadeOnUpdate();
+            $table->foreignId('insurance_class_id')->constrained()->cascadeOnUpdate();
 
             // Personal Information
             $table->string('first_name');

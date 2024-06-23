@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Country;
+use App\Models\InsuranceClass;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,7 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
+            'insurance_class_id' => InsuranceClass::all()->random()->id,
             'country_id' => Country::all()->random()->id,
             'first_name' => $this->faker->firstName(),
             'middle_name' => $this->faker->firstName(),
