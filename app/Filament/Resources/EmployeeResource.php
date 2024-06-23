@@ -134,8 +134,6 @@ class EmployeeResource extends Resource
                                     DatePicker::make('sce_expiration')
                                         ->label('SCE Expiration')
                                         ->required(),
-                                    TextInput::make('insurance_classification')
-                                        ->required(),
                                 ]),
                     ]),
                 Section::make('Company information')
@@ -146,9 +144,24 @@ class EmployeeResource extends Resource
                                 ->schema([
                                     DatePicker::make('company_start_date')
                                         ->required(),
+                                    Select::make('insurance_class_id')
+                                        ->relationship('insuranceClass', 'name')
+                                        ->searchable()
+                                        ->preload()
+                                        ->required(),
+                                ]),
+                        Grid::make([
+                                'md' => 3,
+                            ])
+                                ->schema([
                                     DatePicker::make('final_exit_date'),
                                     DatePicker::make('visa_expired_date'),
                                     DatePicker::make('transferred_date'),
+                                ]),
+                        Grid::make([
+                                'md' => 2,
+                            ])
+                                ->schema([
                                     TextInput::make('max_leave_days')
                                         ->required(),
                                     TextInput::make('current_leave_days')
@@ -204,11 +217,7 @@ class EmployeeResource extends Resource
                 TextColumn::make('country.name')
                     ->label('Country')
                     ->toggleable()
-                    ->searchable(isIndividual: true, isGlobal: false)
-                    ->sortable()
-                    ->extraAttributes([
-                        'style' => 'min-width: 200px',
-                    ]),
+                    ->sortable(),
                 TextColumn::make('age')
                     ->copyable()
                     ->toggleable()
@@ -297,14 +306,10 @@ class EmployeeResource extends Resource
                     ->copyable()
                     ->date()
                     ->sortable(),
-                TextColumn::make('insurance_classification')
+                TextColumn::make('insuranceClass.name')
                     ->copyable()
                     ->toggleable()
-                    ->searchable(isIndividual: true, isGlobal: false)
-                    ->sortable()
-                    ->extraAttributes([
-                        'style' => 'min-width: 200px',
-                    ]),
+                    ->sortable(),
                 TextColumn::make('company_start_date')
                     ->date()
                     ->toggleable()
@@ -359,12 +364,28 @@ class EmployeeResource extends Resource
                         ];
                     }),
                 SelectFilter::make('status')
+                    ->multiple()
                     ->options([
                         'Active' => 'Active',
                         'Final Exit' => 'Final Exit',
                         'Visa Expired' => 'Visa Expired',
                         'Transferred' => 'Transferred',
                     ]),
+                SelectFilter::make('country_id')
+                    ->multiple()
+                    ->label('Country')
+                    ->relationship('country', 'name')
+                    ->options(function () {
+                        return \App\Models\Country::pluck('name', 'id');
+                    })
+                    ->searchable(),
+                SelectFilter::make('insurance_class_id')
+                    ->multiple()
+                    ->label('Insurance class')
+                    ->relationship('insuranceClass', 'name')
+                    ->options(function () {
+                        return \App\Models\InsuranceClass::pluck('name', 'id');
+                    }),
                 QueryBuilder::make()
                     ->constraints([
                         // NumberConstraint::make('employee_number')
@@ -402,8 +423,6 @@ class EmployeeResource extends Resource
                         DateConstraint::make('sce_expiration')
                             ->label('SCE Expiration')
                             ->icon('heroicon-o-calendar'),
-                        // TextConstraint::make('insurance_classification')
-                        //     ->icon('heroicon-o-hashtag'),
                         DateConstraint::make('company_start_date')
                             ->icon('heroicon-o-calendar'),
                         DateConstraint::make('final_exit_date')

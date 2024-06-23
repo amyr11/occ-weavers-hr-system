@@ -39,7 +39,6 @@ class EmployeeFactory extends Factory
             'passport_date_issue' => $this->faker->date(),
             'passport_expiration' => $this->faker->date(),
             'sce_expiration' => $this->faker->date(),
-            'insurance_classification' => $this->faker->word(),
             'company_start_date' => $this->faker->date(),
             'max_leave_days' => 30,
             'current_leave_days' => 30,

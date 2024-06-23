@@ -20,4 +20,9 @@ class Employee extends Model
     {
         return $this->belongsTo(Country::class);
     }
+
+    public function insuranceClass()
+    {
+        return $this->belongsTo(InsuranceClass::class);
+    }
 }

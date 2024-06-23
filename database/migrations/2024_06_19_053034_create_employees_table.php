@@ -43,7 +43,6 @@ return new class extends Migration
             $table->date('passport_date_issue');
             $table->date('passport_expiration');
             $table->date('sce_expiration');
-            $table->string('insurance_classification');
 
             // Company information
             $table->date('company_start_date');
