@@ -25,7 +25,7 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('/')
+            ->path('/admin')
             ->databaseNotifications()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
