@@ -15,6 +15,9 @@ class EmployeeLeaveObserver
         $employee = $employeeLeave->employee;
         $employee->current_leave_days -= $employeeLeave->duration_in_days;
         $employee->save();
+        
+        $employeeLeave->remaining_leave_days = $employee->current_leave_days;
+        $employeeLeave->saveQuietly();
     }
 
     /**
@@ -26,6 +29,9 @@ class EmployeeLeaveObserver
         $employee = $employeeLeave->employee;
         $employee->current_leave_days += $employeeLeave->getOriginal('duration_in_days') - $employeeLeave->duration_in_days;
         $employee->save();
+
+        $employeeLeave->remaining_leave_days = $employee->current_leave_days;
+        $employeeLeave->saveQuietly();
     }
 
     /**
@@ -48,6 +54,9 @@ class EmployeeLeaveObserver
         $employee = $employeeLeave->employee;
         $employee->current_leave_days -= $employeeLeave->duration_in_days;
         $employee->save();
+
+        $employeeLeave->remaining_leave_days = $employee->current_leave_days;
+        $employeeLeave->saveQuietly();
     }
 
     /**

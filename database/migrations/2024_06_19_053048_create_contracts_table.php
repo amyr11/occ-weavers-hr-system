@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('employee_number')->constrained('employees', 'employee_number')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('job_id')->constrained();
+            $table->foreignId('employee_job_id')->constrained();
             $table->date('start_date');
             $table->date('end_date');
             $table->float('basic_salary');

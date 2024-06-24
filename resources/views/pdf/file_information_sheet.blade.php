@@ -142,7 +142,8 @@
 			<tr class="bg-[#f0f7f2] text-[#086A38]">
 				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Start date</th>
 				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">End date</th>
-				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Duration (days)</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Duration</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Remaining leave</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -150,7 +151,8 @@
 			<tr class="border-b border-gray-300">
 				<td class="px-2 py-2 text-xs text-black">{{ \Carbon\Carbon::parse($leave->start_date)->format('F j, Y') }}</td>
 				<td class="px-2 py-2 text-xs text-black">{{ \Carbon\Carbon::parse($leave->end_date)->format('F j, Y') }}</td>
-				<td class="px-2 py-2 text-xs text-black">{{ $leave->duration_in_days . Illuminate\Support\Pluralizer::plural(' day', $leave->duration_in_days) }}</td>
+				<td class="px-2 py-2 text-xs text-black font-bold">{{ $leave->duration_in_days . Illuminate\Support\Pluralizer::plural(' day', $leave->duration_in_days) }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $leave->remaining_leave_days . Illuminate\Support\Pluralizer::plural(' day', $leave->remaining_leave_days) }}</td>
 			</tr>
 			@endforeach
 		</tbody>
