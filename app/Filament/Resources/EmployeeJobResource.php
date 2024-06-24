@@ -27,7 +27,9 @@ class EmployeeJobResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('job_title')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -35,7 +37,16 @@ class EmployeeJobResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('job_title')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -45,9 +56,7 @@ class EmployeeJobResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
