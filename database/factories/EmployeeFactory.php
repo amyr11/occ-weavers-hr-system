@@ -48,7 +48,6 @@ class EmployeeFactory extends Factory
             'sce_expiration' => $this->faker->date(),
             'company_start_date' => $this->faker->date(),
             'max_leave_days' => 30,
-            'current_leave_days' => 30,
         ];
     }
 }

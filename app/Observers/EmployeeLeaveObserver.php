@@ -22,7 +22,10 @@ class EmployeeLeaveObserver
      */
     public function updated(EmployeeLeave $employeeLeave): void
     {
-        //
+        // Modify the current_leave_days of the employee
+        $employee = $employeeLeave->employee;
+        $employee->current_leave_days += $employeeLeave->getOriginal('duration_in_days') - $employeeLeave->duration_in_days;
+        $employee->save();
     }
 
     /**
@@ -30,7 +33,10 @@ class EmployeeLeaveObserver
      */
     public function deleted(EmployeeLeave $employeeLeave): void
     {
-        //
+        // Modify the current_leave_days of the employee
+        $employee = $employeeLeave->employee;
+        $employee->current_leave_days += $employeeLeave->duration_in_days;
+        $employee->save();
     }
 
     /**
@@ -38,7 +44,10 @@ class EmployeeLeaveObserver
      */
     public function restored(EmployeeLeave $employeeLeave): void
     {
-        //
+        // Modify the current_leave_days of the employee
+        $employee = $employeeLeave->employee;
+        $employee->current_leave_days -= $employeeLeave->duration_in_days;
+        $employee->save();
     }
 
     /**
@@ -46,6 +55,9 @@ class EmployeeLeaveObserver
      */
     public function forceDeleted(EmployeeLeave $employeeLeave): void
     {
-        //
+        // Modify the current_leave_days of the employee
+        $employee = $employeeLeave->employee;
+        $employee->current_leave_days += $employeeLeave->duration_in_days;
+        $employee->save();
     }
 }

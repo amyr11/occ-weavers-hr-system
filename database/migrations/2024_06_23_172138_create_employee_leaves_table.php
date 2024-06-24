@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('employee_number')->constrained('employees', 'employee_number')->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('start_date');
             $table->date('end_date');
-            $table->integer('duration_in_days')->virtualAs('DATEDIFF(end_date, start_date) + 1');
+            // $table->integer('duration_in_days')->virtualAs('DATEDIFF(end_date, start_date) + 1');
             $table->timestamps();
         });
     }

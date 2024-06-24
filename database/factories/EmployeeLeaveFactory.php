@@ -18,10 +18,15 @@ class EmployeeLeaveFactory extends Factory
     public function definition(): array
     {
         $start_date = $this->faker->date();
-        $end_date = $this->faker->dateTimeBetween($start_date, $start_date . ' + 30 days')->format('Y-m-d');
+        $end_date = $this->faker->dateTimeBetween($start_date, $start_date . ' + 7 days')->format('Y-m-d');
+        $days = \Carbon\Carbon::parse($start_date)->diffInDays(\Carbon\Carbon::parse($end_date)) + 1;
+
+        // Choose an employee number with current_leave_days greater than or equal to $days
+        $employee_number = Employee::where('current_leave_days', '>=', $days)->inRandomOrder()->first()->employee_number;
+
         return [
             'request_file_link' => 'https://youtu.be/dQw4w9WgXcQ',
-            'employee_number' => Employee::all()->random()->employee_number,
+            'employee_number' => $employee_number,
             'start_date' => $start_date,
             'end_date' => $end_date,
         ];

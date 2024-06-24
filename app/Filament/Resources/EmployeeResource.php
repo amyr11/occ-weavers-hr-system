@@ -177,6 +177,8 @@ class EmployeeResource extends Resource
                                     TextInput::make('max_leave_days')
                                         ->required(),
                                     TextInput::make('current_leave_days')
+                                        ->hiddenOn(['create'])
+                                        ->disabled()
                                         ->required(),
                                 ]),
                     ]),
@@ -214,6 +216,15 @@ class EmployeeResource extends Resource
                     ->extraAttributes([
                         'style' => 'min-width: 150px',
                     ]),
+                TextColumn::make('full_name')
+                    ->copyable()
+                    ->toggleable()
+                    ->searchable()
+                    ->sortable()
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -225,15 +236,6 @@ class EmployeeResource extends Resource
                     })
                     ->toggleable()
                     ->sortable(),
-                TextColumn::make('full_name')
-                    ->copyable()
-                    ->toggleable()
-                    ->searchable()
-                    ->sortable()
-                    ->searchable(isIndividual: true, isGlobal: false)
-                    ->extraAttributes([
-                        'style' => 'min-width: 200px',
-                    ]),
                 TextColumn::make('country.name')
                     ->label('Country')
                     ->toggleable()

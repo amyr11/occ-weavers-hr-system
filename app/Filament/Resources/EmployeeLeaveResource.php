@@ -85,8 +85,7 @@ class EmployeeLeaveResource extends Resource
                 Tables\Columns\TextColumn::make('duration_in_days')
                     ->label('Duration')
                     ->state(fn (EmployeeLeave $record) => "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days))
-                    ->copyable()
-                    ->sortable(),
+                    ->copyable(),
                 Tables\Columns\TextColumn::make('request_file_link')
                     ->url(fn (EmployeeLeave $record) => $record->request_file_link)
                     ->color('info')
