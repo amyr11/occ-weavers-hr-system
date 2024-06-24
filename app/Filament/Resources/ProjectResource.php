@@ -25,7 +25,9 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('project_name')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 
@@ -33,7 +35,8 @@ class ProjectResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('project_name')
+                    ->searchable(),
             ])
             ->filters([
                 //
@@ -43,9 +46,7 @@ class ProjectResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
