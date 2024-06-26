@@ -8,12 +8,20 @@ use App\Models\Contract;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -48,8 +56,8 @@ class ContractResource extends Resource
                     })
                     ->required(),
                 Forms\Components\Select::make('employee_job_id')
-                    ->relationship('employeeJob', 'id')
-                    ->getOptionLabelFromRecordUsing(fn (Model $record) => $record->job_title)
+                    ->label('Job title')
+                    ->relationship('employeeJob', 'job_title')
                     ->default(fn (Get $get) => $get('employee_job_id') ?? null)
                     ->label('Job title')
                     ->searchable()
@@ -106,7 +114,7 @@ class ContractResource extends Resource
                     ->searchable()
                     ->copyable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('duration_in_days')
+                Tables\Columns\TextColumn::make('duration_in_years')
                     ->label('Duration')
                     ->state(function (Contract $record) {
                         $time = Carbon::parse($record->start_date)->diff($record->end_date);
@@ -169,16 +177,49 @@ class ContractResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
-            ])
+                Filter::make('employee_number')
+                    ->indicateUsing(function (array $data) {
+                        if (empty($data['employee_number'])) {
+                            return null;
+                        }
+                        return 'Employee no.: ' . $data['employee_number'];
+                    })
+                    ->query(function (Builder $query, array $data) {
+                        if (empty($data['employee_number'])) {
+                            return;
+                        }
+                        return $query->where('employee_number', '=', $data['employee_number']);
+                    })
+                    ->form(function () {
+                        return [
+                            TextInput::make('employee_number')
+                                ->label('Employee no.')
+                                ->placeholder('Enter Employee no.'),
+                        ];
+                    }),
+                SelectFilter::make('employeeJob_id')
+                    ->label('Job title')
+                    ->multiple()
+                    ->relationship('employeeJob', 'job_title')
+                    ->preload()
+                    ->searchable(),
+                QueryBuilder::make()
+                    ->constraints([
+                        DateConstraint::make('start_date')
+                            ->icon('heroicon-o-calendar'),
+                        DateConstraint::make('end_date')
+                            ->icon('heroicon-o-calendar'),
+                        NumberConstraint::make('duration_in_years')
+                            ->icon('heroicon-o-hashtag')
+                    ])
+            ], layout: FiltersLayout::Modal)
+            ->filtersFormWidth(MaxWidth::TwoExtraLarge)
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

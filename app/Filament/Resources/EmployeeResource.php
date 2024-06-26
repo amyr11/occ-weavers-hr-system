@@ -150,6 +150,8 @@ class EmployeeResource extends Resource
                     ]),
                 Section::make('Company information')
                     ->schema([
+                        TextInput::make('current_job_title')
+                            ->disabled(),
                         Grid::make([
                                 'md' => 2,
                             ])
@@ -343,6 +345,9 @@ class EmployeeResource extends Resource
                     ->copyable()
                     ->toggleable()
                     ->sortable(),
+                TextColumn::make('current_job_title')
+                    ->toggleable()
+                    ->copyable(),
                 TextColumn::make('company_start_date')
                     ->date()
                     ->toggleable()

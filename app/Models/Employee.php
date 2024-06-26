@@ -14,6 +14,8 @@ class Employee extends Model
 
     protected $primaryKey = 'employee_number';
 
+    protected $appends = ['current_job_title'];
+
     protected $guarded = [];
 
     public function country()
@@ -39,5 +41,15 @@ class Employee extends Model
     public function leaves()
     {
         return $this->hasMany(EmployeeLeave::class, 'employee_number', 'employee_number');
+    }
+
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class, 'employee_number', 'employee_number');
+    }
+
+    public function getCurrentJobTitleAttribute()
+    {
+        return $this->contracts()->latest('end_date')->first()->employeeJob->job_title;
     }
 }
