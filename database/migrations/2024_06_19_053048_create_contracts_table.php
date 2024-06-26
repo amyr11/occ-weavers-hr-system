@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('employee_job_id')->constrained();
             $table->date('start_date');
             $table->date('end_date');
+            $table->integer('duration_in_days')->virtualAs('DATEDIFF(end_date, start_date) + 1');
             $table->float('basic_salary');
             $table->float('housing_allowance');
             $table->float('transportation_allowance');
