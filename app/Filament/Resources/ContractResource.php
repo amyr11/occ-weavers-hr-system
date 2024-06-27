@@ -175,7 +175,10 @@ class ContractResource extends Resource
                 Tables\Columns\TextColumn::make('remarks')
                     ->copyable()
                     ->placeholder('-')
-                    ->searchable(isIndividual: true, isGlobal: false),
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->extraAttributes([
+                        'style' => 'min-width: 200px',
+                    ]),
                 Tables\Columns\TextColumn::make('file_link')
                     ->url(fn (Contract $record) => $record->file_link)
                     ->color('info')
