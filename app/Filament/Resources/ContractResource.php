@@ -134,6 +134,7 @@ class ContractResource extends Resource
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('employeeJob.job_title')
+                    ->label('Job title')
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('duration_in_years')

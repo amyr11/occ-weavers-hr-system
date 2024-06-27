@@ -14,6 +14,19 @@ class Employee extends Model
 
     protected $primaryKey = 'employee_number';
 
+    protected $casts = [
+        'birthdate' => 'date',
+        'college_graduation_date' => 'date',
+        'iqama_expiration' => 'date',
+        'passport_date_issue' => 'date',
+        'passport_expiration' => 'date',
+        'sce_expiration' => 'date',
+        'company_start_date' => 'date',
+        'final_exit_date' => 'date',
+        'visa_expired_date' => 'date',
+        'transferred_date' => 'date',
+    ];
+
     protected $guarded = [];
 
     public function country()
