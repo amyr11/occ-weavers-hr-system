@@ -150,10 +150,19 @@ class EmployeeResource extends Resource
                     ]),
                 Section::make('Company information')
                     ->schema([
-                        Select::make('employee_job_id')
-                            ->label('Current job title')
-                            ->relationship('employeeJob', 'job_title')
-                            ->disabled(),
+                        Grid::make([
+                                'md' => 2,
+                            ])
+                                ->schema([
+                                    Select::make('employee_job_id')
+                                        ->label('Current job title')
+                                        ->relationship('employeeJob', 'job_title')
+                                        ->disabled(),
+                                    Select::make('project_id')
+                                        ->label('Current project')
+                                        ->relationship('project', 'project_name')
+                                        ->disabled(),
+                                ]),
                         Grid::make([
                                 'md' => 2,
                             ])
@@ -179,10 +188,10 @@ class EmployeeResource extends Resource
                             ])
                                 ->schema([
                                     TextInput::make('max_leave_days')
+                                        ->default(21)
                                         ->required(),
                                     TextInput::make('current_leave_days')
                                         ->hiddenOn(['create'])
-                                        ->disabled()
                                         ->required(),
                                 ]),
                     ]),
@@ -242,6 +251,12 @@ class EmployeeResource extends Resource
                     ->sortable(),
                 TextColumn::make('employeeJob.job_title')
                     ->label('Current job title')
+                    ->placeholder('-')
+                    ->toggleable()
+                    ->sortable()
+                    ->copyable(),
+                TextColumn::make('project.project_name')
+                    ->label('Current project')
                     ->placeholder('-')
                     ->toggleable()
                     ->sortable()
@@ -421,6 +436,14 @@ class EmployeeResource extends Resource
                     ->relationship('employeeJob', 'job_title')
                     ->options(function () {
                         return \App\Models\EmployeeJob::pluck('job_title', 'id');
+                    }),
+                SelectFilter::make('project_id')
+                    ->label('Current project')
+                    ->multiple()
+                    ->preload()
+                    ->relationship('project', 'project_name')
+                    ->options(function () {
+                        return \App\Models\Project::pluck('project_name', 'id');
                     }),
                 SelectFilter::make('country_id')
                     ->multiple()

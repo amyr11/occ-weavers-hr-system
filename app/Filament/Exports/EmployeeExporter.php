@@ -19,6 +19,8 @@ class EmployeeExporter extends Exporter
             ExportColumn::make('status'),
             ExportColumn::make('employeeJob.job_title')
                 ->label('Current job title'),
+            ExportColumn::make('project.project_name')
+                ->label('Current project'),
             ExportColumn::make('country.name'),
             ExportColumn::make('insuranceClass.name'),
             ExportColumn::make('educationLevel.level'),

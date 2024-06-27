@@ -94,15 +94,12 @@ class ContractResource extends Resource
                                     ->prefix('SAR')
                                     ->numeric(),
                                 Forms\Components\TextInput::make('housing_allowance')
-                                    ->required()
                                     ->prefix('SAR')
                                     ->numeric(),
                                 Forms\Components\TextInput::make('transportation_allowance')
-                                    ->required()
                                     ->prefix('SAR')
                                     ->numeric(),
                                 Forms\Components\TextInput::make('food_allowance')
-                                    ->required()
                                     ->prefix('SAR')
                                     ->numeric(),
                             ]),

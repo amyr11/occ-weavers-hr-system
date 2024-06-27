@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             EmployeeSeeder::class,
             EmployeeLeaveSeeder::class,
             ContractSeeder::class,
+            ProjectAssignmentSeeder::class,
         ]);
     }
 }

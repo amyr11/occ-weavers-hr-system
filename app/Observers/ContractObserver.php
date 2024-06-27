@@ -20,6 +20,8 @@ class ContractObserver
     public function created(Contract $contract): void
     {
         $this->setEmployeeCurrentJobTitle($contract->employee);
+        $duration_in_years = round($contract->start_date->diff($contract->end_date->addDay(1))->format('%a') / 365);
+        $contract->employee->addLeaves($duration_in_years);
     }
 
     /**

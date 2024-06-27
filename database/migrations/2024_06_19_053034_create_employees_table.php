@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('education_level_id')->constrained()->cascadeOnUpdate();
             $table->foreignId('degree_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->foreignId('employee_job_id')->nullable()->constrained()->cascadeOnUpdate();
+            $table->foreignId('project_id')->nullable()->constrained()->cascadeOnUpdate();
 
             // Personal Information
             $table->string('first_name');

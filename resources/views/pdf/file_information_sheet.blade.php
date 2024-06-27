@@ -50,7 +50,7 @@
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Project site</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">-</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->project->project_name ?? '-' }}</p>
 			</div>
 		</div>
 		<div class="mb-2 grid grid-cols-3 gap-2">
@@ -123,7 +123,7 @@
 	</div>
 
 	<!-- Contract history table -->
-	<table class="mt-5 w-full">
+	<table class="mt-5 w-full mb-5">
 		<thead>
 			<tr class="bg-[#f0f7f2] text-[#086A38]">
 				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Date</th>
@@ -155,15 +155,34 @@
 		</tbody>
 	</table>
 
-
-	@pageBreak
+	<!-- @pageBreak -->
 
 	<!-- Transfer history header -->
 	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
 		<h1 class="mx-auto text-center text-sm font-medium">Transfer history</h1>
 	</div>
 
-	@pageBreak
+	<!-- Transfer history table -->
+	<table class="w-full mt-5 mb-5">
+		<thead>
+			<tr class="bg-[#f0f7f2] text-[#086A38]">
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Transfer date</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">From</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">To</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach ($employee->projectAssignments->sortByDesc('transfer_date') as $projectAssignment)
+			<tr class="border-b border-gray-300">
+				<td class="px-2 py-2 text-xs text-black">{{ $projectAssignment->transfer_date->format('Y-m-d') }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $projectAssignment->from_project ? $projectAssignment->from_project->project_name : '-'}}</td>
+				<td class="px-2 py-2 text-xs text-black font-bold">{{ $projectAssignment->project->project_name }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+
+	<!-- @pageBreak -->
 
 	<!-- Leave history header -->
 	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
