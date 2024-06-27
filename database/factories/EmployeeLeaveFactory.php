@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Employee;
 use App\Models\EmployeeLeave;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,10 +22,11 @@ class EmployeeLeaveFactory extends Factory
         $employee = Employee::where('current_leave_days', '>', 0)->inRandomOrder()->first();
         $lastRecord = EmployeeLeave::where('employee_number', $employee->employee_number)->latest('end_date')->first();
         if ($lastRecord) {
-            $start_date = $this->faker->dateTimeBetween($lastRecord->end_date, '+ 1 year')->format('Y-m-d');
+            $start_date = Carbon::parse($lastRecord->end_date)->addYear()->format('Y-m-d');
         } else {
             $start_date = $this->faker->date();
         }
+        // 1 or 2 years after the start date
         $end_date = $this->faker->dateTimeBetween($start_date, $start_date . " + {$employee->current_leave_days} days")->format('Y-m-d');
 
         return [

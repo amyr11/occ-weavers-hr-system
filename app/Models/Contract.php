@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Observers\ContractObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy([ContractObserver::class])]
 class Contract extends Model
 {
     use HasFactory;
-
-    // protected $appends = ['duration_in_years'];
 
     protected $guarded = [];
 
@@ -22,9 +23,4 @@ class Contract extends Model
     {
         return $this->belongsTo(EmployeeJob::class);
     }
-
-    // public function getDurationInYearsAttribute()
-    // {
-    //     return intval(\Carbon\Carbon::parse($this->start_date)->diffInYears(\Carbon\Carbon::parse($this->end_date)));
-    // }
 }

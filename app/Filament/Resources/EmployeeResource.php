@@ -150,7 +150,9 @@ class EmployeeResource extends Resource
                     ]),
                 Section::make('Company information')
                     ->schema([
-                        TextInput::make('current_job_title')
+                        Select::make('employee_job_id')
+                            ->label('Current job title')
+                            ->relationship('employeeJob', 'job_title')
                             ->disabled(),
                         Grid::make([
                                 'md' => 2,
@@ -238,6 +240,12 @@ class EmployeeResource extends Resource
                     })
                     ->toggleable()
                     ->sortable(),
+                TextColumn::make('employeeJob.job_title')
+                    ->label('Current job title')
+                    ->placeholder('-')
+                    ->toggleable()
+                    ->sortable()
+                    ->copyable(),
                 TextColumn::make('country.name')
                     ->label('Country')
                     ->toggleable()
@@ -345,9 +353,6 @@ class EmployeeResource extends Resource
                     ->copyable()
                     ->toggleable()
                     ->sortable(),
-                TextColumn::make('current_job_title')
-                    ->toggleable()
-                    ->copyable(),
                 TextColumn::make('company_start_date')
                     ->date()
                     ->toggleable()
@@ -409,6 +414,14 @@ class EmployeeResource extends Resource
                         'Visa Expired' => 'Visa Expired',
                         'Transferred' => 'Transferred',
                     ]),
+                SelectFilter::make('employee_job_id')
+                    ->label('Current job title')
+                    ->multiple()
+                    ->preload()
+                    ->relationship('employeeJob', 'job_title')
+                    ->options(function () {
+                        return \App\Models\EmployeeJob::pluck('job_title', 'id');
+                    }),
                 SelectFilter::make('country_id')
                     ->multiple()
                     ->label('Country')
