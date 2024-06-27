@@ -117,16 +117,45 @@
 
 	@pageBreak
 
-	<!-- Transfer history header -->
-	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
-		<h1 class="mx-auto text-center text-sm font-medium">Transfer history</h1>
-	</div>
-
-	@pageBreak
-
 	<!-- Contract history header -->
 	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
 		<h1 class="mx-auto text-center text-sm font-medium">Contract history</h1>
+	</div>
+
+	<!-- Contract history table -->
+	<table class="w-full mt-5">
+		<thead>
+			<tr class="bg-[#f0f7f2] text-[#086A38]">
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Duration</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Start date</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">End date</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Salary/Allowances (SAR)</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Remarks</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach ($employee->contracts->sortByDesc('start_date') as $contract)
+			<tr class="border-b border-gray-300">
+				<td class="px-2 py-2 text-xs text-black font-bold">{{ $contract->duration_string }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ \Carbon\Carbon::parse($contract->start_date)->format('F j, Y') }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ \Carbon\Carbon::parse($contract->end_date)->format('F j, Y') }}</td>
+				<td class="px-2 py-2 text-xs text-black">
+					<span class="font-bold">Basic salary:</span><br>{{ $contract->basic_salary }}<br>
+					<span class="font-bold">Housing:</span><br>{{ $contract->housing_allowance }}<br>
+					<span class="font-bold">Transportation:</span><br>{{ $contract->transportation_allowance }}<br>
+					<span class="font-bold">Food:</span><br>{{ $contract->food_allowance }}
+				</td>
+				<td class="px-2 py-2 text-xs text-black w-40">{{ $contract->remarks }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+
+	@pageBreak
+
+	<!-- Transfer history header -->
+	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
+		<h1 class="mx-auto text-center text-sm font-medium">Transfer history</h1>
 	</div>
 
 	@pageBreak
