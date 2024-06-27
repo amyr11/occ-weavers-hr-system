@@ -5,9 +5,11 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ContractResource\Pages;
 use App\Filament\Resources\ContractResource\RelationManagers;
 use App\Models\Contract;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -40,54 +42,70 @@ class ContractResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('employee_number')
-                    ->relationship('employee', 'employee_number')
-                    ->searchable(['full_name', 'employee_number'])
-                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->employee_number} - {$record->full_name}")
-                    ->live()
-                    ->afterStateUpdated(function (Get $get, Set $set) {
-                        $lastContract = Contract::where('employee_number', $get('employee_number'))->latest('end_date')->first();
-                        // Set job id, basic salary, housing allowance, transportation allowance, food allowance
-                        $set('employee_job_id', $lastContract ? $lastContract->employee_job_id : null);
-                        $set('basic_salary', $lastContract ? $lastContract->basic_salary : null);
-                        $set('housing_allowance', $lastContract ? $lastContract->housing_allowance : null);
-                        $set('transportation_allowance', $lastContract ? $lastContract->transportation_allowance : null);
-                        $set('food_allowance', $lastContract ? $lastContract->food_allowance : null);
-                    })
-                    ->required(),
-                Forms\Components\Select::make('employee_job_id')
-                    ->label('Job title')
-                    ->relationship('employeeJob', 'job_title')
-                    ->default(fn (Get $get) => $get('employee_job_id') ?? null)
-                    ->label('Job title')
-                    ->searchable()
-                    ->preload()
-                    ->required(),
-                Forms\Components\DatePicker::make('start_date')
-                    ->required(),
-                Forms\Components\DatePicker::make('end_date')
-                    ->required(),
-                Grid::make([
-                    'md' => 2,
-                    'xl' => 4,
-                ])
+                Section::make('Employee Information')
                     ->schema([
-                        Forms\Components\TextInput::make('basic_salary')
-                            ->required()
-                            ->prefix('SAR')
-                            ->numeric(),
-                        Forms\Components\TextInput::make('housing_allowance')
-                            ->required()
-                            ->prefix('SAR')
-                            ->numeric(),
-                        Forms\Components\TextInput::make('transportation_allowance')
-                            ->required()
-                            ->prefix('SAR')
-                            ->numeric(),
-                        Forms\Components\TextInput::make('food_allowance')
-                            ->required()
-                            ->prefix('SAR')
-                            ->numeric(),
+                        Grid::make([
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                Forms\Components\Select::make('employee_number')
+                                    ->label('Employee no.')
+                                    ->relationship('employee', 'employee_number')
+                                    ->searchable(['full_name', 'employee_number'])
+                                    ->live()
+                                    ->afterStateUpdated(function (Get $get, Set $set) {
+                                        $set('employee_name_select', $get('employee_number'));
+                                    })
+                                    ->required(),
+                                Forms\Components\Select::make('employee_name_select')
+                                    ->relationship('employee', 'full_name')
+                                    ->label('Employee name')
+                                    ->disabled(),
+                            ])
+                    ]),
+                Section::make('Contract Details')
+                    ->schema([
+                        Forms\Components\Select::make('employee_job_id')
+                            ->label('Job title')
+                            ->relationship('employeeJob', 'job_title')
+                            ->label('Job title')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Grid::make([
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                Forms\Components\DatePicker::make('start_date')
+                                    ->required(),
+                                Forms\Components\DatePicker::make('end_date')
+                                    ->required(),
+                            ])
+                    ]),
+                Section::make('Salary/Allowance')
+                    ->schema([
+                        Grid::make([
+                            'md' => 2,
+                            'xl' => 4,
+                        ])
+                            ->schema([
+                                Forms\Components\TextInput::make('basic_salary')
+                                    ->required()
+                                    ->prefix('SAR')
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('housing_allowance')
+                                    ->required()
+                                    ->prefix('SAR')
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('transportation_allowance')
+                                    ->required()
+                                    ->prefix('SAR')
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('food_allowance')
+                                    ->required()
+                                    ->prefix('SAR')
+                                    ->numeric(),
+                            ]),
                     ]),
                 Forms\Components\TextInput::make('remarks')
                     ->maxLength(255)
@@ -101,17 +119,21 @@ class ContractResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->searchOnBlur()
             ->defaultSort('start_date', 'desc')
             ->columns([
+                Tables\Columns\TextColumn::make('employee_number')
+                    ->label('Employee no.')
+                    ->numeric()
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->copyable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('employee.full_name')
-                    ->state(function (Contract $record) {
-                            return "{$record->employee->employee_number} - {$record->employee->full_name}";
-                        })
-                    ->searchable()
+                    ->label('Employee name')
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('employeeJob.job_title')
-                    ->searchable()
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('duration_in_years')
@@ -153,12 +175,11 @@ class ContractResource extends Resource
                 Tables\Columns\TextColumn::make('remarks')
                     ->copyable()
                     ->placeholder('-')
-                    ->searchable(),
+                    ->searchable(isIndividual: true, isGlobal: false),
                 Tables\Columns\TextColumn::make('file_link')
                     ->url(fn (Contract $record) => $record->file_link)
                     ->color('info')
-                    ->placeholder('-')
-                    ->searchable(),
+                    ->placeholder('-'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

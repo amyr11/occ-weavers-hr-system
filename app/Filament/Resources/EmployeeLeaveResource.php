@@ -6,8 +6,12 @@ use App\Filament\Resources\EmployeeLeaveResource\Pages;
 use App\Filament\Resources\EmployeeLeaveResource\RelationManagers;
 use App\Models\EmployeeLeave;
 use Filament\Forms;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
@@ -36,42 +40,66 @@ class EmployeeLeaveResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('employee_number')
-                    ->relationship('employee', 'employee_number')
-                    ->searchable(['full_name', 'employee_number'])
-                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->employee_number} - {$record->full_name}")
-                    ->required(),
+                Section::make('Employee Information')
+                    ->schema([
+                        Grid::make([
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                Forms\Components\Select::make('employee_number')
+                                    ->label('Employee no.')
+                                    ->relationship('employee', 'employee_number')
+                                    ->searchable(['full_name', 'employee_number'])
+                                    ->live()
+                                    ->afterStateUpdated(function (Get $get, Set $set) {
+                                        $set('employee_name_select', $get('employee_number'));
+                                    })
+                                    ->required(),
+                                Forms\Components\Select::make('employee_name_select')
+                                    ->relationship('employee', 'full_name')
+                                    ->label('Employee name')
+                                    ->disabled(),
+                            ])
+                    ]),
+                Section::make('Duration')
+                    ->schema([
+                        Forms\Components\Grid::make([
+                            'md' => 3,
+                        ])
+                            ->schema([
+                                Forms\Components\DatePicker::make('start_date')
+                                    ->required(),
+                                Forms\Components\DatePicker::make('end_date')
+                                    ->required(),
+                                Forms\Components\TextInput::make('duration_in_days')
+                                    ->hiddenOn(['create', 'edit'])
+                                    ->label('Duration')
+                                    ->suffix('day/s')
+                                    ->disabled()
+                                    ->default(null),
+                            ]),
+                    ]),
                 Forms\Components\TextInput::make('request_file_link')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\Grid::make([
-                    'md' => 3,
-                ])
-                    ->schema([
-                        Forms\Components\DatePicker::make('start_date')
-                            ->required(),
-                        Forms\Components\DatePicker::make('end_date')
-                            ->required(),
-                        Forms\Components\TextInput::make('duration_in_days')
-                            ->hiddenOn(['create', 'edit'])
-                            ->label('Duration')
-                            ->suffix('day/s')
-                            ->disabled()
-                            ->default(null),
-                    ]),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->searchOnBlur()
             ->defaultSort('start_date', 'desc')
             ->columns([
+                Tables\Columns\TextColumn::make('employee_number')
+                    ->label('Employee no.')
+                    ->numeric()
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->copyable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('employee.full_name')
-                    ->state(function (EmployeeLeave $record) {
-                            return "{$record->employee->employee_number} - {$record->employee->full_name}";
-                        })
-                    ->searchable()
+                    ->label('Employee name')
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
@@ -92,8 +120,7 @@ class EmployeeLeaveResource extends Resource
                 Tables\Columns\TextColumn::make('request_file_link')
                     ->url(fn (EmployeeLeave $record) => $record->request_file_link)
                     ->color('info')
-                    ->placeholder('-')
-                    ->searchable(),
+                    ->placeholder('-'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->copyable()
                     ->dateTime()
