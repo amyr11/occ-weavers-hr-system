@@ -26,14 +26,18 @@ class EmployeeLeaveFactory extends Factory
         } else {
             $start_date = $this->faker->date();
         }
-        // 1 or 2 years after the start date
         $end_date = $this->faker->dateTimeBetween($start_date, $start_date . " + {$employee->current_leave_days} days")->format('Y-m-d');
+        $visa_duration = Carbon::parse($start_date)->diffInDays(Carbon::parse($end_date)) + 30;
+        $visa_expiration = Carbon::parse($end_date)->addDays($visa_duration);
 
         return [
             'request_file_link' => 'https://youtu.be/dQw4w9WgXcQ',
             'employee_number' => $employee->employee_number,
             'start_date' => $start_date,
             'end_date' => $end_date,
+            'visa_duration_in_days' => $visa_duration,
+            'visa_expiration' => $visa_expiration,
+            'contact_number' => $this->faker->phoneNumber,
         ];
     }
 }

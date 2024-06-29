@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\EmployeeLeaveResource\Pages;
 use App\Filament\Resources\EmployeeLeaveResource\RelationManagers;
 use App\Models\EmployeeLeave;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -21,9 +22,11 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Pluralizer;
@@ -59,24 +62,81 @@ class EmployeeLeaveResource extends Resource
                                     ->relationship('employee', 'full_name')
                                     ->label('Employee name')
                                     ->disabled(),
+                                Forms\Components\TextInput::make('contact_number')
+                                    ->label('Contact number')
+                                    ->maxLength(255)
+                                    ->required(),
                             ])
                     ]),
-                Section::make('Duration')
+                Section::make('Leave details')
                     ->schema([
                         Forms\Components\Grid::make([
                             'md' => 3,
                         ])
                             ->schema([
                                 Forms\Components\DatePicker::make('start_date')
+                                    ->label('Departure date')
                                     ->required(),
                                 Forms\Components\DatePicker::make('end_date')
+                                    ->label('Return date')
                                     ->required(),
                                 Forms\Components\TextInput::make('duration_in_days')
                                     ->hiddenOn(['create', 'edit'])
-                                    ->label('Duration')
+                                    ->label('Leave duration')
                                     ->suffix('day/s')
                                     ->disabled()
                                     ->default(null),
+                                Forms\Components\TextInput::make('status')
+                                    ->label('Leave status')
+                                    ->hiddenOn(['create', 'edit'])
+                                    ->disabled(),
+                                Forms\Components\Toggle::make('arrived')
+                                    ->default(false),
+                            ]),
+                    ]),
+                Section::make('Visa details')
+                    ->schema([
+                        Forms\Components\Grid::make([
+                            'md' => 3,
+                        ])
+                            ->schema([
+                                Forms\Components\TextInput::make('visa_duration_in_days')
+                                    ->label('Visa duration')
+                                    ->suffix('day/s')
+                                    ->numeric()
+                                    ->live()
+                                    ->requiredWith('start_date')
+                                    ->afterStateUpdated(function (Get $get, Set $set) {
+                                        $startDate = $get('start_date');
+                                        $duration = $get('visa_duration_in_days');
+                                        if (!$startDate || !$duration) {
+                                            $set('visa_expiration', null);
+                                            return;
+                                        }
+                                        $endDate = Carbon::parse($startDate)->addDay((int) $duration - 1)->format('Y-m-d');
+                                        $set('visa_expiration', $endDate);
+                                    })
+                                    ->required(),
+                                Forms\Components\DatePicker::make('visa_expiration')
+                                    ->required()
+                                    ->live()
+                                    ->requiredWith('start_date')
+                                    ->afterStateUpdated(function (Get $get, Set $set) {
+                                        $startDate = $get('start_date');
+                                        $endDate = $get('visa_expiration');
+                                        if (!$startDate || !$endDate) {
+                                            $set('visa_duration_in_days', null);
+                                            return;
+                                        }
+                                        $duration = Carbon::parse($startDate)->diffInDays($endDate) + 1;
+                                        $set('visa_duration_in_days', $duration);
+                                    }),
+                                Forms\Components\TextInput::make('visa_remaining_days')
+                                    ->label('Visa remaining days')
+                                    ->suffix('day/s')
+                                    ->numeric()
+                                    ->disabled()
+                                    ->hiddenOn(['create', 'edit']),
                             ]),
                     ]),
                 Forms\Components\TextInput::make('request_file_link')
@@ -102,20 +162,53 @@ class EmployeeLeaveResource extends Resource
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('contact_number')
+                        ->copyable()
+                        ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn (EmployeeLeave $record) => match ($record->status) {
+                        'On vacation' => 'success',
+                        'For vacation' => 'warning',
+                        'Visa expired' => 'danger',
+                        'Arrived' => 'gray',
+                        'Arrival expected' => 'info',
+                        default => 'info',
+                    })
+                    ->copyable()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('arrived')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
+                    ->label('Departure date')
                     ->date()
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
+                    ->label('Return date')
                     ->date()
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('duration_in_days')
-                    ->label('Duration')
+                    ->label('Leave duration')
                     ->state(fn (EmployeeLeave $record) => "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days))
                     ->copyable(),
                 Tables\Columns\TextColumn::make('remaining_leave_days')
+                    ->label('Leave balance')
                     ->state(fn (EmployeeLeave $record) => "{$record->remaining_leave_days} " . Pluralizer::plural('day', $record->remaining_leave_days))
+                    ->copyable(),
+                Tables\Columns\TextColumn::make('visa_expiration')
+                    ->date()
+                    ->copyable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('visa_duration_in_days')
+                    ->label('Visa duration')
+                    ->state(fn (EmployeeLeave $record) => "{$record->visa_duration_in_days} " . Pluralizer::plural('day', $record->visa_duration_in_days))
+                    ->copyable(),
+                Tables\Columns\TextColumn::make('visa_remaining_days')
+                    ->label('Visa remaining days')
+                    ->state(fn (EmployeeLeave $record) => $record->visa_remaining_days != null ? ("{$record->visa_remaining_days} " . Pluralizer::plural('day', $record->visa_remaining_days)) : null)
+                    ->placeholder('-')
                     ->copyable(),
                 Tables\Columns\TextColumn::make('request_file_link')
                     ->url(fn (EmployeeLeave $record) => $record->request_file_link)
@@ -151,6 +244,15 @@ class EmployeeLeaveResource extends Resource
                                 ->placeholder('Enter Employee no.'),
                         ];
                     }),
+                SelectFilter::make('status')
+                    ->options([
+                        'On vacation' => 'On vacation',
+                        'For vacation' => 'For vacation',
+                        'Visa expired' => 'Visa expired',
+                        'Arrived' => 'Arrived',
+                        'Arrival expected' => 'Arrival expected',
+                    ])
+                    ->multiple(),
                 QueryBuilder::make()
                     ->constraints([
                         DateConstraint::make('start_date')
@@ -168,6 +270,17 @@ class EmployeeLeaveResource extends Resource
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\BulkAction::make('Mark as arrived')
+                    ->requiresConfirmation()
+                    ->icon('heroicon-o-check-circle')
+                    ->deselectRecordsAfterCompletion()
+                    ->action(fn (Collection $records) => $records->each(fn ($record) => $record->update(['arrived' => true]))),
+                Tables\Actions\BulkAction::make('Undo arrived')
+                    ->requiresConfirmation()
+                    ->color('gray')
+                    ->icon('heroicon-o-arrow-uturn-down')
+                    ->deselectRecordsAfterCompletion()
+                    ->action(fn (Collection $records) => $records->each(fn ($record) => $record->update(['arrived' => false]))),
             ]);
     }
 

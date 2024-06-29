@@ -18,6 +18,18 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('remaining_leave_days')->nullable();
+            $table->integer('visa_duration_in_days');
+            $table->date('visa_expiration');
+            $table->integer('visa_remaining_days')->nullable()->virtualAs('CASE WHEN CURDATE() >= start_date AND CURDATE() <= visa_expiration THEN DATEDIFF(visa_expiration, CURDATE()) ELSE NULL END');
+            $table->string('contact_number')->nullable();
+            $table->boolean('arrived')->default(false);
+            $table->string('status')->virtualAs('CASE 
+                WHEN CURDATE() >= start_date AND CURDATE() <= end_date THEN "On vacation" 
+                WHEN CURDATE() > end_date AND CURDATE() <= visa_expiration THEN "For vacation" 
+                WHEN CURDATE() > visa_expiration AND arrived = false THEN "Visa expired" 
+                WHEN arrived = true THEN "Arrived"
+                ELSE "Arrival expected"
+            END');
             $table->timestamps();
         });
     }
