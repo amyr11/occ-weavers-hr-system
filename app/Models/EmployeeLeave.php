@@ -18,6 +18,7 @@ class EmployeeLeave extends Model
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'visa_expiration' => 'date',
     ];
 
     protected $guarded = [];
