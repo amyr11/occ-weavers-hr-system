@@ -64,8 +64,7 @@ class EmployeeLeaveResource extends Resource
                                     ->disabled(),
                                 Forms\Components\TextInput::make('contact_number')
                                     ->label('Contact number')
-                                    ->maxLength(255)
-                                    ->required(),
+                                    ->maxLength(255),
                             ])
                     ]),
                 Section::make('Leave details')
