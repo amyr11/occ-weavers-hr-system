@@ -19,9 +19,9 @@ return new class extends Migration
             $table->date('end_date');
             $table->integer('duration_in_years')->virtualAs('(DATEDIFF(end_date, start_date) + 1) / 365');
             $table->float('basic_salary');
-            $table->float('housing_allowance');
-            $table->float('transportation_allowance');
-            $table->float('food_allowance');
+            $table->float('housing_allowance')->nullable();
+            $table->float('transportation_allowance')->nullable();
+            $table->float('food_allowance')->nullable();
             $table->string('remarks')->nullable();
             $table->string('file_link')->nullable();
             $table->timestamps();
