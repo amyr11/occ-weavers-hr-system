@@ -24,11 +24,11 @@ return new class extends Migration
             $table->string('contact_number')->nullable();
             $table->boolean('arrived')->default(false);
             $table->string('status')->virtualAs('CASE 
-                WHEN CURDATE() >= start_date AND CURDATE() <= end_date THEN "On vacation" 
-                WHEN CURDATE() > end_date AND CURDATE() <= visa_expiration THEN "For vacation" 
-                WHEN CURDATE() > visa_expiration AND arrived = false THEN "Visa expired" 
                 WHEN arrived = true THEN "Arrived"
-                ELSE "Arrival expected"
+                WHEN CURDATE() < start_date THEN "For vacation" 
+                WHEN CURDATE() >= start_date AND CURDATE() <= end_date THEN "On vacation" 
+                WHEN CURDATE() > end_date AND CURDATE() < visa_expiration THEN "Arrival expected" 
+                WHEN CURDATE() > visa_expiration AND arrived = false THEN "Visa expired" 
             END');
             $table->timestamps();
         });
