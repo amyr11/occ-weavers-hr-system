@@ -53,6 +53,16 @@
 				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->project->project_name ?? '-' }}</p>
 			</div>
 		</div>
+		<div class="mb-2 grid grid-cols-2 gap-2">
+			<div>
+				<label class="mb-2 block text-xs font-medium text-zinc-600">Email address</label>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->email ?? '-' }}</p>
+			</div>
+			<div>
+				<label class="mb-2 block text-xs font-medium text-zinc-600">Mobile no.</label>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->mobile_number ?? '-' }}</p>
+			</div>
+		</div>
 		<div class="mb-2 grid grid-cols-3 gap-2">
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">IQAMA no.</label>
@@ -145,9 +155,9 @@
 				<td class="px-2 py-2 text-xs text-black">{{ $contract->employeeJob->job_title }}</td>
 				<td class="px-2 py-2 text-xs text-black"><span class="text-[#086A38] font-medium text-[9px]">SAR</span> {{ $contract->basic_salary }}</td>
 				<td class="px-2 py-2 text-xs text-black">
-					<span class="text-[10px] font-bold text-zinc-400">Housing:</span><br /> <span class="text-[#086A38] font-medium text-[9px]">SAR</span> {{ $contract->housing_allowance }}<br />
-					<span class="text-[10px] font-bold text-zinc-400">Transportation:</span><br /> <span class="text-[#086A38] font-medium text-[9px]">SAR</span> {{ $contract->transportation_allowance }}<br />
-					<span class="text-[10px] font-bold text-zinc-400">Food:</span><br /> <span class="text-[#086A38] font-medium text-[9px]">SAR</span> {{ $contract->food_allowance }}
+					<span class="text-[10px] font-bold text-zinc-400">Housing:</span><br /> <span class="text-[#086A38] font-medium text-[9px]">SAR</span> {{ $contract->housing_allowance ?? '-' }}<br />
+					<span class="text-[10px] font-bold text-zinc-400">Transportation:</span><br /> <span class="text-[#086A38] font-medium text-[9px]">SAR</span> {{ $contract->transportation_allowance ?? '-' }}<br />
+					<span class="text-[10px] font-bold text-zinc-400">Food:</span><br /> <span class="text-[#086A38] font-medium text-[9px]">SAR</span> {{ $contract->food_allowance ?? '-' }}
 				</td>
 				<td class="w-40 px-2 py-2 text-xs text-black">{{ $contract->remarks ?? '-' }}</td>
 			</tr>
