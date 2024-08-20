@@ -22,8 +22,5 @@ class ProjectAssignmentSeeder extends Seeder
                 'employee_number' => $employee->employee_number,
             ]);
         });
-
-        // Then, create 50 more random project assignments
-        ProjectAssignment::factory()->count(50)->create();
     }
 }

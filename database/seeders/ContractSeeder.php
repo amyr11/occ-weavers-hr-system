@@ -21,9 +21,6 @@ class ContractSeeder extends Seeder
             Contract::factory()->create([
                 'employee_number' => $employee->employee_number,
             ]);
-        });
-
-        // Then, create 50 more random contracts
-        Contract::factory()->count(50)->create();
+        });;
     }
 }
