@@ -25,10 +25,11 @@ return new class extends Migration
             $table->boolean('arrived')->default(false);
             $table->string('status')->virtualAs('CASE 
                 WHEN arrived = true THEN "Arrived (Resolved)"
+                WHEN visa_expired = true THEN "Visa expired (Resolved)"
                 WHEN CURDATE() < start_date THEN "For vacation" 
-                WHEN CURDATE() >= start_date AND CURDATE() <= end_date THEN "On vacation" 
-                WHEN CURDATE() > end_date AND CURDATE() < visa_expiration THEN "Arrival expected" 
-                WHEN CURDATE() > visa_expiration AND arrived = false THEN "Visa expired" 
+                WHEN CURDATE() >= start_date AND CURDATE() < end_date THEN "On vacation" 
+                WHEN CURDATE() >= end_date AND CURDATE() < visa_expiration THEN "Arrival expected" 
+                WHEN CURDATE() >= visa_expiration AND arrived = false THEN "Visa expired" 
             END');
             $table->timestamps();
         });
