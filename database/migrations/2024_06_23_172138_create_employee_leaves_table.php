@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('visa_remaining_days')->nullable()->virtualAs('CASE WHEN CURDATE() >= start_date AND CURDATE() <= visa_expiration THEN DATEDIFF(visa_expiration, CURDATE()) ELSE NULL END');
             $table->string('contact_number')->nullable();
             $table->boolean('arrived')->default(false);
+            $table->boolean('visa_expired')->default(false);
             $table->string('status')->virtualAs('CASE 
                 WHEN arrived = true THEN "Arrived (Resolved)"
                 WHEN visa_expired = true THEN "Visa expired (Resolved)"

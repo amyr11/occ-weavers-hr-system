@@ -166,14 +166,16 @@ class EmployeeLeaveResource extends Resource
                     ->copyable()
                     ->sortable(),
                 ToggleColumn::make('arrived'),
+                ToggleColumn::make('visa_expired'),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn(EmployeeLeave $record) => match ($record->status) {
                         'On vacation' => 'success',
                         'For vacation' => 'warning',
+                        'Arrival expected' => 'info',
                         'Visa expired' => 'danger',
                         'Arrived (Resolved)' => 'gray',
-                        'Arrival expected' => 'info',
+                        'Visa expired (Resolved)' => 'gray',
                         default => 'info',
                     })
                     ->copyable()
