@@ -162,11 +162,11 @@ class EmployeeLeaveResource extends Resource
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('contact_number')
-                        ->copyable()
-                        ->sortable(),
+                    ->copyable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
-                    ->color(fn (EmployeeLeave $record) => match ($record->status) {
+                    ->color(fn(EmployeeLeave $record) => match ($record->status) {
                         'On vacation' => 'success',
                         'For vacation' => 'warning',
                         'Visa expired' => 'danger',
@@ -175,8 +175,6 @@ class EmployeeLeaveResource extends Resource
                         default => 'info',
                     })
                     ->copyable()
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('arrived')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->label('Departure date')
@@ -190,11 +188,11 @@ class EmployeeLeaveResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('duration_in_days')
                     ->label('Leave duration')
-                    ->state(fn (EmployeeLeave $record) => "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days))
+                    ->state(fn(EmployeeLeave $record) => "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days))
                     ->copyable(),
                 Tables\Columns\TextColumn::make('remaining_leave_days')
                     ->label('Leave balance')
-                    ->state(fn (EmployeeLeave $record) => "{$record->remaining_leave_days} " . Pluralizer::plural('day', $record->remaining_leave_days))
+                    ->state(fn(EmployeeLeave $record) => "{$record->remaining_leave_days} " . Pluralizer::plural('day', $record->remaining_leave_days))
                     ->copyable(),
                 Tables\Columns\TextColumn::make('visa_expiration')
                     ->date()
@@ -202,15 +200,15 @@ class EmployeeLeaveResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('visa_duration_in_days')
                     ->label('Visa duration')
-                    ->state(fn (EmployeeLeave $record) => "{$record->visa_duration_in_days} " . Pluralizer::plural('day', $record->visa_duration_in_days))
+                    ->state(fn(EmployeeLeave $record) => "{$record->visa_duration_in_days} " . Pluralizer::plural('day', $record->visa_duration_in_days))
                     ->copyable(),
                 Tables\Columns\TextColumn::make('visa_remaining_days')
                     ->label('Visa remaining days')
-                    ->state(fn (EmployeeLeave $record) => $record->visa_remaining_days != null ? ("{$record->visa_remaining_days} " . Pluralizer::plural('day', $record->visa_remaining_days)) : null)
+                    ->state(fn(EmployeeLeave $record) => $record->visa_remaining_days != null ? ("{$record->visa_remaining_days} " . Pluralizer::plural('day', $record->visa_remaining_days)) : null)
                     ->placeholder('-')
                     ->copyable(),
                 Tables\Columns\TextColumn::make('request_file_link')
-                    ->url(fn (EmployeeLeave $record) => $record->request_file_link)
+                    ->url(fn(EmployeeLeave $record) => $record->request_file_link)
                     ->color('info')
                     ->placeholder('-'),
                 Tables\Columns\TextColumn::make('created_at')
@@ -273,13 +271,13 @@ class EmployeeLeaveResource extends Resource
                     ->requiresConfirmation()
                     ->icon('heroicon-o-check-circle')
                     ->deselectRecordsAfterCompletion()
-                    ->action(fn (Collection $records) => $records->each(fn ($record) => $record->update(['arrived' => true]))),
+                    ->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => true]))),
                 Tables\Actions\BulkAction::make('Undo arrived')
                     ->requiresConfirmation()
                     ->color('gray')
                     ->icon('heroicon-o-arrow-uturn-down')
                     ->deselectRecordsAfterCompletion()
-                    ->action(fn (Collection $records) => $records->each(fn ($record) => $record->update(['arrived' => false]))),
+                    ->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => false]))),
             ]);
     }
 
