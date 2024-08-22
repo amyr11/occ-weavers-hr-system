@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Tables\Columns\ToggleColumn;
 use App\Filament\Resources\EmployeeLeaveResource\Pages;
 use App\Filament\Resources\EmployeeLeaveResource\RelationManagers;
 use App\Models\EmployeeLeave;
@@ -176,6 +177,7 @@ class EmployeeLeaveResource extends Resource
                     })
                     ->copyable()
                     ->sortable(),
+                ToggleColumn::make('arrived'),
                 Tables\Columns\TextColumn::make('start_date')
                     ->label('Departure date')
                     ->date()
