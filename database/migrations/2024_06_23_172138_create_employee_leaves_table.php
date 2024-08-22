@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('contact_number')->nullable();
             $table->boolean('arrived')->default(false);
             $table->string('status')->virtualAs('CASE 
-                WHEN arrived = true THEN "Arrived"
+                WHEN arrived = true THEN "Arrived (Resolved)"
                 WHEN CURDATE() < start_date THEN "For vacation" 
                 WHEN CURDATE() >= start_date AND CURDATE() <= end_date THEN "On vacation" 
                 WHEN CURDATE() > end_date AND CURDATE() < visa_expiration THEN "Arrival expected" 

@@ -165,19 +165,19 @@ class EmployeeLeaveResource extends Resource
                 Tables\Columns\TextColumn::make('contact_number')
                     ->copyable()
                     ->sortable(),
+                ToggleColumn::make('arrived'),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn(EmployeeLeave $record) => match ($record->status) {
                         'On vacation' => 'success',
                         'For vacation' => 'warning',
                         'Visa expired' => 'danger',
-                        'Arrived' => 'gray',
+                        'Arrived (Resolved)' => 'gray',
                         'Arrival expected' => 'info',
                         default => 'info',
                     })
                     ->copyable()
                     ->sortable(),
-                ToggleColumn::make('arrived'),
                 Tables\Columns\TextColumn::make('start_date')
                     ->label('Departure date')
                     ->date()
