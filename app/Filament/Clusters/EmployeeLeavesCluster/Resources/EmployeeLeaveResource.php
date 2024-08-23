@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Clusters\EmployeeLeavesCluster\Resources;
 
 use App\Filament\Clusters\EmployeeLeavesCluster;
-use App\Filament\Resources\EmployeeLeaveResource\EmployeeLeaveTable;
-use App\Filament\Resources\EmployeeLeaveResource\Pages;
+use App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveTable;
+use App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveResource\Pages;
 use App\Models\EmployeeLeave;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -20,7 +20,6 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Filament\Pages\SubNavigationPosition;
 
 class EmployeeLeaveResource extends Resource
@@ -89,26 +88,7 @@ class EmployeeLeaveResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ], position: ActionsPosition::BeforeColumns)
-            ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                Tables\Actions\BulkAction::make('Mark as arrived')
-                    ->requiresConfirmation()
-                    ->icon('heroicon-o-check-circle')
-                    ->deselectRecordsAfterCompletion()
-                    ->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => true]))),
-                Tables\Actions\BulkAction::make('Mark as visa expired')
-                    ->requiresConfirmation()
-                    ->color('warning')
-                    ->icon('heroicon-o-exclamation-circle')
-                    ->deselectRecordsAfterCompletion()
-                    ->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['visa_expired' => true]))),
-                Tables\Actions\BulkAction::make('Clear status')
-                    ->requiresConfirmation()
-                    ->color('gray')
-                    ->icon('heroicon-o-arrow-uturn-down')
-                    ->deselectRecordsAfterCompletion()
-                    ->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => false, 'visa_expired' => false]))),
-            ]);
+            ->bulkActions(EmployeeLeaveTable::getBulkActions());
     }
 
     public static function getRelations(): array

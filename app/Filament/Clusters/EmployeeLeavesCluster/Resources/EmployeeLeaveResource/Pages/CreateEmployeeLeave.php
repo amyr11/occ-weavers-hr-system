@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\EmployeeLeaveResource\Pages;
+namespace App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveResource\Pages;
 
-use App\Filament\Resources\EmployeeLeaveResource;
+use App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveResource;
 use App\Models\Employee;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
