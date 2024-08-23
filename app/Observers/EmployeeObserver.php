@@ -11,9 +11,7 @@ class EmployeeObserver
      */
     public function created(Employee $employee): void
     {
-        // Set current_leave_days to max_leave_days
-        $employee->current_leave_days = $employee->max_leave_days;
-        $employee->saveQuietly();
+        //
     }
 
     /**

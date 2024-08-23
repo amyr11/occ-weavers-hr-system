@@ -13,7 +13,7 @@ class ContractObserver
         $employee->employee_job_id = $latestContract ? $latestContract->employee_job_id : null;
         $employee->save();
     }
-    
+
     /**
      * Handle the Contract "created" event.
      */
