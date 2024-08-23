@@ -44,7 +44,6 @@ class EmployeeLeaveObserver
             }
         }
 
-
         $employee->save();
         $employeeLeave->saveQuietly();
     }
