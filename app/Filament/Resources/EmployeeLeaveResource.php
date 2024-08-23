@@ -39,8 +39,6 @@ class EmployeeLeaveResource extends Resource
 {
     protected static ?string $model = EmployeeLeave::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
-
     protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
     protected static ?string $navigationLabel = 'All';
