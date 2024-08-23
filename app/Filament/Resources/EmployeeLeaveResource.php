@@ -276,12 +276,18 @@ class EmployeeLeaveResource extends Resource
                     ->icon('heroicon-o-check-circle')
                     ->deselectRecordsAfterCompletion()
                     ->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => true]))),
-                Tables\Actions\BulkAction::make('Undo arrived')
+                Tables\Actions\BulkAction::make('Mark as visa expired')
+                    ->requiresConfirmation()
+                    ->color('warning')
+                    ->icon('heroicon-o-exclamation-circle')
+                    ->deselectRecordsAfterCompletion()
+                    ->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['visa_expired' => true]))),
+                Tables\Actions\BulkAction::make('Clear status')
                     ->requiresConfirmation()
                     ->color('gray')
                     ->icon('heroicon-o-arrow-uturn-down')
                     ->deselectRecordsAfterCompletion()
-                    ->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => false]))),
+                    ->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => false, 'visa_expired' => false]))),
             ]);
     }
 
