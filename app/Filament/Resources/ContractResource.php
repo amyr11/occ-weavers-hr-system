@@ -159,17 +159,20 @@ class ContractResource extends Resource
                     ->label('Housing allowance (SAR)')
                     ->numeric()
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->placeholder('-'),
                 Tables\Columns\TextColumn::make('transportation_allowance')
                     ->label('Transportation allowance (SAR)')
                     ->numeric()
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->placeholder('-'),
                 Tables\Columns\TextColumn::make('food_allowance')
                     ->label('Food allowance (SAR)')
                     ->numeric()
                     ->copyable()
-                    ->sortable(),
+                    ->sortable()
+                    ->placeholder('-'),
                 Tables\Columns\TextColumn::make('remarks')
                     ->copyable()
                     ->placeholder('-')
@@ -178,7 +181,7 @@ class ContractResource extends Resource
                         'style' => 'min-width: 200px',
                     ]),
                 Tables\Columns\TextColumn::make('file_link')
-                    ->url(fn (Contract $record) => $record->file_link)
+                    ->url(fn(Contract $record) => $record->file_link)
                     ->color('info')
                     ->placeholder('-'),
                 Tables\Columns\TextColumn::make('created_at')
