@@ -13,6 +13,13 @@ use Filament\Forms\Set;
 use Filament\Tables;
 use Illuminate\Support\Pluralizer;
 use Illuminate\Database\Eloquent\Collection;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
+use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class EmployeeLeaveTable
@@ -238,6 +245,59 @@ class EmployeeLeaveTable
 				->icon('heroicon-o-arrow-uturn-down')
 				->deselectRecordsAfterCompletion()
 				->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => false, 'visa_expired' => false]))),
+		];
+	}
+
+	public static function getFilters()
+	{
+		return [
+			Filter::make('employee_number')
+				->indicateUsing(function (array $data) {
+					if (empty($data['employee_number'])) {
+						return null;
+					}
+					return 'Employee no.: ' . $data['employee_number'];
+				})
+				->query(function (Builder $query, array $data) {
+					if (empty($data['employee_number'])) {
+						return;
+					}
+					return $query->where('employee_number', '=', $data['employee_number']);
+				})
+				->form(function () {
+					return [
+						TextInput::make('employee_number')
+							->label('Employee no.')
+							->placeholder('Enter Employee no.'),
+					];
+				}),
+			SelectFilter::make('status')
+				->options([
+					'On vacation' => 'On vacation',
+					'For vacation' => 'For vacation',
+					'Visa expired' => 'Visa expired',
+					'Visa expired (Resolved)' => 'Visa expired (Resolved)',
+					'Arrived (Resolved)' => 'Arrived (Resolved)',
+					'Arrival expected' => 'Arrival expected',
+				])
+				->multiple(),
+			QueryBuilder::make()
+				->constraints([
+					DateConstraint::make('start_date')
+						->icon('heroicon-o-calendar'),
+					DateConstraint::make('end_date')
+						->icon('heroicon-o-calendar'),
+					NumberConstraint::make('duration_in_days')
+						->icon('heroicon-o-hashtag'),
+				])
+		];
+	}
+
+	public static function getActions()
+	{
+		return [
+			Tables\Actions\ViewAction::make(),
+			Tables\Actions\EditAction::make(),
 		];
 	}
 }

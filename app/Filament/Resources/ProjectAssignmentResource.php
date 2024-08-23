@@ -81,28 +81,34 @@ class ProjectAssignmentResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->searchOnBlur()
             ->defaultSort('transfer_date', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('employee_number')
+                    ->toggleable()
                     ->label('Employee no.')
                     ->numeric()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('employee.full_name')
+                    ->toggleable()
                     ->label('Employee name')
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('project.project_name')
+                    ->searchable(isIndividual: true, isGlobal: false)
+                    ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('transfer_date')
+                    ->toggleable()
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('transfer_memo_link')
-                    ->url(fn ($record) => $record->transfer_memo_link)
-                    ->color('info')
-                    ->searchable(),
+                    ->toggleable()
+                    ->url(fn($record) => $record->transfer_memo_link)
+                    ->color('info'),
             ])
             ->filters([
                 Filter::make('employee_number')

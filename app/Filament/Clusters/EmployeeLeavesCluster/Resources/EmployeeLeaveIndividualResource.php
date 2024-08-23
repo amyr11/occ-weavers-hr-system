@@ -8,10 +8,11 @@ use App\Models\EmployeeLeave;
 use Filament\Forms\Form;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
 
 class EmployeeLeaveIndividualResource extends Resource
 {
@@ -41,13 +42,9 @@ class EmployeeLeaveIndividualResource extends Resource
             })
             ->defaultGroup('status')
             ->columns(EmployeeLeaveTable::getColumns())
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ], position: ActionsPosition::BeforeColumns)
+            ->filtersFormWidth(MaxWidth::TwoExtraLarge)
+            ->filters(EmployeeLeaveTable::getFilters(), layout: FiltersLayout::Modal)
+            ->actions(EmployeeLeaveTable::getActions(), position: ActionsPosition::BeforeColumns)
             ->bulkActions(EmployeeLeaveTable::getBulkActions());
     }
 
