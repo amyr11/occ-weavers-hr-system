@@ -19,6 +19,7 @@ class Contract extends Model
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'paper_contract_end_date' => 'date',
     ];
 
     protected $guarded = [];
@@ -46,9 +47,9 @@ class Contract extends Model
         $days = $time->d;
         $months = $time->m;
         $years = $time->y;
-        
-        $years_string = $years > 0 ? $years . ' ' . Pluralizer::plural('year', $years): '';
-        $months_string = $months > 0 ? $months . ' ' . Pluralizer::plural('month', $months): '';
+
+        $years_string = $years > 0 ? $years . ' ' . Pluralizer::plural('year', $years) : '';
+        $months_string = $months > 0 ? $months . ' ' . Pluralizer::plural('month', $months) : '';
         $days_string = $days > 0 ? $days . ' ' . Pluralizer::plural('day', $days) : '';
         $duration = implode(', ', array_filter([$years_string, $months_string, $days_string]));
 
