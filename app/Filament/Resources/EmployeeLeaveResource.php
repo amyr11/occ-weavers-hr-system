@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Clusters\EmployeeLeaveCluster;
+use App\Filament\Clusters\EmployeeLeavesCluster;
 use Filament\Tables\Columns\ToggleColumn;
 use App\Filament\Resources\EmployeeLeaveResource\Pages;
 use App\Filament\Resources\EmployeeLeaveResource\RelationManagers;
@@ -31,6 +33,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Pluralizer;
+use Filament\Pages\SubNavigationPosition;
 
 class EmployeeLeaveResource extends Resource
 {
@@ -38,7 +41,11 @@ class EmployeeLeaveResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
-    protected static ?int $navigationSort = 3;
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    protected static ?string $navigationLabel = 'All';
+
+    protected static ?string $cluster = EmployeeLeavesCluster::class;
 
     public static function form(Form $form): Form
     {
