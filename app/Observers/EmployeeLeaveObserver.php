@@ -32,12 +32,16 @@ class EmployeeLeaveObserver
         $employeeLeave->remaining_leave_days = $employee->current_leave_days;
 
         // Only one toggle is allowed between arrived and visa_expired
-        if ($employeeLeave->isDirty('arrived')) {
+        if ($employeeLeave->isDirty('arrived') && $employeeLeave->arrived) {
             $employeeLeave->visa_expired = false;
             $employee->visa_expired_date = null;
         } elseif ($employeeLeave->isDirty('visa_expired')) {
-            $employeeLeave->arrived = false;
-            $employee->visa_expired_date = $employeeLeave->visa_expired ? $employeeLeave->visa_expiration : null;
+            if ($employeeLeave->visa_expired) {
+                $employeeLeave->arrived = false;
+                $employee->visa_expired_date = $employeeLeave->visa_expiration;
+            } else {
+                $employee->visa_expired_date = null;
+            }
         }
 
 
