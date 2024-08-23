@@ -127,22 +127,28 @@ class EmployeeLeaveTable
 	{
 		return [
 			Tables\Columns\TextColumn::make('employee_number')
+				->toggleable()
 				->label('Employee no.')
 				->numeric()
 				->searchable(isIndividual: true, isGlobal: false)
 				->copyable()
 				->sortable(),
 			Tables\Columns\TextColumn::make('employee.full_name')
+				->toggleable()
 				->label('Employee name')
 				->searchable(isIndividual: true, isGlobal: false)
 				->copyable()
 				->sortable(),
 			Tables\Columns\TextColumn::make('contact_number')
+				->toggleable()
 				->copyable()
 				->sortable(),
-			ToggleColumn::make('arrived'),
-			ToggleColumn::make('visa_expired'),
+			ToggleColumn::make('arrived')
+				->toggleable(),
+			ToggleColumn::make('visa_expired')
+				->toggleable(),
 			Tables\Columns\TextColumn::make('status')
+				->toggleable()
 				->badge()
 				->color(fn(EmployeeLeave $record) => match ($record->status) {
 					'On vacation' => 'success',
@@ -156,45 +162,55 @@ class EmployeeLeaveTable
 				->copyable()
 				->sortable(),
 			Tables\Columns\TextColumn::make('start_date')
+				->toggleable()
 				->label('Departure date')
 				->date()
 				->copyable()
 				->sortable(),
 			Tables\Columns\TextColumn::make('end_date')
+				->toggleable()
 				->label('Return date')
 				->date()
 				->copyable()
 				->sortable(),
 			Tables\Columns\TextColumn::make('duration_in_days')
+				->toggleable()
 				->label('Leave duration')
 				->state(fn(EmployeeLeave $record) => "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days))
 				->copyable(),
 			Tables\Columns\TextColumn::make('remaining_leave_days')
+				->toggleable()
 				->label('Leave balance')
 				->state(fn(EmployeeLeave $record) => "{$record->remaining_leave_days} " . Pluralizer::plural('day', $record->remaining_leave_days))
 				->copyable(),
 			Tables\Columns\TextColumn::make('visa_expiration')
+				->toggleable()
 				->date()
 				->copyable()
 				->sortable(),
 			Tables\Columns\TextColumn::make('visa_duration_in_days')
+				->toggleable()
 				->label('Visa duration')
 				->state(fn(EmployeeLeave $record) => "{$record->visa_duration_in_days} " . Pluralizer::plural('day', $record->visa_duration_in_days))
 				->copyable(),
 			Tables\Columns\TextColumn::make('visa_remaining_days')
+				->toggleable()
 				->label('Visa remaining days')
 				->state(fn(EmployeeLeave $record) => $record->visa_remaining_days != null ? ("{$record->visa_remaining_days} " . Pluralizer::plural('day', $record->visa_remaining_days)) : null)
 				->placeholder('-')
 				->copyable(),
 			Tables\Columns\TextColumn::make('request_file_link')
+				->toggleable()
 				->url(fn(EmployeeLeave $record) => $record->request_file_link)
 				->color('info')
 				->placeholder('-'),
 			Tables\Columns\TextColumn::make('created_at')
+				->toggleable()
 				->copyable()
 				->dateTime()
 				->sortable(),
 			Tables\Columns\TextColumn::make('updated_at')
+				->toggleable()
 				->copyable()
 				->dateTime()
 				->sortable(),
