@@ -35,6 +35,7 @@ class ContractFactory extends Factory
             'employee_job_id' => EmployeeJob::all()->random()->id,
             'start_date' => $start_date,
             'end_date' => $end_date,
+            'paper_contract_end_date' => random_int(0, 1) ? $end_date : null,
             'basic_salary' => $this->faker->randomFloat(2),
             'housing_allowance' => $this->faker->randomFloat(2),
             'transportation_allowance' => $this->faker->randomFloat(2),

@@ -120,21 +120,25 @@ class ContractResource extends Resource
             ->defaultSort('start_date', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('employee_number')
+                    ->toggleable()
                     ->label('Employee no.')
                     ->numeric()
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('employee.full_name')
+                    ->toggleable()
                     ->label('Employee name')
                     ->searchable(isIndividual: true, isGlobal: false)
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('employeeJob.job_title')
+                    ->toggleable()
                     ->label('Job title')
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('duration_in_years')
+                    ->toggleable()
                     ->label('Duration')
                     ->state(function (Contract $record) {
                         return $record->duration_string;
@@ -143,37 +147,50 @@ class ContractResource extends Resource
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')
+                    ->toggleable()
                     ->date()
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
+                    ->toggleable()
                     ->date()
                     ->copyable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('paper_contract_end_date')
+                    ->toggleable()
+                    ->date()
+                    ->placeholder('-')
+                    ->copyable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('basic_salary')
+                    ->toggleable()
                     ->label('Basic salary (SAR)')
                     ->numeric()
                     ->copyable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('housing_allowance')
+                    ->toggleable()
                     ->label('Housing allowance (SAR)')
                     ->numeric()
                     ->copyable()
                     ->sortable()
                     ->placeholder('-'),
                 Tables\Columns\TextColumn::make('transportation_allowance')
+                    ->toggleable()
                     ->label('Transportation allowance (SAR)')
                     ->numeric()
                     ->copyable()
                     ->sortable()
                     ->placeholder('-'),
                 Tables\Columns\TextColumn::make('food_allowance')
+                    ->toggleable()
                     ->label('Food allowance (SAR)')
                     ->numeric()
                     ->copyable()
                     ->sortable()
                     ->placeholder('-'),
                 Tables\Columns\TextColumn::make('remarks')
+                    ->toggleable()
                     ->copyable()
                     ->placeholder('-')
                     ->searchable(isIndividual: true, isGlobal: false)
@@ -181,17 +198,18 @@ class ContractResource extends Resource
                         'style' => 'min-width: 200px',
                     ]),
                 Tables\Columns\TextColumn::make('file_link')
+                    ->toggleable()
                     ->url(fn(Contract $record) => $record->file_link)
                     ->color('info')
                     ->placeholder('-'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(),
             ])
             ->filters([
                 Filter::make('employee_number')
@@ -225,6 +243,8 @@ class ContractResource extends Resource
                         DateConstraint::make('start_date')
                             ->icon('heroicon-o-calendar'),
                         DateConstraint::make('end_date')
+                            ->icon('heroicon-o-calendar'),
+                        DateConstraint::make('paper_contract_end_date')
                             ->icon('heroicon-o-calendar'),
                         NumberConstraint::make('duration_in_years')
                             ->icon('heroicon-o-hashtag')
