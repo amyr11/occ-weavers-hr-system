@@ -32,6 +32,7 @@ class EmployeeLeaveIndividualResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->searchOnBlur()
             ->modifyQueryUsing(function (Builder $query) {
                 return $query
                     ->latest('start_date')
