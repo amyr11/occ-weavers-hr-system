@@ -73,13 +73,14 @@ class ContractResource extends Resource
                             ->preload()
                             ->required(),
                         Grid::make([
-                            'md' => 2,
+                            'md' => 3,
                         ])
                             ->schema([
                                 Forms\Components\DatePicker::make('start_date')
                                     ->required(),
                                 Forms\Components\DatePicker::make('end_date')
                                     ->required(),
+                                Forms\Components\DatePicker::make('paper_contract_end_date'),
                             ])
                     ]),
                 Section::make('Salary/Allowance')
