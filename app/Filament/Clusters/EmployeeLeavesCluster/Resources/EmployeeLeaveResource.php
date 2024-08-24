@@ -34,14 +34,26 @@ class EmployeeLeaveResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->searchOnBlur()
-            ->defaultSort('start_date', 'desc')
-            ->columns(EmployeeLeaveTable::getColumns())
-            ->filters(EmployeeLeaveTable::getFilters(), layout: FiltersLayout::Modal)
-            ->filtersFormWidth(MaxWidth::TwoExtraLarge)
-            ->actions(EmployeeLeaveTable::getActions(), position: ActionsPosition::BeforeColumns)
-            ->bulkActions(EmployeeLeaveTable::getBulkActions());
+        $employeeLeaveTable = new EmployeeLeaveTable();
+        return EmployeeLeaveTable::getTable(
+            $table,
+            columns: [
+                $employeeLeaveTable->employee_number,
+                $employeeLeaveTable->employee_full_name,
+                $employeeLeaveTable->contact_number,
+                $employeeLeaveTable->status->toggledHiddenByDefault(false),
+                $employeeLeaveTable->start_date,
+                $employeeLeaveTable->end_date,
+                $employeeLeaveTable->duration_in_days,
+                $employeeLeaveTable->remaining_leave_days,
+                $employeeLeaveTable->visa_expiration,
+                $employeeLeaveTable->visa_duration_in_days,
+                $employeeLeaveTable->visa_remaining_days,
+                $employeeLeaveTable->request_file_link,
+                $employeeLeaveTable->created_at,
+                $employeeLeaveTable->updated_at,
+            ]
+        );
     }
 
     public static function getRelations(): array

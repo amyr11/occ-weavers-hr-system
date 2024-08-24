@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
@@ -23,6 +24,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Pluralizer;
 
 class EmployeeTable
 {
@@ -179,191 +181,306 @@ class EmployeeTable
 		];
 	}
 
-	public static function getColumns()
+	public Column $employee_number;
+	public Column $full_name;
+	public Column $status;
+	public Column $employeeJob_job_title;
+	public Column $project_project_name;
+	public Column $country_name;
+	public Column $age;
+	public Column $email;
+	public Column $educationLevel_level;
+	public Column $degree_degree;
+	public Column $college_graduation_date;
+	public Column $mobile_number;
+	public Column $labor_office_number;
+	public Column $iban_number;
+	public Column $iqama_number;
+	public Column $iqama_job_title;
+	public Column $iqama_expiration;
+	public Column $iqama_expiration_remaining_days;
+	public Column $passport_number;
+	public Column $passport_date_issue;
+	public Column $passport_expiration;
+	public Column $sce_expiration;
+	public Column $insuranceClass_name;
+	public Column $company_start_date;
+	public Column $final_exit_date;
+	public Column $visa_expired_date;
+	public Column $transferred_date;
+	public Column $max_leave_days;
+	public Column $current_leave_days;
+	public Column $created_at;
+	public Column $updated_at;
+
+	public function __construct()
 	{
-		return [
-			TextColumn::make('employee_number')
-				->label('No.')
-				->toggleable()
-				->copyable()
-				->searchable()
-				->sortable()
-				->searchable(isIndividual: true, isGlobal: false)
-				->extraAttributes([
-					'style' => 'min-width: 150px',
-				]),
-			TextColumn::make('full_name')
-				->copyable()
-				->toggleable()
-				->searchable()
-				->sortable()
-				->searchable(isIndividual: true, isGlobal: false)
-				->extraAttributes([
-					'style' => 'min-width: 200px',
-				]),
-			TextColumn::make('status')
-				->badge()
-				->color(fn(string $state): string => match ($state) {
-					'Active' => 'success',
-					'Final Exit' => 'danger',
-					'Visa Expired' => 'warning',
-					'Transferred' => 'info',
-					default => 'gray',
-				})
-				->toggleable()
-				->sortable(),
-			TextColumn::make('employeeJob.job_title')
-				->label('Current job title')
-				->placeholder('-')
-				->toggleable()
-				->sortable()
-				->copyable(),
-			TextColumn::make('project.project_name')
-				->label('Current project')
-				->placeholder('-')
-				->toggleable()
-				->sortable()
-				->copyable(),
-			TextColumn::make('country.name')
-				->label('Country')
-				->toggleable()
-				->sortable(),
-			TextColumn::make('age')
-				->copyable()
-				->toggleable()
-				->sortable(),
-			TextColumn::make('email')
-				->copyable()
-				->toggleable()
-				->sortable()
-				->searchable(isIndividual: true, isGlobal: false)
-				->extraAttributes([
-					'style' => 'min-width: 200px',
-				]),
-			TextColumn::make('educationLevel.level')
-				->toggleable()
-				->sortable(),
-			TextColumn::make('degree.degree')
-				->toggleable()
-				->placeholder('-')
-				->sortable(),
-			TextColumn::make('college_graduation_date')
-				->toggleable()
-				->copyable()
-				->sortable(),
-			TextColumn::make('mobile_number')
-				->label('Mobile no.')
-				->toggleable()
-				->searchable(isIndividual: true, isGlobal: false)
-				->copyable()
-				->sortable()
-				->extraAttributes([
-					'style' => 'min-width: 200px',
-				]),
-			TextColumn::make('labor_office_number')
-				->label('Labor Office no.')
-				->toggleable()
-				->searchable(isIndividual: true, isGlobal: false)
-				->copyable()
-				->sortable()
-				->extraAttributes([
-					'style' => 'min-width: 200px',
-				]),
-			TextColumn::make('iban_number')
-				->label('IBAN no.')
-				->toggleable()
-				->searchable(isIndividual: true, isGlobal: false)
-				->copyable()
-				->sortable()
-				->extraAttributes([
-					'style' => 'min-width: 200px',
-				]),
-			TextColumn::make('iqama_number')
-				->label('IQAMA no.')
-				->toggleable()
-				->searchable(isIndividual: true, isGlobal: false)
-				->copyable()
-				->sortable()
-				->extraAttributes([
-					'style' => 'min-width: 200px',
-				]),
-			TextColumn::make('iqama_job_title')
-				->label('IQAMA Job Title')
-				->toggleable()
-				->searchable(isIndividual: true, isGlobal: false)
-				->copyable()
-				->sortable()
-				->extraAttributes([
-					'style' => 'min-width: 200px',
-				]),
-			TextColumn::make('iqama_expiration')
-				->label('IQAMA Expiration')
-				->toggleable()
-				->copyable()
-				->date()
-				->sortable(),
-			TextColumn::make('passport_number')
-				->label('Passport no.')
-				->toggleable()
-				->searchable(isIndividual: true, isGlobal: false)
-				->copyable()
-				->sortable()
-				->extraAttributes([
-					'style' => 'min-width: 200px',
-				]),
-			TextColumn::make('passport_date_issue')
-				->date()
-				->toggleable()
-				->copyable()
-				->sortable(),
-			TextColumn::make('passport_expiration')
-				->date()
-				->toggleable()
-				->copyable()
-				->sortable(),
-			TextColumn::make('sce_expiration')
-				->label('SCE Expiration')
-				->toggleable()
-				->copyable()
-				->date()
-				->sortable(),
-			TextColumn::make('insuranceClass.name')
-				->copyable()
-				->toggleable()
-				->sortable(),
-			TextColumn::make('company_start_date')
-				->date()
-				->toggleable()
-				->copyable()
-				->sortable(),
-			TextColumn::make('final_exit_date')
-				->date()
-				->toggleable()
-				->copyable()
-				->placeholder('-')
-				->sortable(),
-			TextColumn::make('visa_expired_date')
-				->date()
-				->toggleable()
-				->copyable()
-				->placeholder('-')
-				->sortable(),
-			TextColumn::make('transferred_date')
-				->date()
-				->toggleable()
-				->copyable()
-				->placeholder('-')
-				->sortable(),
-			TextColumn::make('max_leave_days')
-				->copyable()
-				->toggleable()
-				->sortable(),
-			TextColumn::make('current_leave_days')
-				->copyable()
-				->toggleable()
-				->sortable(),
+		$this->employee_number = TextColumn::make('employee_number')
+			->label('No.')
+			->toggleable()
+			->copyable()
+			->searchable()
+			->sortable()
+			->searchable(isIndividual: true, isGlobal: false)
+			->extraAttributes([
+				'style' => 'min-width: 150px',
+			]);
+
+		$this->full_name = TextColumn::make('full_name')
+			->copyable()
+			->toggleable()
+			->searchable()
+			->sortable()
+			->searchable(isIndividual: true, isGlobal: false)
+			->extraAttributes([
+				'style' => 'min-width: 200px',
+			]);
+
+		$this->status = TextColumn::make('status')
+			->badge()
+			->color(fn(string $state): string => match ($state) {
+				'Active' => 'success',
+				'Final Exit' => 'danger',
+				'Visa Expired' => 'warning',
+				'Transferred' => 'info',
+				default => 'gray',
+			})
+			->toggleable()
+			->sortable();
+
+		$this->employeeJob_job_title = TextColumn::make('employeeJob.job_title')
+			->label('Current job title')
+			->placeholder('-')
+			->toggleable()
+			->sortable()
+			->copyable();
+
+		$this->project_project_name = TextColumn::make('project.project_name')
+			->label('Current project')
+			->placeholder('-')
+			->toggleable()
+			->sortable()
+			->copyable();
+
+		$this->country_name = TextColumn::make('country.name')
+			->label('Country')
+			->toggleable()
+			->sortable();
+
+		$this->age = TextColumn::make('age')
+			->copyable()
+			->toggleable()
+			->sortable();
+
+		$this->email = TextColumn::make('email')
+			->copyable()
+			->toggleable()
+			->sortable()
+			->searchable(isIndividual: true, isGlobal: false)
+			->extraAttributes([
+				'style' => 'min-width: 200px',
+			]);
+
+		$this->educationLevel_level = TextColumn::make('educationLevel.level')
+			->toggleable()
+			->sortable();
+
+		$this->degree_degree = TextColumn::make('degree.degree')
+			->toggleable()
+			->placeholder('-')
+			->sortable();
+
+		$this->college_graduation_date = TextColumn::make('college_graduation_date')
+			->toggleable()
+			->copyable()
+			->sortable();
+
+		$this->mobile_number = TextColumn::make('mobile_number')
+			->label('Mobile no.')
+			->toggleable()
+			->searchable(isIndividual: true, isGlobal: false)
+			->copyable()
+			->sortable()
+			->extraAttributes([
+				'style' => 'min-width: 200px',
+			]);
+
+		$this->labor_office_number = TextColumn::make('labor_office_number')
+			->label('Labor Office no.')
+			->toggleable()
+			->searchable(isIndividual: true, isGlobal: false)
+			->copyable()
+			->sortable()
+			->extraAttributes([
+				'style' => 'min-width: 200px',
+			]);
+
+		$this->iban_number = TextColumn::make('iban_number')
+			->label('IBAN no.')
+			->toggleable()
+			->searchable(isIndividual: true, isGlobal: false)
+			->copyable()
+			->sortable()
+			->extraAttributes([
+				'style' => 'min-width: 200px',
+			]);
+
+		$this->iqama_number = TextColumn::make('iqama_number')
+			->label('IQAMA no.')
+			->toggleable()
+			->searchable(isIndividual: true, isGlobal: false)
+			->copyable()
+			->sortable()
+			->extraAttributes([
+				'style' => 'min-width: 200px',
+			]);
+
+		$this->iqama_job_title = TextColumn::make('iqama_job_title')
+			->label('IQAMA Job Title')
+			->toggleable()
+			->searchable(isIndividual: true, isGlobal: false)
+			->copyable()
+			->sortable()
+			->extraAttributes([
+				'style' => 'min-width: 200px',
+			]);
+
+		$this->iqama_expiration = TextColumn::make('iqama_expiration')
+			->label('IQAMA Expiration')
+			->toggleable()
+			->copyable()
+			->date()
+			->sortable();
+
+		$this->iqama_expiration_remaining_days = TextColumn::make('iqama_expiration_remaining_days')
+			->label('Remaining days (IQAMA expiration)')
+			->state(fn(Employee $record) => $record->iqama_expiration_remaining_days != null ? "{$record->iqama_expiration_remaining_days} " . Pluralizer::plural('day', $record->iqama_expiration_remaining_days) : null)
+			->placeholder('-')
+			->toggleable()
+			->toggledHiddenByDefault()
+			->sortable();
+
+		$this->passport_number = TextColumn::make('passport_number')
+			->label('Passport no.')
+			->toggleable()
+			->searchable(isIndividual: true, isGlobal: false)
+			->copyable()
+			->sortable()
+			->extraAttributes([
+				'style' => 'min-width: 200px',
+			]);
+
+		$this->passport_date_issue = TextColumn::make('passport_date_issue')
+			->date()
+			->toggleable()
+			->copyable()
+			->sortable();
+
+		$this->passport_expiration = TextColumn::make('passport_expiration')
+			->date()
+			->toggleable()
+			->copyable()
+			->sortable();
+
+		$this->sce_expiration = TextColumn::make('sce_expiration')
+			->label('SCE Expiration')
+			->toggleable()
+			->copyable()
+			->date()
+			->sortable();
+
+		$this->insuranceClass_name = TextColumn::make('insuranceClass.name')
+			->copyable()
+			->toggleable()
+			->sortable();
+
+		$this->company_start_date = TextColumn::make('company_start_date')
+			->date()
+			->toggleable()
+			->copyable()
+			->sortable();
+
+		$this->final_exit_date = TextColumn::make('final_exit_date')
+			->date()
+			->toggleable()
+			->copyable()
+			->placeholder('-')
+			->sortable();
+
+		$this->visa_expired_date = TextColumn::make('visa_expired_date')
+			->date()
+			->toggleable()
+			->copyable()
+			->placeholder('-')
+			->sortable();
+
+		$this->transferred_date = TextColumn::make('transferred_date')
+			->date()
+			->toggleable()
+			->copyable()
+			->placeholder('-')
+			->sortable();
+
+		$this->max_leave_days = TextColumn::make('max_leave_days')
+			->copyable()
+			->toggleable()
+			->sortable();
+
+		$this->current_leave_days = TextColumn::make('current_leave_days')
+			->copyable()
+			->toggleable()
+			->sortable();
+
+		$this->created_at = TextColumn::make('created_at')
+			->copyable()
+			->toggleable()
+			->sortable();
+
+		$this->updated_at = TextColumn::make('updated_at')
+			->copyable()
+			->toggleable()
+			->sortable();
+	}
+
+	public static function getColumns(?array $columns = null)
+	{
+		$table = new EmployeeTable();
+
+		return $columns ?? [
+			$table->employee_number,
+			$table->full_name,
+			$table->status,
+			$table->employeeJob_job_title,
+			$table->project_project_name,
+			$table->country_name,
+			$table->age,
+			$table->email,
+			$table->educationLevel_level,
+			$table->degree_degree,
+			$table->college_graduation_date,
+			$table->mobile_number,
+			$table->labor_office_number,
+			$table->iban_number,
+			$table->iqama_number,
+			$table->iqama_job_title,
+			$table->iqama_expiration,
+			$table->iqama_expiration_remaining_days,
+			$table->passport_number,
+			$table->passport_date_issue,
+			$table->passport_expiration,
+			$table->sce_expiration,
+			$table->insuranceClass_name,
+			$table->company_start_date,
+			$table->final_exit_date,
+			$table->visa_expired_date,
+			$table->transferred_date,
+			$table->max_leave_days,
+			$table->current_leave_days,
+			$table->created_at,
+			$table->updated_at,
 		];
 	}
+
 
 	public static function getFilters()
 	{
@@ -545,7 +662,7 @@ class EmployeeTable
 			]);
 	}
 
-	public static function getTable(Table $table): Table
+	public static function getTable(Table $table, ?array $columns = null): Table
 	{
 		return $table
 			->searchOnBlur()
@@ -565,7 +682,7 @@ class EmployeeTable
 
 				return null;
 			})
-			->columns(EmployeeTable::getColumns())
+			->columns(EmployeeTable::getColumns($columns))
 			->filters(EmployeeTable::getFilters(), layout: FiltersLayout::Modal)
 			->filtersFormWidth(MaxWidth::TwoExtraLarge)
 			->actions(EmployeeTable::getActions(), position: ActionsPosition::BeforeColumns)

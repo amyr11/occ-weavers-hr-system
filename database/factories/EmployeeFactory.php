@@ -6,6 +6,7 @@ use App\Models\Country;
 use App\Models\Degree;
 use App\Models\EducationLevel;
 use App\Models\InsuranceClass;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +22,10 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         $education_level = EducationLevel::all()->random();
-        $degree_id = $education_level->level === 'Bachelor\'s Degree' ? Degree::all()->random()->id: null;
+        $degree_id = $education_level->level === 'Bachelor\'s Degree' ? Degree::all()->random()->id : null;
+
+        $iqamaStartRange = Carbon::create(2024, 9, 1);
+        $iqamaEndRange = Carbon::create(2024, 12, 31);
 
         return [
             'education_level_id' => $education_level->id,
@@ -32,7 +36,7 @@ class EmployeeFactory extends Factory
             'middle_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'suffix' => $this->faker->randomElement([$this->faker->suffix(), null]),
-            'birthdate' => $this->faker->dateTimeBetween('-50 years', '-25 years')->format('Y-m-d'),
+            'birthdate' => $this->faker->dateTimeBetween('-70 years', '-25 years')->format('Y-m-d'),
             'mobile_number' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
             'photo_link' => $this->faker->imageUrl(),
@@ -41,7 +45,7 @@ class EmployeeFactory extends Factory
             'iban_number' => $this->faker->unique()->numberBetween(1000, 9999),
             'iqama_number' => $this->faker->unique()->numberBetween(1000, 9999),
             'iqama_job_title' => $this->faker->jobTitle(),
-            'iqama_expiration' => $this->faker->date(),
+            'iqama_expiration' => $this->faker->dateTimeBetween($iqamaStartRange, $iqamaEndRange),
             'passport_number' => $this->faker->unique()->numberBetween(1000, 9999),
             'passport_date_issue' => $this->faker->date(),
             'passport_expiration' => $this->faker->date(),

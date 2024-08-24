@@ -46,16 +46,8 @@ class EmployeeLeaveArrivalExpectedResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->query(EmployeeLeaveArrivalExpectedResource::getQuery())
-            ->searchOnBlur()
-            ->defaultSort('start_date', 'desc')
-            ->columns(EmployeeLeaveTable::getColumns())
-            ->filters(EmployeeLeaveTable::getFilters(statusOptions: []), layout: FiltersLayout::Modal)
-            ->filtersFormWidth(MaxWidth::TwoExtraLarge)
-            ->actions(EmployeeLeaveTable::getActions())
-            ->actions(EmployeeLeaveTable::getActions(), position: ActionsPosition::BeforeColumns)
-            ->bulkActions(EmployeeLeaveTable::getBulkActions());
+        return EmployeeLeaveTable::getTable($table, statusOptions: [])
+            ->query(EmployeeLeaveArrivalExpectedResource::getQuery());
     }
 
     public static function getRelations(): array

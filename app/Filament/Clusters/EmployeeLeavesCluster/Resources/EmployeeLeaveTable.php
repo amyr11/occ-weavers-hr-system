@@ -14,11 +14,16 @@ use Filament\Tables;
 use Illuminate\Support\Pluralizer;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Components\TextInput;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Columns\Column;
+use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\QueryBuilder;
 use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
 
@@ -130,97 +135,147 @@ class EmployeeLeaveTable
 		];
 	}
 
-	public static function getColumns()
+	public Column $employee_number;
+	public Column $employee_full_name;
+	public Column $contact_number;
+	public Column $status;
+	public Column $start_date;
+	public Column $end_date;
+	public Column $duration_in_days;
+	public Column $remaining_leave_days;
+	public Column $visa_expiration;
+	public Column $visa_duration_in_days;
+	public Column $visa_remaining_days;
+	public Column $request_file_link;
+	public Column $created_at;
+	public Column $updated_at;
+
+	public function __construct()
 	{
-		return [
-			Tables\Columns\TextColumn::make('employee_number')
-				->toggleable()
-				->label('Employee no.')
-				->numeric()
-				->searchable(isIndividual: true, isGlobal: false)
-				->copyable()
-				->sortable(),
-			Tables\Columns\TextColumn::make('employee.full_name')
-				->toggleable()
-				->label('Employee name')
-				->searchable(isIndividual: true, isGlobal: false)
-				->copyable()
-				->sortable(),
-			Tables\Columns\TextColumn::make('contact_number')
-				->toggleable()
-				->copyable()
-				->sortable(),
-			ToggleColumn::make('arrived')
-				->toggleable(),
-			ToggleColumn::make('visa_expired')
-				->toggleable(),
-			Tables\Columns\TextColumn::make('status')
-				->toggleable()
-				->badge()
-				->color(fn(EmployeeLeave $record) => match ($record->status) {
-					'On vacation' => 'success',
-					'For vacation' => 'warning',
-					'Arrival expected' => 'info',
-					'Visa expired' => 'danger',
-					'Arrived (Resolved)' => 'gray',
-					'Visa expired (Resolved)' => 'gray',
-					default => 'info',
-				})
-				->copyable()
-				->sortable(),
-			Tables\Columns\TextColumn::make('start_date')
-				->toggleable()
-				->label('Departure date')
-				->date()
-				->copyable()
-				->sortable(),
-			Tables\Columns\TextColumn::make('end_date')
-				->toggleable()
-				->label('Return date')
-				->date()
-				->copyable()
-				->sortable(),
-			Tables\Columns\TextColumn::make('duration_in_days')
-				->toggleable()
-				->label('Leave duration')
-				->state(fn(EmployeeLeave $record) => "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days))
-				->copyable(),
-			Tables\Columns\TextColumn::make('remaining_leave_days')
-				->toggleable()
-				->label('Leave balance')
-				->state(fn(EmployeeLeave $record) => "{$record->remaining_leave_days} " . Pluralizer::plural('day', $record->remaining_leave_days))
-				->copyable(),
-			Tables\Columns\TextColumn::make('visa_expiration')
-				->toggleable()
-				->date()
-				->copyable()
-				->sortable(),
-			Tables\Columns\TextColumn::make('visa_duration_in_days')
-				->toggleable()
-				->label('Visa duration')
-				->state(fn(EmployeeLeave $record) => "{$record->visa_duration_in_days} " . Pluralizer::plural('day', $record->visa_duration_in_days))
-				->copyable(),
-			Tables\Columns\TextColumn::make('visa_remaining_days')
-				->toggleable()
-				->label('Visa remaining days')
-				->state(fn(EmployeeLeave $record) => $record->visa_remaining_days != null ? ("{$record->visa_remaining_days} " . Pluralizer::plural('day', $record->visa_remaining_days)) : null)
-				->placeholder('-')
-				->copyable(),
-			Tables\Columns\TextColumn::make('request_file_link')
-				->toggleable()
-				->url(fn(EmployeeLeave $record) => $record->request_file_link)
-				->color('info')
-				->placeholder('-'),
-			Tables\Columns\TextColumn::make('created_at')
-				->toggleable()
-				->copyable()
-				->dateTime()
-				->sortable(),
-			Tables\Columns\TextColumn::make('updated_at')
-				->toggleable()
-				->copyable()
-				->dateTime()
-				->sortable(),
+		$this->employee_number = Tables\Columns\TextColumn::make('employee_number')
+			->toggleable()
+			->label('Employee no.')
+			->numeric()
+			->searchable(isIndividual: true, isGlobal: false)
+			->copyable()
+			->sortable();
+
+		$this->employee_full_name = Tables\Columns\TextColumn::make('employee.full_name')
+			->toggleable()
+			->label('Employee name')
+			->searchable(isIndividual: true, isGlobal: false)
+			->copyable()
+			->sortable();
+
+		$this->contact_number = Tables\Columns\TextColumn::make('contact_number')
+			->toggleable()
+			->copyable()
+			->sortable();
+
+		ToggleColumn::make('arrived')
+			->toggleable();
+
+		ToggleColumn::make('visa_expired')
+			->toggleable();
+
+		$this->status = Tables\Columns\TextColumn::make('status')
+			->toggleable()
+			->toggledHiddenByDefault()
+			->badge()
+			->color(fn(EmployeeLeave $record) => match ($record->status) {
+				'On vacation' => 'success',
+				'For vacation' => 'warning',
+				'Arrival expected' => 'info',
+				'Visa expired' => 'danger',
+				'Arrived (Resolved)' => 'gray',
+				'Visa expired (Resolved)' => 'gray',
+				default => 'info',
+			})
+			->copyable()
+			->sortable();
+
+		$this->start_date = Tables\Columns\TextColumn::make('start_date')
+			->toggleable()
+			->label('Departure date')
+			->date()
+			->copyable()
+			->sortable();
+
+		$this->end_date = Tables\Columns\TextColumn::make('end_date')
+			->toggleable()
+			->label('Return date')
+			->date()
+			->copyable()
+			->sortable();
+
+		$this->duration_in_days = Tables\Columns\TextColumn::make('duration_in_days')
+			->toggleable()
+			->label('Leave duration')
+			->state(fn(EmployeeLeave $record) => "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days))
+			->copyable();
+
+		$this->remaining_leave_days = Tables\Columns\TextColumn::make('remaining_leave_days')
+			->toggleable()
+			->label('Leave balance')
+			->state(fn(EmployeeLeave $record) => "{$record->remaining_leave_days} " . Pluralizer::plural('day', $record->remaining_leave_days))
+			->copyable();
+
+		$this->visa_expiration = Tables\Columns\TextColumn::make('visa_expiration')
+			->toggleable()
+			->date()
+			->copyable()
+			->sortable();
+
+		$this->visa_duration_in_days = Tables\Columns\TextColumn::make('visa_duration_in_days')
+			->toggleable()
+			->label('Visa duration')
+			->state(fn(EmployeeLeave $record) => "{$record->visa_duration_in_days} " . Pluralizer::plural('day', $record->visa_duration_in_days))
+			->copyable();
+
+		$this->visa_remaining_days = Tables\Columns\TextColumn::make('visa_remaining_days')
+			->toggleable()
+			->label('Visa remaining days')
+			->state(fn(EmployeeLeave $record) => $record->visa_remaining_days != null ? ("{$record->visa_remaining_days} " . Pluralizer::plural('day', $record->visa_remaining_days)) : null)
+			->placeholder('-')
+			->copyable();
+
+		$this->request_file_link = Tables\Columns\TextColumn::make('request_file_link')
+			->toggleable()
+			->url(fn(EmployeeLeave $record) => $record->request_file_link)
+			->color('info')
+			->placeholder('-');
+
+		$this->created_at = Tables\Columns\TextColumn::make('created_at')
+			->toggleable()
+			->copyable()
+			->dateTime()
+			->sortable();
+
+		$this->updated_at = Tables\Columns\TextColumn::make('updated_at')
+			->toggleable()
+			->copyable()
+			->dateTime()
+			->sortable();
+	}
+
+	public static function getColumns(?array $columns = null)
+	{
+		$table = new EmployeeLeaveTable();
+		return $columns ?? [
+			$table->employee_number,
+			$table->employee_full_name,
+			$table->contact_number,
+			$table->status,
+			$table->start_date,
+			$table->end_date,
+			$table->duration_in_days,
+			$table->remaining_leave_days,
+			$table->visa_expiration,
+			$table->visa_duration_in_days,
+			$table->visa_remaining_days,
+			$table->request_file_link,
+			$table->created_at,
+			$table->updated_at,
 		];
 	}
 
@@ -300,5 +355,18 @@ class EmployeeLeaveTable
 			Tables\Actions\ViewAction::make(),
 			Tables\Actions\EditAction::make(),
 		];
+	}
+
+	public static function getTable(Table $table, ?array $columns = null, ?array $statusOptions = null)
+	{
+		return $table
+			->searchOnBlur()
+			->defaultSort('start_date', 'desc')
+			->columns(EmployeeLeaveTable::getColumns(columns: $columns))
+			->filters(EmployeeLeaveTable::getFilters(statusOptions: $statusOptions), layout: FiltersLayout::Modal)
+			->filtersFormWidth(MaxWidth::TwoExtraLarge)
+			->actions(EmployeeLeaveTable::getActions())
+			->actions(EmployeeLeaveTable::getActions(), position: ActionsPosition::BeforeColumns)
+			->bulkActions(EmployeeLeaveTable::getBulkActions());
 	}
 }
