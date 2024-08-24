@@ -4,6 +4,7 @@ namespace App\Filament\Clusters\EmployeesCluster\Resources;
 
 use App\Filament\Clusters\EmployeesCluster;
 use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeResource\Pages;
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeTable;
 use App\Models\Employee;
 use Filament\Forms\Form;
 use Filament\Pages\SubNavigationPosition;
