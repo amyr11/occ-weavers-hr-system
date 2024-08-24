@@ -248,7 +248,14 @@ class EmployeeLeaveTable
 		];
 	}
 
-	public static function getFilters()
+	public static function getFilters($statusOptions = [
+		'Visa expired (Resolved)' => 'Visa expired (Resolved)',
+		'Arrived (Resolved)' => 'Arrived (Resolved)',
+		'On vacation' => 'On vacation',
+		'For vacation' => 'For vacation',
+		'Visa expired' => 'Visa expired',
+		'Arrival expected' => 'Arrival expected',
+	])
 	{
 		return [
 			Filter::make('employee_number')
@@ -272,15 +279,9 @@ class EmployeeLeaveTable
 					];
 				}),
 			SelectFilter::make('status')
-				->options([
-					'On vacation' => 'On vacation',
-					'For vacation' => 'For vacation',
-					'Visa expired' => 'Visa expired',
-					'Visa expired (Resolved)' => 'Visa expired (Resolved)',
-					'Arrived (Resolved)' => 'Arrived (Resolved)',
-					'Arrival expected' => 'Arrival expected',
-				])
-				->multiple(),
+				->options($statusOptions)
+				->multiple()
+				->hidden(condition: $statusOptions === []),
 			QueryBuilder::make()
 				->constraints([
 					DateConstraint::make('start_date')

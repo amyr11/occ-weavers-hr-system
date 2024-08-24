@@ -3,26 +3,36 @@
 namespace App\Filament\Clusters\EmployeeLeavesCluster\Resources;
 
 use App\Filament\Clusters\EmployeeLeavesCluster;
-use App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveIndividualResource\Pages;
+use App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveOnVacationResource\Pages;
 use App\Models\EmployeeLeave;
 use Filament\Forms\Form;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Table;
 
-class EmployeeLeaveIndividualResource extends Resource
+class EmployeeLeaveOnVacationResource extends Resource
 {
     protected static ?string $model = EmployeeLeave::class;
 
-    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
-
     protected static ?string $cluster = EmployeeLeavesCluster::class;
 
-    protected static ?string $navigationLabel = 'Unresolved';
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    protected static ?string $navigationLabel = 'On Vacation';
+
+    private static function getQuery()
+    {
+        return EmployeeLeave::where('status', '=', 'On vacation');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return EmployeeLeaveOnVacationResource::getQuery()->count();
+    }
 
     public static function form(Form $form): Form
     {
@@ -33,17 +43,13 @@ class EmployeeLeaveIndividualResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(EmployeeLeaveOnVacationResource::getQuery())
             ->searchOnBlur()
-            ->modifyQueryUsing(function (Builder $query) {
-                return $query
-                    ->latest('start_date')
-                    ->where('status', '!=', 'Arrived (Resolved)')
-                    ->where('status', '!=', 'Visa expired (Resolved)');
-            })
-            ->defaultGroup('status')
+            ->defaultSort('start_date', 'desc')
             ->columns(EmployeeLeaveTable::getColumns())
+            ->filters(EmployeeLeaveTable::getFilters(statusOptions: []), layout: FiltersLayout::Modal)
             ->filtersFormWidth(MaxWidth::TwoExtraLarge)
-            ->filters(EmployeeLeaveTable::getFilters(), layout: FiltersLayout::Modal)
+            ->actions(EmployeeLeaveTable::getActions())
             ->actions(EmployeeLeaveTable::getActions(), position: ActionsPosition::BeforeColumns)
             ->bulkActions(EmployeeLeaveTable::getBulkActions());
     }
@@ -58,10 +64,10 @@ class EmployeeLeaveIndividualResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEmployeeLeaveIndividuals::route('/'),
-            'create' => Pages\CreateEmployeeLeaveIndividual::route('/create'),
-            'view' => Pages\ViewEmployeeLeaveIndividual::route('/{record}'),
-            'edit' => Pages\EditEmployeeLeaveIndividual::route('/{record}/edit'),
+            'index' => Pages\ListEmployeeLeaveOnVacations::route('/'),
+            'create' => Pages\CreateEmployeeLeaveOnVacation::route('/create'),
+            'view' => Pages\ViewEmployeeLeaveOnVacation::route('/{record}'),
+            'edit' => Pages\EditEmployeeLeaveOnVacation::route('/{record}/edit'),
         ];
     }
 }
