@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Clusters\EmployeesCluster\Resources;
 
+use App\Filament\Clusters\EmployeesCluster;
 use App\Filament\Exports\EmployeeExporter;
-use App\Filament\Resources\EmployeeResource\Pages;
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeResource\Pages;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
 use App\Models\Employee;
 use Filament\Actions\ExportAction;
@@ -14,6 +15,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
@@ -42,7 +44,13 @@ class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
+
+    protected static ?string $navigationLabel = 'All';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $cluster = EmployeesCluster::class;
 
     public static function form(Form $form): Form
     {
@@ -63,28 +71,28 @@ class EmployeeResource extends Resource
                                 TextInput::make('suffix'),
                             ]),
                         Grid::make([
-                                'md' => 3,
-                            ])
-                                ->schema([
-                                    DatePicker::make('birthdate')
-                                        ->required(),
-                                    TextInput::make('mobile_number')
-                                        ->required(),
-                                    TextInput::make('email')
-                                        ->email()
-                                        ->required(),
-                                ]),
-                        Grid::make([
-                                'md' => 2,
-                            ])
-                                ->schema([
-                                    Select::make('country_id')
-                                        ->relationship('country', 'name')
-                                        ->searchable()
-                                        ->required(),
-                                    TextInput::make('photo_link'),
-                                ]),
+                            'md' => 3,
+                        ])
+                            ->schema([
+                                DatePicker::make('birthdate')
+                                    ->required(),
+                                TextInput::make('mobile_number')
+                                    ->required(),
+                                TextInput::make('email')
+                                    ->email()
+                                    ->required(),
                             ]),
+                        Grid::make([
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                Select::make('country_id')
+                                    ->relationship('country', 'name')
+                                    ->searchable()
+                                    ->required(),
+                                TextInput::make('photo_link'),
+                            ]),
+                    ]),
                 Section::make('Education')
                     ->schema([
                         Grid::make([
@@ -105,95 +113,95 @@ class EmployeeResource extends Resource
                 Section::make('Government information')
                     ->schema([
                         Grid::make([
-                                'md' => 2,
-                            ])
-                                ->schema([
-                                    TextInput::make('labor_office_number')
-                                        ->required(),
-                                    TextInput::make('iban_number')
-                                        ->label('IBAN Number')
-                                        ->required(),
-                                ]),
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                TextInput::make('labor_office_number')
+                                    ->required(),
+                                TextInput::make('iban_number')
+                                    ->label('IBAN Number')
+                                    ->required(),
+                            ]),
                         Grid::make([
-                                'md' => 3,
-                            ])
-                                ->schema([
-                                    TextInput::make('iqama_number')
-                                        ->label('IQAMA Number')
-                                        ->required(),
-                                    TextInput::make('iqama_job_title')
-                                        ->label('IQAMA Job Title')
-                                        ->required(),
-                                    DatePicker::make('iqama_expiration')
-                                        ->label('IQAMA Expiration')
-                                        ->required(),
-                                ]),
+                            'md' => 3,
+                        ])
+                            ->schema([
+                                TextInput::make('iqama_number')
+                                    ->label('IQAMA Number')
+                                    ->required(),
+                                TextInput::make('iqama_job_title')
+                                    ->label('IQAMA Job Title')
+                                    ->required(),
+                                DatePicker::make('iqama_expiration')
+                                    ->label('IQAMA Expiration')
+                                    ->required(),
+                            ]),
                         Grid::make([
-                                'md' => 3,
-                            ])
-                                ->schema([
-                                    TextInput::make('passport_number')
-                                        ->required(),
-                                    DatePicker::make('passport_date_issue')
-                                        ->required(),
-                                    DatePicker::make('passport_expiration')
-                                        ->required(),
-                                ]),
+                            'md' => 3,
+                        ])
+                            ->schema([
+                                TextInput::make('passport_number')
+                                    ->required(),
+                                DatePicker::make('passport_date_issue')
+                                    ->required(),
+                                DatePicker::make('passport_expiration')
+                                    ->required(),
+                            ]),
                         Grid::make([
-                                'md' => 2,
-                            ])
-                                ->schema([
-                                    DatePicker::make('sce_expiration')
-                                        ->label('SCE Expiration')
-                                        ->required(),
-                                ]),
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                DatePicker::make('sce_expiration')
+                                    ->label('SCE Expiration')
+                                    ->required(),
+                            ]),
                     ]),
                 Section::make('Company information')
                     ->schema([
                         Grid::make([
-                                'md' => 2,
-                            ])
-                                ->schema([
-                                    Select::make('employee_job_id')
-                                        ->label('Current job title')
-                                        ->relationship('employeeJob', 'job_title')
-                                        ->disabled(),
-                                    Select::make('project_id')
-                                        ->label('Current project')
-                                        ->relationship('project', 'project_name')
-                                        ->disabled(),
-                                ]),
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                Select::make('employee_job_id')
+                                    ->label('Current job title')
+                                    ->relationship('employeeJob', 'job_title')
+                                    ->disabled(),
+                                Select::make('project_id')
+                                    ->label('Current project')
+                                    ->relationship('project', 'project_name')
+                                    ->disabled(),
+                            ]),
                         Grid::make([
-                                'md' => 2,
-                            ])
-                                ->schema([
-                                    DatePicker::make('company_start_date')
-                                        ->required(),
-                                    Select::make('insurance_class_id')
-                                        ->relationship('insuranceClass', 'name')
-                                        ->searchable()
-                                        ->preload()
-                                        ->required(),
-                                ]),
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                DatePicker::make('company_start_date')
+                                    ->required(),
+                                Select::make('insurance_class_id')
+                                    ->relationship('insuranceClass', 'name')
+                                    ->searchable()
+                                    ->preload()
+                                    ->required(),
+                            ]),
                         Grid::make([
-                                'md' => 3,
-                            ])
-                                ->schema([
-                                    DatePicker::make('final_exit_date'),
-                                    DatePicker::make('visa_expired_date'),
-                                    DatePicker::make('transferred_date'),
-                                ]),
+                            'md' => 3,
+                        ])
+                            ->schema([
+                                DatePicker::make('final_exit_date'),
+                                DatePicker::make('visa_expired_date'),
+                                DatePicker::make('transferred_date'),
+                            ]),
                         Grid::make([
-                                'md' => 2,
-                            ])
-                                ->schema([
-                                    TextInput::make('max_leave_days')
-                                        ->default(21)
-                                        ->required(),
-                                    TextInput::make('current_leave_days')
-                                        ->hiddenOn(['create'])
-                                        ->required(),
-                                ]),
+                            'md' => 2,
+                        ])
+                            ->schema([
+                                TextInput::make('max_leave_days')
+                                    ->default(21)
+                                    ->required(),
+                                TextInput::make('current_leave_days')
+                                    ->hiddenOn(['create'])
+                                    ->required(),
+                            ]),
                     ]),
             ]);
     }
@@ -214,7 +222,7 @@ class EmployeeResource extends Resource
 
                 if ($record->transferred_date != null) {
                     return 'border-l-4 bg-[#e6f0ff] !border-l-blue-500 dark:bg-[#303940] hover:bg-[#d7e8fa] dark:hover:bg-[#335066]';
-                }                
+                }
 
                 return null;
             })
@@ -240,7 +248,7 @@ class EmployeeResource extends Resource
                     ]),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'Active' => 'success',
                         'Final Exit' => 'danger',
                         'Visa Expired' => 'warning',
@@ -537,7 +545,7 @@ class EmployeeResource extends Resource
                     ->label('PDF')
                     ->color('danger')
                     ->icon('heroicon-s-document')
-                    ->url(fn (Employee $employee) => route('file-information-sheet', $employee)),
+                    ->url(fn(Employee $employee) => route('file-information-sheet', $employee)),
             ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -553,7 +561,7 @@ class EmployeeResource extends Resource
                     ->exporter(EmployeeExporter::class),
             ]);
     }
-    
+
     private static function getUpdateBulkAction($column, $icon, $label, $action = null): Tables\Actions\BulkAction
     {
         return Tables\Actions\BulkAction::make($column)
@@ -566,7 +574,7 @@ class EmployeeResource extends Resource
                     $record->update($data);
                 }
             })
-            ->form(fn ($records) => [
+            ->form(fn($records) => [
                 DatePicker::make($column)
             ]);
     }

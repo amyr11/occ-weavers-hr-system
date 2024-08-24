@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\EmployeeResource\Pages;
+namespace App\Filament\Clusters\EmployeesCluster\Resources\EmployeeResource\Pages;
 
-use App\Filament\Resources\EmployeeResource;
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
