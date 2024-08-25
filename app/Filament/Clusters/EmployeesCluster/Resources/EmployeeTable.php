@@ -162,6 +162,17 @@ class EmployeeTable
 						'md' => 3,
 					])
 						->schema([
+							DatePicker::make('electronic_contract_start_date')
+								->disabled(),
+							DatePicker::make('electronic_contract_end_date')
+								->disabled(),
+							DatePicker::make('paper_contract_end_date')
+								->disabled(),
+						]),
+					Grid::make([
+						'md' => 3,
+					])
+						->schema([
 							DatePicker::make('final_exit_date'),
 							DatePicker::make('visa_expired_date'),
 							DatePicker::make('transferred_date'),
@@ -205,6 +216,9 @@ class EmployeeTable
 	public Column $sce_expiration;
 	public Column $insuranceClass_name;
 	public Column $company_start_date;
+	public Column $electronic_contract_start_date;
+	public Column $electronic_contract_end_date;
+	public Column $paper_contract_end_date;
 	public Column $final_exit_date;
 	public Column $visa_expired_date;
 	public Column $transferred_date;
@@ -400,6 +414,27 @@ class EmployeeTable
 			->copyable()
 			->sortable();
 
+		$this->electronic_contract_start_date = TextColumn::make('electronic_contract_start_date')
+			->date()
+			->toggleable()
+			->copyable()
+			->placeholder('-')
+			->sortable();
+
+		$this->electronic_contract_end_date = TextColumn::make('electronic_contract_end_date')
+			->date()
+			->toggleable()
+			->copyable()
+			->placeholder('-')
+			->sortable();
+
+		$this->paper_contract_end_date = TextColumn::make('paper_contract_end_date')
+			->date()
+			->toggleable()
+			->copyable()
+			->placeholder('-')
+			->sortable();
+
 		$this->final_exit_date = TextColumn::make('final_exit_date')
 			->date()
 			->toggleable()
@@ -471,6 +506,9 @@ class EmployeeTable
 			$table->sce_expiration,
 			$table->insuranceClass_name,
 			$table->company_start_date,
+			$table->electronic_contract_start_date,
+			$table->electronic_contract_end_date,
+			$table->paper_contract_end_date,
 			$table->final_exit_date,
 			$table->visa_expired_date,
 			$table->transferred_date,

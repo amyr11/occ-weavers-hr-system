@@ -51,6 +51,9 @@ return new class extends Migration
 
             // Company information
             $table->date('company_start_date');
+            $table->date('electronic_contract_start_date')->nullable();
+            $table->date('electronic_contract_end_date')->nullable();
+            $table->date('paper_contract_end_date')->nullable();
             $table->date('final_exit_date')->nullable();
             $table->date('visa_expired_date')->nullable();
             $table->date('transferred_date')->nullable();

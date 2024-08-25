@@ -57,6 +57,9 @@ class EmployeeSeniorsResource extends Resource
                 $employeeTable->project_project_name,
                 $employeeTable->iqama_expiration,
                 $employeeTable->iqama_number,
+                $employeeTable->electronic_contract_start_date,
+                $employeeTable->electronic_contract_end_date,
+                $employeeTable->paper_contract_end_date,
                 $employeeTable->country_name->toggledHiddenByDefault(),
                 $employeeTable->email->toggledHiddenByDefault(),
                 $employeeTable->educationLevel_level->toggledHiddenByDefault(),
@@ -78,7 +81,6 @@ class EmployeeSeniorsResource extends Resource
                 $employeeTable->current_leave_days->toggledHiddenByDefault(),
                 $employeeTable->created_at,
                 $employeeTable->updated_at,
-                // latest contract start and end date
             ],
         )
             ->query(EmployeeSeniorsResource::getQuery())

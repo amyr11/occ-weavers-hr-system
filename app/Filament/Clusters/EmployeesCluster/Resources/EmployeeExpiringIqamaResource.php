@@ -62,6 +62,9 @@ class EmployeeExpiringIqamaResource extends Resource
                 $employeeTable->employeeJob_job_title,
                 $employeeTable->iqama_job_title,
                 $employeeTable->project_project_name,
+                $employeeTable->electronic_contract_start_date,
+                $employeeTable->electronic_contract_end_date,
+                $employeeTable->paper_contract_end_date,
                 $employeeTable->country_name->toggledHiddenByDefault(),
                 $employeeTable->age->toggledHiddenByDefault(),
                 $employeeTable->email->toggledHiddenByDefault(),
@@ -84,7 +87,6 @@ class EmployeeExpiringIqamaResource extends Resource
                 $employeeTable->current_leave_days->toggledHiddenByDefault(),
                 $employeeTable->created_at,
                 $employeeTable->updated_at,
-                // latest contract start and end date
             ],
         )
             ->query(EmployeeExpiringIqamaResource::getQuery())

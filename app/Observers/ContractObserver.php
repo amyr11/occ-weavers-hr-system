@@ -7,10 +7,13 @@ use App\Models\Employee;
 
 class ContractObserver
 {
-    private function setEmployeeCurrentJobTitle(Employee $employee): void
+    private function updateEmployee(Employee $employee): void
     {
         $latestContract = $employee->contracts()->latest('end_date')->first();
         $employee->employee_job_id = $latestContract ? $latestContract->employee_job_id : null;
+        $employee->electronic_contract_start_date = $latestContract ? $latestContract->start_date : null;
+        $employee->electronic_contract_end_date = $latestContract ? $latestContract->end_date : null;
+        $employee->paper_contract_end_date = $latestContract ? $latestContract->paper_contract_end_date : null;
         $employee->save();
     }
 
@@ -19,7 +22,7 @@ class ContractObserver
      */
     public function created(Contract $contract): void
     {
-        $this->setEmployeeCurrentJobTitle($contract->employee);
+        $this->updateEmployee($contract->employee);
         $duration_in_years = round($contract->start_date->diff($contract->end_date->addDay(1))->format('%a') / 365);
         $contract->employee->addLeaves($duration_in_years);
     }
@@ -29,7 +32,7 @@ class ContractObserver
      */
     public function updated(Contract $contract): void
     {
-        $this->setEmployeeCurrentJobTitle($contract->employee);
+        $this->updateEmployee($contract->employee);
     }
 
     /**
@@ -37,7 +40,7 @@ class ContractObserver
      */
     public function deleted(Contract $contract): void
     {
-        $this->setEmployeeCurrentJobTitle($contract->employee);
+        $this->updateEmployee($contract->employee);
     }
 
     /**
@@ -45,7 +48,7 @@ class ContractObserver
      */
     public function restored(Contract $contract): void
     {
-        $this->setEmployeeCurrentJobTitle($contract->employee);
+        $this->updateEmployee($contract->employee);
     }
 
     /**
@@ -53,6 +56,6 @@ class ContractObserver
      */
     public function forceDeleted(Contract $contract): void
     {
-        $this->setEmployeeCurrentJobTitle($contract->employee);
+        $this->updateEmployee($contract->employee);
     }
 }

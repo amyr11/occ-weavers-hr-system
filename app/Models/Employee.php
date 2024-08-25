@@ -25,6 +25,9 @@ class Employee extends Model
         'final_exit_date' => 'date',
         'visa_expired_date' => 'date',
         'transferred_date' => 'date',
+        'electronic_contract_start_date' => 'date',
+        'electronic_contract_end_date' => 'date',
+        'paper_contract_end_date' => 'date',
     ];
 
     protected $guarded = [];
@@ -59,7 +62,8 @@ class Employee extends Model
         return $this->hasMany(Contract::class, 'employee_number', 'employee_number');
     }
 
-    public function employeeJob() {
+    public function employeeJob()
+    {
         return $this->belongsTo(EmployeeJob::class);
     }
 
@@ -73,7 +77,8 @@ class Employee extends Model
         return $this->hasMany(ProjectAssignment::class, 'employee_number', 'employee_number');
     }
 
-    public function addLeaves(int $contractDurationYears) {
+    public function addLeaves(int $contractDurationYears)
+    {
         $this->current_leave_days += $this->max_leave_days * $contractDurationYears;
         $this->save();
     }
