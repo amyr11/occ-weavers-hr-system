@@ -2,6 +2,7 @@
 
 namespace App\Filament\Clusters\EmployeeLeavesCluster\Resources;
 
+use App\Filament\Exports\EmployeeLeaveExporter;
 use Filament\Tables\Columns\ToggleColumn;
 use App\Models\EmployeeLeave;
 use Carbon\Carbon;
@@ -15,6 +16,7 @@ use Illuminate\Support\Pluralizer;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
@@ -300,6 +302,9 @@ class EmployeeLeaveTable
 				->icon('heroicon-o-arrow-uturn-down')
 				->deselectRecordsAfterCompletion()
 				->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => false, 'visa_expired' => false]))),
+			ExportBulkAction::make()
+				->icon('heroicon-o-arrow-down-tray')
+				->exporter(EmployeeLeaveExporter::class),
 		];
 	}
 
