@@ -2,6 +2,7 @@
 
 namespace App\Filament\Clusters\ProjectAssignmentsCluster\Resources;
 
+use App\Filament\Exports\ProjectAssignmentExporter;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms;
@@ -10,6 +11,7 @@ use Filament\Forms\Set;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Enums\FiltersLayout;
@@ -168,6 +170,9 @@ class ProjectAssignmentTable
 	{
 		return [
 			Tables\Actions\DeleteBulkAction::make(),
+			ExportBulkAction::make()
+				->icon('heroicon-o-arrow-down-tray')
+				->exporter(ProjectAssignmentExporter::class),
 		];
 	}
 
