@@ -3,6 +3,9 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Widgets\EmployeeByCountryChart;
+use App\Filament\Widgets\EmployeeExits;
+use App\Filament\Widgets\EmployeeExitsMonthly;
+use App\Filament\Widgets\EmployeeExitsYearly;
 use App\Filament\Widgets\EmployeesOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -49,6 +52,8 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 EmployeesOverview::class,
                 EmployeeByCountryChart::class,
+                EmployeeExitsYearly::class,
+                EmployeeExitsMonthly::class,
             ])
             ->middleware([
                 EncryptCookies::class,
