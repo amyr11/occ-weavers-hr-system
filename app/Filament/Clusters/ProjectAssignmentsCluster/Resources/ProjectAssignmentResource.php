@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Clusters\ProjectAssignmentsCluster\Resources;
 
-use App\Filament\Resources\ProjectAssignmentResource\Pages;
-use App\Filament\Resources\ProjectAssignmentResource\RelationManagers;
+use App\Filament\Clusters\ProjectAssignmentsCluster;
+use App\Filament\Clusters\ProjectAssignmentsCluster\Resources\ProjectAssignmentResource\Pages;
 use App\Models\ProjectAssignment;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
@@ -22,15 +23,16 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ProjectAssignmentResource extends Resource
 {
     protected static ?string $model = ProjectAssignment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
+    protected static SubNavigationPosition $subNavigationPosition = SubNavigationPosition::Top;
 
-    protected static ?int $navigationSort = 4;
+    protected static ?string $navigationLabel = 'All';
+
+    protected static ?string $cluster = ProjectAssignmentsCluster::class;
 
     public static function form(Form $form): Form
     {

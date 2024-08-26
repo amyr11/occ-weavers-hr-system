@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\ProjectAssignmentResource\Pages;
+namespace App\Filament\Clusters\ProjectAssignmentsCluster\Resources\ProjectAssignmentResource\Pages;
 
-use App\Filament\Resources\ProjectAssignmentResource;
+use App\Filament\Clusters\ProjectAssignmentsCluster\Resources\ProjectAssignmentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
