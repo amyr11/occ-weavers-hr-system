@@ -15,11 +15,6 @@ class FileInformationSheetController extends Controller
     {
         return pdf()
             ->view('pdf.file_information_sheet', ['employee' => $employee])
-            ->withBrowsershot(function (Browsershot $browsershot) {
-                $browsershot->setCustomTempPath(tempPath: '/tmp')
-                    ->setChromePath(executablePath: '/usr/bin/chromium-browser')
-                    ->newHeadless();
-            })
             ->format(Format::A4)
             ->margins(5, 10, 5, 10)
             ->name($employee->employee_number . '-' . $employee->full_name . '.pdf')
