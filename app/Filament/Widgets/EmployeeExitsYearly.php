@@ -38,8 +38,8 @@ class EmployeeExitsYearly extends ApexChartWidget
             return $year !== null;
         });
 
-        $earliestYear = min($years);
-        $latestYear = max($years);
+        $earliestYear = $years ? min($years) : Carbon::now()->startOfYear()->format('Y');
+        $latestYear = $years ? max($years) : Carbon::now()->startOfYear()->format('Y');
 
         return [
             // Input for start year

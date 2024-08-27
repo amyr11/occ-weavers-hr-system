@@ -3,21 +3,19 @@
 namespace App\Observers;
 
 use App\Models\Employee;
+use App\Utils\HijriUtil;
 
 class EmployeeObserver
 {
-    /**
-     * Handle the Employee "created" event.
-     */
-    public function created(Employee $employee): void
+    private function convertHijriDatesToGregorian(Employee $employee): void
     {
-        //
+        if ($employee->isDirty('iqama_expiration_hijri')) {
+            // Convert Hijri dates to Gregorian dates
+            $employee->iqama_expiration_gregorian = HijriUtil::toGregorian($employee->iqama_expiration_hijri);
+        }
     }
 
-    /**
-     * Handle the Employee "updated" event.
-     */
-    public function updated(Employee $employee): void
+    private function updateStatusDates(Employee $employee): void
     {
         // When 'final_exit_date' is set, set 'visa_expired_date' and 'transferred_date' to null and vice versa
         // Check which column is updated
@@ -40,8 +38,26 @@ class EmployeeObserver
                 $employee->visa_expired_date = null;
             }
         }
+    }
 
-        // Save model quietly
+    /**
+     * Handle the Employee "created" event.
+     */
+    public function created(Employee $employee): void
+    {
+        $this->convertHijriDatesToGregorian($employee);
+
+        $employee->saveQuietly();
+    }
+
+    /**
+     * Handle the Employee "updated" event.
+     */
+    public function updated(Employee $employee): void
+    {
+        $this->updateStatusDates($employee);
+        $this->convertHijriDatesToGregorian($employee);
+
         $employee->saveQuietly();
     }
 

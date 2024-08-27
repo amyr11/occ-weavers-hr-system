@@ -4,6 +4,7 @@ namespace App\Filament\Clusters\EmployeesCluster\Resources;
 
 use App\Filament\Exports\EmployeeExporter;
 use App\Models\Employee;
+use Closure;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -98,7 +99,7 @@ class EmployeeTable
 								->required(),
 						]),
 					Grid::make([
-						'md' => 3,
+						'md' => 4,
 					])
 						->schema([
 							TextInput::make('iqama_number')
@@ -107,9 +108,27 @@ class EmployeeTable
 							TextInput::make('iqama_job_title')
 								->label('IQAMA Job Title')
 								->required(),
-							DatePicker::make('iqama_expiration')
-								->label('IQAMA Expiration')
+							TextInput::make('iqama_expiration_hijri')
+								->label('IQAMA Expiration (Hijri)')
+								->placeholder('YYYY-MM-DD')
+								->rules([
+									fn(): Closure => function (string $attribute, $value, Closure $fail) {
+										/**
+										 * in the format Y-m-d
+										 * year between 1000 and 1999
+										 * month between 1 and 12
+										 * day between 1 and 30
+										 */
+										if (!preg_match('/^(1[0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/', $value)) {
+											$fail('The ' . $attribute . ' is not in the correct format.');
+										}
+									},
+								])
 								->required(),
+							DatePicker::make('iqama_expiration_gregorian')
+								->label('IQAMA Expiration (Gregorian)')
+								->disabled()
+								->hiddenOn(['create']),
 						]),
 					Grid::make([
 						'md' => 3,
@@ -208,7 +227,8 @@ class EmployeeTable
 	public Column $iban_number;
 	public Column $iqama_number;
 	public Column $iqama_job_title;
-	public Column $iqama_expiration;
+	public Column $iqama_expiration_hijri;
+	public Column $iqama_expiration_gregorian;
 	public Column $iqama_expiration_remaining_days;
 	public Column $passport_number;
 	public Column $passport_date_issue;
@@ -359,8 +379,14 @@ class EmployeeTable
 				'style' => 'min-width: 200px',
 			]);
 
-		$this->iqama_expiration = TextColumn::make('iqama_expiration')
-			->label('IQAMA Expiration')
+		$this->iqama_expiration_hijri = TextColumn::make('iqama_expiration_hijri')
+			->label('IQAMA Expiration (Hijri)')
+			->toggleable()
+			->copyable()
+			->sortable();
+
+		$this->iqama_expiration_gregorian = TextColumn::make('iqama_expiration_gregorian')
+			->label('IQAMA Expiration (Gregorian)')
 			->toggleable()
 			->copyable()
 			->date()
@@ -498,7 +524,8 @@ class EmployeeTable
 			$table->iban_number,
 			$table->iqama_number,
 			$table->iqama_job_title,
-			$table->iqama_expiration,
+			$table->iqama_expiration_hijri,
+			$table->iqama_expiration_gregorian,
 			$table->iqama_expiration_remaining_days,
 			$table->passport_number,
 			$table->passport_date_issue,

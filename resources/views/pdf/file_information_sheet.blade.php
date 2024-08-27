@@ -70,11 +70,11 @@
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">IQAMA expiration (Hijri)</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">-</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iqama_expiration_hijri }}</p>
 			</div>
 			<div>
-				<label class="mb-2 block text-xs font-medium text-zinc-600">IQAMA expiration</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iqama_expiration->format('Y-m-d') }}</p>
+				<label class="mb-2 block text-xs font-medium text-zinc-600">IQAMA expiration (Gregorian)</label>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iqama_expiration_gregorian->format('Y-m-d') }}</p>
 			</div>
 		</div>
 		<div class="mb-2 grid grid-cols-2 gap-2">

@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use Alkoumi\LaravelHijriDate\Hijri;
 use App\Models\Country;
 use App\Models\Degree;
 use App\Models\EducationLevel;
 use App\Models\InsuranceClass;
+use App\Utils\HijriUtil;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -25,7 +27,9 @@ class EmployeeFactory extends Factory
         $degree_id = $education_level->level === 'Bachelor\'s Degree' ? Degree::all()->random()->id : null;
 
         $iqamaStartRange = Carbon::create(2024, 9, 1);
-        $iqamaEndRange = Carbon::create(2024, 12, 31);
+        $iqamaEndRange = Carbon::create(2025, 12, 31);
+        $iqamaGregorian = $this->faker->dateTimeBetween($iqamaStartRange, $iqamaEndRange)->format('Y-m-d');
+        $iqamaHijri = HijriUtil::toHijri($iqamaGregorian);
 
         return [
             'education_level_id' => $education_level->id,
@@ -45,7 +49,7 @@ class EmployeeFactory extends Factory
             'iban_number' => $this->faker->unique()->numberBetween(1000, 9999),
             'iqama_number' => $this->faker->unique()->numberBetween(1000, 9999),
             'iqama_job_title' => $this->faker->jobTitle(),
-            'iqama_expiration' => $this->faker->dateTimeBetween($iqamaStartRange, $iqamaEndRange),
+            'iqama_expiration_hijri' => $iqamaHijri,
             'passport_number' => $this->faker->unique()->numberBetween(1000, 9999),
             'passport_date_issue' => $this->faker->date(),
             'passport_expiration' => $this->faker->date(),

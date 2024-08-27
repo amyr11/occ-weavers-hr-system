@@ -27,7 +27,7 @@ class EmployeeExpiringIqamaResource extends Resource
     private static function getQuery()
     {
         // 1 month before expiration
-        return Employee::where('iqama_expiration', '<=', now()->addMonth())->where('status', '=', 'Active');
+        return Employee::where('iqama_expiration_gregorian', '<=', now()->addMonths(3))->where('status', '=', 'Active');
     }
 
     public static function getNavigationBadge(): ?string
@@ -55,7 +55,8 @@ class EmployeeExpiringIqamaResource extends Resource
                 $employeeTable->employee_number,
                 $employeeTable->full_name,
                 $employeeTable->status->toggledHiddenByDefault(),
-                $employeeTable->iqama_expiration,
+                $employeeTable->iqama_expiration_hijri,
+                $employeeTable->iqama_expiration_gregorian,
                 $employeeTable->iqama_expiration_remaining_days
                     ->toggledHiddenByDefault(false),
                 $employeeTable->iqama_number,
@@ -90,7 +91,7 @@ class EmployeeExpiringIqamaResource extends Resource
             ],
         )
             ->query(EmployeeExpiringIqamaResource::getQuery())
-            ->defaultsort('iqama_expiration', 'asc');
+            ->defaultsort('iqama_expiration_gregorian', 'asc');
     }
 
     public static function getRelations(): array

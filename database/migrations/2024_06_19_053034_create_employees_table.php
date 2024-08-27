@@ -42,8 +42,9 @@ return new class extends Migration
             $table->string('iban_number')->unique();
             $table->string('iqama_number')->unique();
             $table->string('iqama_job_title');
-            $table->date('iqama_expiration');
-            $table->integer('iqama_expiration_remaining_days')->virtualAs('CASE WHEN CURDATE() <= iqama_expiration THEN DATEDIFF(iqama_expiration, CURDATE()) ELSE NULL END');
+            $table->string('iqama_expiration_hijri');
+            $table->date('iqama_expiration_gregorian')->nullable();
+            $table->integer('iqama_expiration_remaining_days')->virtualAs('CASE WHEN CURDATE() <= iqama_expiration_gregorian THEN DATEDIFF(iqama_expiration_gregorian, CURDATE()) ELSE NULL END');
             $table->string('passport_number')->unique();
             $table->date('passport_date_issue');
             $table->date('passport_expiration');

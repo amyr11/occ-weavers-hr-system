@@ -6,6 +6,7 @@ use App\Observers\EmployeeObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Remls\HijriDate\HijriDate;
 
 #[ObservedBy([EmployeeObserver::class])]
 class Employee extends Model
@@ -17,7 +18,8 @@ class Employee extends Model
     protected $casts = [
         'birthdate' => 'date',
         'college_graduation_date' => 'date',
-        'iqama_expiration' => 'date',
+        'iqama_expiration_hijri' => HijriDate::class,
+        'iqama_expiration_gregorian' => 'date',
         'passport_date_issue' => 'date',
         'passport_expiration' => 'date',
         'sce_expiration' => 'date',
