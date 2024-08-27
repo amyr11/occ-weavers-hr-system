@@ -38,6 +38,7 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
+            ->profile(isSimple: false)
             ->brandLogo(fn() => view('filament.admin.logo'))
             ->colors([
                 'primary' => Color::hex('#159456'),
