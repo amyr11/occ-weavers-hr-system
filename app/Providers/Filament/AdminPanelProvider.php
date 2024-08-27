@@ -36,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('/admin')
             ->databaseNotifications()
+            ->favicon(asset('images/logo.png'))
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
             ->profile(isSimple: false)
