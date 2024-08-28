@@ -97,11 +97,6 @@ class EmployeeSeniorsResource extends Resource
 
     public static function getPages(): array
     {
-        return [
-            'index' => Pages\ListEmployeeSeniors::route('/'),
-            'create' => Pages\CreateEmployeeSeniors::route('/create'),
-            'view' => Pages\ViewEmployeeSeniors::route('/{record}'),
-            'edit' => Pages\EditEmployeeSeniors::route('/{record}/edit'),
-        ];
+        return EmployeeResource::getPages();
     }
 }

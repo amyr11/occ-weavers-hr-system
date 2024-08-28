@@ -4,6 +4,7 @@ namespace App\Filament\Clusters\EmployeesCluster\Resources;
 
 use App\Filament\Clusters\EmployeesCluster;
 use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeActiveResource\Pages;
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeResource\Pages\ListEmployees;
 use App\Models\Employee;
 use Filament\Forms\Form;
 use Filament\Pages\SubNavigationPosition;
@@ -92,11 +93,6 @@ class EmployeeActiveResource extends Resource
 
     public static function getPages(): array
     {
-        return [
-            'index' => Pages\ListEmployeeActives::route('/'),
-            'create' => Pages\CreateEmployeeActive::route('/create'),
-            'view' => Pages\ViewEmployeeActive::route('/{record}'),
-            'edit' => Pages\EditEmployeeActive::route('/{record}/edit'),
-        ];
+        return EmployeeResource::getPages();
     }
 }

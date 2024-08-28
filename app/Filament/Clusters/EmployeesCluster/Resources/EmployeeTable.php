@@ -213,6 +213,7 @@ class EmployeeTable
 								->default(21)
 								->required(),
 							TextInput::make('current_leave_days')
+								->placeholder('-')
 								->hiddenOn(['create'])
 								->required(),
 						]),
@@ -499,6 +500,7 @@ class EmployeeTable
 		$this->current_leave_days = TextColumn::make('current_leave_days')
 			->copyable()
 			->toggleable()
+			->placeholder('-')
 			->sortable();
 
 		$this->created_at = TextColumn::make('created_at')
