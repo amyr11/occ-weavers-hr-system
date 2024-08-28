@@ -1,0 +1,11 @@
+services:
+  database:
+    image: mariadb:11.5.2
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: occ_weavers_hr_system
+    ports:
+      - 33061:3306
+    volumes:
+      - ./.mysql:/var/lib/mysql
