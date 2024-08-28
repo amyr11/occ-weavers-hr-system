@@ -103,6 +103,11 @@ class EmployeeExpiringIqamaResource extends Resource
 
     public static function getPages(): array
     {
-        return EmployeeResource::getPages();
+        return [
+            'index' => Pages\ListEmployeeExpiringIqamas::route('/'),
+            'create' => Pages\CreateEmployeeExpiringIqama::route('/create'),
+            'view' => Pages\ViewEmployeeExpiringIqama::route('/{record}'),
+            'edit' => Pages\EditEmployeeExpiringIqama::route('/{record}/edit'),
+        ];
     }
 }

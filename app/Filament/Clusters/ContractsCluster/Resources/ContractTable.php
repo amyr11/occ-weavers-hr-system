@@ -3,12 +3,14 @@
 namespace App\Filament\Clusters\ContractsCluster\Resources;
 
 use App\Filament\Exports\ContractExporter;
+use App\Filament\Imports\ContractImporter;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use App\Models\Contract;
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
@@ -23,6 +25,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Actions;
 
 class ContractTable
 {
@@ -321,5 +324,15 @@ class ContractTable
 			->filtersFormWidth(MaxWidth::TwoExtraLarge)
 			->actions(ContractTable::getActions(), position: ActionsPosition::BeforeColumns)
 			->bulkActions(ContractTable::getBulkActions());
+	}
+
+	public static function getHeaderActions(): array
+	{
+		return [
+			ImportAction::make()
+				->icon('heroicon-o-arrow-up-tray')
+				->importer(ContractImporter::class),
+			Actions\CreateAction::make(),
+		];
 	}
 }

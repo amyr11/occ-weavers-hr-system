@@ -3,8 +3,10 @@
 namespace App\Filament\Clusters\EmployeesCluster\Resources;
 
 use App\Filament\Exports\EmployeeExporter;
+use App\Filament\Imports\EmployeeImporter;
 use App\Models\Employee;
 use Closure;
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -26,6 +28,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Pluralizer;
+use Filament\Actions;
 
 class EmployeeTable
 {
@@ -763,5 +766,15 @@ class EmployeeTable
 			->filtersFormWidth(MaxWidth::TwoExtraLarge)
 			->actions(EmployeeTable::getActions(), position: ActionsPosition::BeforeColumns)
 			->bulkActions(EmployeeTable::getBulkActions());
+	}
+
+	public static function getHeaderActions(): array
+	{
+		return [
+			ImportAction::make()
+				->icon('heroicon-o-arrow-up-tray')
+				->importer(EmployeeImporter::class),
+			Actions\CreateAction::make(),
+		];
 	}
 }

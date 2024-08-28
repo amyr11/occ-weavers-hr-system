@@ -3,7 +3,7 @@
 namespace App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveResource\Pages;
 
 use App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveResource;
-use Filament\Actions;
+use App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveTable;
 use Filament\Resources\Pages\ListRecords;
 
 class ListEmployeeLeaves extends ListRecords
@@ -12,8 +12,6 @@ class ListEmployeeLeaves extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        return EmployeeLeaveTable::getHeaderActions();
     }
 }

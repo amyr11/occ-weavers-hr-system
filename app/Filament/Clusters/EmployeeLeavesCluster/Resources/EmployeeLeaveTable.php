@@ -3,9 +3,11 @@
 namespace App\Filament\Clusters\EmployeeLeavesCluster\Resources;
 
 use App\Filament\Exports\EmployeeLeaveExporter;
+use App\Filament\Imports\EmployeeLeaveImporter;
 use Filament\Tables\Columns\ToggleColumn;
 use App\Models\EmployeeLeave;
 use Carbon\Carbon;
+use Filament\Actions\ImportAction;
 use Filament\Forms;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -27,6 +29,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Actions;
 
 
 class EmployeeLeaveTable
@@ -373,5 +376,15 @@ class EmployeeLeaveTable
 			->actions(EmployeeLeaveTable::getActions())
 			->actions(EmployeeLeaveTable::getActions(), position: ActionsPosition::BeforeColumns)
 			->bulkActions(EmployeeLeaveTable::getBulkActions());
+	}
+
+	public static function getHeaderActions()
+	{
+		return [
+			ImportAction::make()
+				->icon('heroicon-o-arrow-up-tray')
+				->importer(EmployeeLeaveImporter::class),
+			Actions\CreateAction::make(),
+		];
 	}
 }

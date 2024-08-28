@@ -3,6 +3,8 @@
 namespace App\Filament\Clusters\ProjectAssignmentsCluster\Resources;
 
 use App\Filament\Exports\ProjectAssignmentExporter;
+use App\Filament\Imports\ProjectAssignmentImporter;
+use Filament\Actions\ImportAction;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms;
@@ -21,6 +23,7 @@ use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Actions;
 
 class ProjectAssignmentTable
 {
@@ -186,5 +189,15 @@ class ProjectAssignmentTable
 			->filtersFormWidth(MaxWidth::TwoExtraLarge)
 			->actions(ProjectAssignmentTable::getActions(), position: ActionsPosition::BeforeColumns)
 			->bulkActions(ProjectAssignmentTable::getBulkActions());
+	}
+
+	public static function getHeaderActions(): array
+	{
+		return [
+			ImportAction::make()
+				->icon('heroicon-o-arrow-up-tray')
+				->importer(ProjectAssignmentImporter::class),
+			Actions\CreateAction::make(),
+		];
 	}
 }

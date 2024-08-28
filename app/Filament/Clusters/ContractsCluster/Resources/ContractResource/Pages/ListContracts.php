@@ -3,7 +3,7 @@
 namespace App\Filament\Clusters\ContractsCluster\Resources\ContractResource\Pages;
 
 use App\Filament\Clusters\ContractsCluster\Resources\ContractResource;
-use Filament\Actions;
+use App\Filament\Clusters\ContractsCluster\Resources\ContractTable;
 use Filament\Resources\Pages\ListRecords;
 
 class ListContracts extends ListRecords
@@ -12,8 +12,6 @@ class ListContracts extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        return ContractTable::getHeaderActions();
     }
 }

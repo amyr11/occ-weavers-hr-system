@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->integer('remaining_leave_days')->nullable();
-            $table->integer('visa_duration_in_days');
+            $table->integer('visa_duration_in_days')->nullable();
             $table->date('visa_expiration');
             $table->integer('visa_remaining_days')->nullable()->virtualAs('CASE WHEN CURDATE() >= start_date AND CURDATE() <= visa_expiration THEN DATEDIFF(visa_expiration, CURDATE()) ELSE NULL END');
             $table->string('contact_number')->nullable();

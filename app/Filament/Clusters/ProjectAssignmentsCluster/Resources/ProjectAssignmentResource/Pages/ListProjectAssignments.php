@@ -3,7 +3,7 @@
 namespace App\Filament\Clusters\ProjectAssignmentsCluster\Resources\ProjectAssignmentResource\Pages;
 
 use App\Filament\Clusters\ProjectAssignmentsCluster\Resources\ProjectAssignmentResource;
-use Filament\Actions;
+use App\Filament\Clusters\ProjectAssignmentsCluster\Resources\ProjectAssignmentTable;
 use Filament\Resources\Pages\ListRecords;
 
 class ListProjectAssignments extends ListRecords
@@ -12,8 +12,6 @@ class ListProjectAssignments extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        return ProjectAssignmentTable::getHeaderActions();
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveVisaExpiredResource\Pages;
 
+use App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveTable;
 use App\Filament\Clusters\EmployeeLeavesCluster\Resources\EmployeeLeaveVisaExpiredResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
 class ListEmployeeLeaveVisaExpireds extends ListRecords
@@ -12,8 +12,6 @@ class ListEmployeeLeaveVisaExpireds extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        return EmployeeLeaveTable::getHeaderActions();
     }
 }
