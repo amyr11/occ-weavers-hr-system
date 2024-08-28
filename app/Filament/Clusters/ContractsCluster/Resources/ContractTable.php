@@ -61,6 +61,13 @@ class ContractTable
 						->label('Job title')
 						->searchable()
 						->preload()
+						->createOptionForm(function () {
+							return [
+								Forms\Components\TextInput::make('job_title')
+									->label('Job title')
+									->required(),
+							];
+						})
 						->required(),
 					Grid::make([
 						'md' => 3,

@@ -76,6 +76,13 @@ class EmployeeTable
 						->schema([
 							Select::make('country_id')
 								->relationship('country', 'name')
+								->createOptionForm(function () {
+									return [
+										TextInput::make('name')
+											->label('Country')
+											->required(),
+									];
+								})
 								->searchable()
 								->required(),
 							TextInput::make('photo_link'),
@@ -89,10 +96,25 @@ class EmployeeTable
 						->schema([
 							Select::make('education_level_id')
 								->relationship('educationLevel', 'level')
+								->native(false)
+								->createOptionForm(function () {
+									return [
+										TextInput::make('level')
+											->label('Education Level')
+											->required(),
+									];
+								})
 								->required(),
 							Select::make('degree_id')
 								->relationship('degree', 'degree')
 								->searchable()
+								->createOptionForm(function () {
+									return [
+										TextInput::make('degree')
+											->label('Degree')
+											->required(),
+									];
+								})
 								->preload(),
 						]),
 					DatePicker::make('college_graduation_date')
@@ -187,6 +209,13 @@ class EmployeeTable
 								->relationship('insuranceClass', 'name')
 								->searchable()
 								->preload()
+								->createOptionForm(function () {
+									return [
+										TextInput::make('name')
+											->label('Insurance Class')
+											->required(),
+									];
+								})
 								->required(),
 						]),
 					Grid::make([

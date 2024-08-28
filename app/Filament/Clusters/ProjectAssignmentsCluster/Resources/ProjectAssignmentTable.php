@@ -61,6 +61,13 @@ class ProjectAssignmentTable
 								->relationship('project', 'project_name')
 								->searchable()
 								->preload()
+								->createOptionForm(function () {
+									return [
+										Forms\Components\TextInput::make('project_name')
+											->label('Project name')
+											->required(),
+									];
+								})
 								->required(),
 							Forms\Components\DatePicker::make('transfer_date')
 								->required(),
