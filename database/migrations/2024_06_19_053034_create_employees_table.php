@@ -23,11 +23,7 @@ return new class extends Migration
             $table->foreignId('project_id')->nullable()->constrained()->cascadeOnUpdate();
 
             // Personal Information
-            $table->string('first_name');
-            $table->string('middle_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('suffix')->nullable();
-            $table->string('full_name')->nullable()->virtualAs('CONCAT(first_name, " ", COALESCE(middle_name, ""), " ", last_name, CASE WHEN suffix IS NOT NULL AND suffix != "" THEN CONCAT(" ", suffix) ELSE "" END)');
+            $table->string('full_name');
             $table->date('birthdate')->nullable();
             $table->integer('age')->nullable()->virtualAs('TIMESTAMPDIFF(YEAR, birthdate, CURDATE())');
             $table->string('mobile_number')->nullable();

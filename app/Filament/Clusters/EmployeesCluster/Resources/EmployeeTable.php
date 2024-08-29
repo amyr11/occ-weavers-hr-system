@@ -53,13 +53,10 @@ class EmployeeTable
 						'md' => 3,
 					])
 						->schema([
-							DatePicker::make('birthdate')
-								->required(),
-							TextInput::make('mobile_number')
-								->required(),
+							DatePicker::make('birthdate'),
+							TextInput::make('mobile_number'),
 							TextInput::make('email')
-								->email()
-								->required(),
+								->email(),
 						]),
 					Grid::make([
 						'md' => 2,
@@ -67,15 +64,15 @@ class EmployeeTable
 						->schema([
 							Select::make('country_id')
 								->relationship('country', 'name')
+								->preload()
+								->native(false)
 								->createOptionForm(function () {
 									return [
 										TextInput::make('name')
-											->label('Country')
-											->required(),
+											->label('Country'),
 									];
 								})
-								->searchable()
-								->required(),
+								->searchable(),
 							TextInput::make('photo_link'),
 						]),
 				]),
@@ -88,28 +85,26 @@ class EmployeeTable
 							Select::make('education_level_id')
 								->relationship('educationLevel', 'level')
 								->native(false)
+								->preload()
 								->createOptionForm(function () {
 									return [
 										TextInput::make('level')
-											->label('Education Level')
-											->required(),
+											->label('Education Level'),
 									];
-								})
-								->required(),
+								}),
 							Select::make('degree_id')
 								->relationship('degree', 'degree')
 								->searchable()
+								->native(false)
 								->createOptionForm(function () {
 									return [
 										TextInput::make('degree')
-											->label('Degree')
-											->required(),
+											->label('Degree'),
 									];
 								})
 								->preload(),
 						]),
-					DatePicker::make('college_graduation_date')
-						->required(),
+					DatePicker::make('college_graduation_date'),
 				]),
 			Section::make('Government information')
 				->schema([
@@ -117,22 +112,18 @@ class EmployeeTable
 						'md' => 2,
 					])
 						->schema([
-							TextInput::make('labor_office_number')
-								->required(),
+							TextInput::make('labor_office_number'),
 							TextInput::make('iban_number')
-								->label('IBAN Number')
-								->required(),
+								->label('IBAN Number'),
 						]),
 					Grid::make([
 						'md' => 4,
 					])
 						->schema([
 							TextInput::make('iqama_number')
-								->label('IQAMA Number')
-								->required(),
+								->label('IQAMA Number'),
 							TextInput::make('iqama_job_title')
-								->label('IQAMA Job Title')
-								->required(),
+								->label('IQAMA Job Title'),
 							TextInput::make('iqama_expiration_hijri')
 								->label('IQAMA Expiration (Hijri)')
 								->placeholder('YYYY-MM-DD')
@@ -148,8 +139,7 @@ class EmployeeTable
 											$fail('The ' . $attribute . ' is not in the correct format.');
 										}
 									},
-								])
-								->required(),
+								]),
 							DatePicker::make('iqama_expiration_gregorian')
 								->label('IQAMA Expiration (Gregorian)')
 								->disabled()
@@ -159,20 +149,16 @@ class EmployeeTable
 						'md' => 3,
 					])
 						->schema([
-							TextInput::make('passport_number')
-								->required(),
-							DatePicker::make('passport_date_issue')
-								->required(),
-							DatePicker::make('passport_expiration')
-								->required(),
+							TextInput::make('passport_number'),
+							DatePicker::make('passport_date_issue'),
+							DatePicker::make('passport_expiration'),
 						]),
 					Grid::make([
 						'md' => 2,
 					])
 						->schema([
 							DatePicker::make('sce_expiration')
-								->label('SCE Expiration')
-								->required(),
+								->label('SCE Expiration'),
 						]),
 				]),
 			Section::make('Company information')
@@ -194,20 +180,18 @@ class EmployeeTable
 						'md' => 2,
 					])
 						->schema([
-							DatePicker::make('company_start_date')
-								->required(),
+							DatePicker::make('company_start_date'),
 							Select::make('insurance_class_id')
 								->relationship('insuranceClass', 'name')
 								->searchable()
 								->preload()
+								->native(false)
 								->createOptionForm(function () {
 									return [
 										TextInput::make('name')
-											->label('Insurance Class')
-											->required(),
+											->label('Insurance Class'),
 									];
-								})
-								->required(),
+								}),
 						]),
 					Grid::make([
 						'md' => 3,
@@ -233,12 +217,10 @@ class EmployeeTable
 					])
 						->schema([
 							TextInput::make('max_leave_days')
-								->default(21)
-								->required(),
+								->default(21),
 							TextInput::make('current_leave_days')
 								->placeholder('-')
-								->hiddenOn(['create'])
-								->required(),
+								->hiddenOn(['create']),
 						]),
 				]),
 		];
@@ -286,6 +268,7 @@ class EmployeeTable
 			->label('No.')
 			->toggleable()
 			->copyable()
+			->placeholder('-')
 			->searchable()
 			->sortable()
 			->searchable(isIndividual: true, isGlobal: false)
@@ -297,6 +280,7 @@ class EmployeeTable
 			->copyable()
 			->toggleable()
 			->searchable()
+			->placeholder('-')
 			->sortable()
 			->searchable(isIndividual: true, isGlobal: false)
 			->extraAttributes([
@@ -313,6 +297,7 @@ class EmployeeTable
 				default => 'gray',
 			})
 			->toggleable()
+			->placeholder('-')
 			->sortable();
 
 		$this->employeeJob_job_title = TextColumn::make('employeeJob.job_title')
@@ -332,16 +317,19 @@ class EmployeeTable
 		$this->country_name = TextColumn::make('country.name')
 			->label('Country')
 			->toggleable()
+			->placeholder('-')
 			->sortable();
 
 		$this->age = TextColumn::make('age')
 			->copyable()
 			->toggleable()
+			->placeholder('-')
 			->sortable();
 
 		$this->email = TextColumn::make('email')
 			->copyable()
 			->toggleable()
+			->placeholder('-')
 			->sortable()
 			->searchable(isIndividual: true, isGlobal: false)
 			->extraAttributes([
@@ -350,6 +338,7 @@ class EmployeeTable
 
 		$this->educationLevel_level = TextColumn::make('educationLevel.level')
 			->toggleable()
+			->placeholder('-')
 			->sortable();
 
 		$this->degree_degree = TextColumn::make('degree.degree')
@@ -359,12 +348,14 @@ class EmployeeTable
 
 		$this->college_graduation_date = TextColumn::make('college_graduation_date')
 			->toggleable()
+			->placeholder('-')
 			->copyable()
 			->sortable();
 
 		$this->mobile_number = TextColumn::make('mobile_number')
 			->label('Mobile no.')
 			->toggleable()
+			->placeholder('-')
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
 			->sortable()
@@ -377,6 +368,7 @@ class EmployeeTable
 			->toggleable()
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
+			->placeholder('-')
 			->sortable()
 			->extraAttributes([
 				'style' => 'min-width: 200px',
@@ -387,6 +379,7 @@ class EmployeeTable
 			->toggleable()
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
+			->placeholder('-')
 			->sortable()
 			->extraAttributes([
 				'style' => 'min-width: 200px',
@@ -397,6 +390,7 @@ class EmployeeTable
 			->toggleable()
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
+			->placeholder('-')
 			->sortable()
 			->extraAttributes([
 				'style' => 'min-width: 200px',
@@ -408,6 +402,7 @@ class EmployeeTable
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
 			->sortable()
+			->placeholder('-')
 			->extraAttributes([
 				'style' => 'min-width: 200px',
 			]);
@@ -416,6 +411,7 @@ class EmployeeTable
 			->label('IQAMA Expiration (Hijri)')
 			->toggleable()
 			->copyable()
+			->placeholder('-')
 			->sortable();
 
 		$this->iqama_expiration_gregorian = TextColumn::make('iqama_expiration_gregorian')
@@ -423,6 +419,7 @@ class EmployeeTable
 			->toggleable()
 			->copyable()
 			->date()
+			->placeholder('-')
 			->sortable();
 
 		$this->iqama_expiration_remaining_days = TextColumn::make('iqama_expiration_remaining_days')
@@ -438,6 +435,7 @@ class EmployeeTable
 			->toggleable()
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
+			->placeholder('-')
 			->sortable()
 			->extraAttributes([
 				'style' => 'min-width: 200px',
@@ -446,6 +444,7 @@ class EmployeeTable
 		$this->passport_date_issue = TextColumn::make('passport_date_issue')
 			->date()
 			->toggleable()
+			->placeholder('-')
 			->copyable()
 			->sortable();
 
@@ -453,24 +452,28 @@ class EmployeeTable
 			->date()
 			->toggleable()
 			->copyable()
+			->placeholder('-')
 			->sortable();
 
 		$this->sce_expiration = TextColumn::make('sce_expiration')
 			->label('SCE Expiration')
 			->toggleable()
 			->copyable()
+			->placeholder('-')
 			->date()
 			->sortable();
 
 		$this->insuranceClass_name = TextColumn::make('insuranceClass.name')
 			->copyable()
 			->toggleable()
+			->placeholder('-')
 			->sortable();
 
 		$this->company_start_date = TextColumn::make('company_start_date')
 			->date()
 			->toggleable()
 			->copyable()
+			->placeholder('-')
 			->sortable();
 
 		$this->electronic_contract_start_date = TextColumn::make('electronic_contract_start_date')
@@ -518,6 +521,7 @@ class EmployeeTable
 		$this->max_leave_days = TextColumn::make('max_leave_days')
 			->copyable()
 			->toggleable()
+			->placeholder('-')
 			->sortable();
 
 		$this->current_leave_days = TextColumn::make('current_leave_days')
@@ -529,11 +533,13 @@ class EmployeeTable
 		$this->created_at = TextColumn::make('created_at')
 			->copyable()
 			->toggleable()
+			->placeholder('-')
 			->sortable();
 
 		$this->updated_at = TextColumn::make('updated_at')
 			->copyable()
 			->toggleable()
+			->placeholder('-')
 			->sortable();
 	}
 

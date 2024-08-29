@@ -9,7 +9,7 @@ class EmployeeObserver
 {
     private function convertHijriDatesToGregorian(Employee $employee): void
     {
-        if ($employee->isDirty('iqama_expiration_hijri')) {
+        if ($employee->iqama_expiration_hijri & $employee->isDirty('iqama_expiration_hijri')) {
             // Convert Hijri dates to Gregorian dates
             $employee->iqama_expiration_gregorian = HijriUtil::toGregorian($employee->iqama_expiration_hijri);
         }
