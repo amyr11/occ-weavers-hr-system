@@ -35,28 +35,18 @@ class EmployeeTable
 	public static function getSchema()
 	{
 		return [
-			Grid::make([
-				'md' => 4,
-			])
-				->schema([
-					TextInput::make('employee_number')
-						->label('Employee no.')
-						->disabled()
-						->hiddenOn(['create']),
-				]),
 			Section::make('Personal Information')
 				->schema([
 					Grid::make([
-						'md' => 4,
+						'md' => 2,
 					])
 						->schema([
-							TextInput::make('first_name')
+							TextInput::make('employee_number')
+								->label('Employee no.')
+								->disabled()
+								->hiddenOn(['create']),
+							TextInput::make('full_name')
 								->required(),
-							TextInput::make('middle_name')
-								->required(),
-							TextInput::make('last_name')
-								->required(),
-							TextInput::make('suffix'),
 						]),
 					Grid::make([
 						'md' => 3,
