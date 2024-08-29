@@ -18,9 +18,9 @@
 
 		<!-- Employee information header -->
 		<div class="mb-5 flex items-center justify-between rounded-md bg-[#086A38] p-2 text-white">
-			<p class="w-40 text-left text-xs font-light ml-2">{{ \Carbon\Carbon::now()->format('l, F j, Y') }}</p>
+			<p class="w-40 text-left text-xs font-light ml-2">{{ \Carbon\Carbon::now()->format('D, F j, Y') }}</p>
 			<h1 class="w-52 text-center text-sm font-medium">Employee Information</h1>
-			<p class="w-40 text-right text-xs font-light mr-2">{{ $employee->country->name }}</p>
+			<p class="w-40 text-right text-xs font-light mr-2">{{ $employee->country?->name}}</p>
 		</div>
 
 		<!-- Employee photo -->
@@ -66,61 +66,61 @@
 		<div class="mb-2 grid grid-cols-3 gap-2">
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">IQAMA no.</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iqama_number }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iqama_number ?? '-' }}</p>
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">IQAMA expiration (Hijri)</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iqama_expiration_hijri }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iqama_expiration_hijri ?? '-' }}</p>
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">IQAMA expiration (Gregorian)</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iqama_expiration_gregorian->format('Y-m-d') }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iqama_expiration_gregorian?->format('Y-m-d') ?? '-' }}</p>
 			</div>
 		</div>
 		<div class="mb-2 grid grid-cols-2 gap-2">
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Passport no.</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->passport_number }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->passport_number ?? '-' }}</p>
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Passport expiration</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->passport_expiration->format('Y-m-d') }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->passport_expiration?->format('Y-m-d') ?? '-' }}</p>
 			</div>
 		</div>
 		<div class="mb-2 grid grid-cols-3 gap-2">
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Employment start</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->company_start_date->format('Y-m-d') }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->company_start_date?->format('Y-m-d') ?? '-' }}</p>
 			</div>
 			<div class="grid grid-cols-4 gap-2">
 				<div class="col-span-3">
 					<label class="mb-2 block text-xs font-medium text-zinc-600">Birthdate</label>
-					<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->birthdate->format('Y-m-d') }}</p>
+					<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->birthdate?->format('Y-m-d') ?? '-' }}</p>
 				</div>
 				<div>
 					<label class="mb-2 block text-xs font-medium text-zinc-600">Age</label>
-					<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->age }}</p>
+					<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->age ?? '-' }}</p>
 				</div>
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Insurance</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->insuranceClass->name  }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->insuranceClass?->name ?? '-' }}</p>
 			</div>
 		</div>
 		<div class="mb-2 grid grid-cols-2 gap-2">
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Education level</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->educationLevel->level }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->educationLevel?->level ?? '-' }}</p>
 			</div>
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">Degree (if applicable)</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->degree->degree ?? '-' }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->degree?->degree ?? '-' }}</p>
 			</div>
 		</div>
 		<div class="mb-2 grid grid-cols-2 gap-2">
 			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">IBAN no.</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iban_number }}</p>
+				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iban_number ?? '-' }}</p>
 			</div>
 		</div>
 	</div>
@@ -133,6 +133,9 @@
 	</div>
 
 	<!-- Contract history table -->
+	@if ($employee->contracts->isEmpty())
+	<p class="text-center text-sm text-gray-500 mb-5">No contract history available.</p>
+	@else
 	<table class="mt-5 w-full mb-5">
 		<thead>
 			<tr class="bg-[#f0f7f2] text-[#086A38]">
@@ -145,16 +148,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach ($employee->contracts->sortByDesc('start_date') as $contract)
+			@foreach ($employee->contracts?->sortByDesc('start_date') as $contract)
 			<tr class="border-b border-gray-300">
 				<td class="px-2 py-2 text-xs text-black">
-					<span class="text-[10px] font-bold text-zinc-400">Electronic contract start:</span><br /> {{ $contract->start_date->format('Y-m-d')}}<br />
-					<span class="text-[10px] font-bold text-zinc-400">Electronic contract end:</span><br /> {{ $contract->end_date->format('Y-m-d')}}<br />
-					<span class="text-[10px] font-bold text-zinc-400">Paper contract end:</span><br /> {{ $contract->paper_contract_end_date ? $contract->paper_contract_end_date->format('Y-m-d') : '-' }}<br />
+					<span class="text-[10px] font-bold text-zinc-400">Electronic contract start:</span><br /> {{ $contract->start_date?->format('Y-m-d') ?? '-' }}<br />
+					<span class="text-[10px] font-bold text-zinc-400">Electronic contract end:</span><br /> {{ $contract->end_date?->format('Y-m-d') ?? '-' }}<br />
+					<span class="text-[10px] font-bold text-zinc-400">Paper contract end:</span><br /> {{ $contract->paper_contract_end_date?->format('Y-m-d') ?? '-' }}<br />
 				</td>
-				<td class="px-2 py-2 text-xs font-bold text-black">{{ $contract->duration_string }}</td>
-				<td class="px-2 py-2 text-xs text-black">{{ $contract->employeeJob->job_title }}</td>
-				<td class="px-2 py-2 text-xs text-black">{{ $contract->basic_salary }} <span class="text-[#086A38] font-medium text-[9px]">SAR</span></td>
+				<td class="px-2 py-2 text-xs font-bold text-black">{{ $contract->duration_string ?? '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $contract->employeeJob?->job_title ?? '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $contract->basic_salary ?? '-' }} <span class="text-[#086A38] font-medium text-[9px]">SAR</span></td>
 				<td class="px-2 py-2 text-xs text-black">
 					<span class="text-[10px] font-bold text-zinc-400">Housing:</span><br /> {{ $contract->housing_allowance ?? '-' }} <span class="text-[#086A38] font-medium text-[9px]">SAR</span><br />
 					<span class="text-[10px] font-bold text-zinc-400">Transportation:</span><br /> {{ $contract->transportation_allowance ?? '-' }} <span class="text-[#086A38] font-medium text-[9px]">SAR</span><br />
@@ -165,6 +168,7 @@
 			@endforeach
 		</tbody>
 	</table>
+	@endif
 
 	<!-- @pageBreak -->
 
@@ -174,6 +178,9 @@
 	</div>
 
 	<!-- Transfer history table -->
+	@if ($employee->projectAssignments->isEmpty())
+	<p class="text-center text-sm text-gray-500 mb-5">No transfer history available.</p>
+	@else
 	<table class="w-full mt-5 mb-5">
 		<thead>
 			<tr class="bg-[#f0f7f2] text-[#086A38]">
@@ -183,15 +190,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach ($employee->projectAssignments->sortByDesc('transfer_date') as $projectAssignment)
+			@foreach ($employee->projectAssignments?->sortByDesc('transfer_date') as $projectAssignment)
 			<tr class="border-b border-gray-300">
-				<td class="px-2 py-2 text-xs text-black">{{ $projectAssignment->transfer_date->format('Y-m-d') }}</td>
-				<td class="px-2 py-2 text-xs text-black">{{ $projectAssignment->from_project ? $projectAssignment->from_project->project_name : '-'}}</td>
-				<td class="px-2 py-2 text-xs text-black font-bold">{{ $projectAssignment->project->project_name }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $projectAssignment->transfer_date?->format('Y-m-d') ?? '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $projectAssignment->from_project?->project_name ?? '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black font-bold">{{ $projectAssignment->project?->project_name ?? '-' }}</td>
 			</tr>
 			@endforeach
 		</tbody>
 	</table>
+	@endif
 
 	<!-- @pageBreak -->
 
@@ -201,6 +209,9 @@
 	</div>
 
 	<!-- Leave history table -->
+	@if ($employee->leaves->isEmpty())
+	<p class="text-center text-sm text-gray-500 mb-5">No leave history available.</p>
+	@else
 	<table class="w-full mt-5">
 		<thead>
 			<tr class="bg-[#f0f7f2] text-[#086A38]">
@@ -211,19 +222,20 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach ($employee->leaves->sortByDesc('start_date') as $leave)
+			@foreach ($employee->leaves?->sortByDesc('start_date') as $leave)
 			<tr class="border-b border-gray-300">
 				<td class="px-2 py-2 text-xs text-black">
-					<span class="text-[10px] font-bold text-zinc-400">Departure:</span><br /> {{ $leave->start_date->format('Y-m-d') }}<br />
-					<span class="text-[10px] font-bold text-zinc-400">Return:</span><br /> {{ $leave->end_date->format('Y-m-d') }}<br />
+					<span class="text-[10px] font-bold text-zinc-400">Departure:</span><br /> {{ $leave->start_date?->format('Y-m-d') ?? '-' }}<br />
+					<span class="text-[10px] font-bold text-zinc-400">Return:</span><br /> {{ $leave->end_date?->format('Y-m-d') ?? '-' }}<br />
 				</td>
-				<td class="px-2 py-2 text-xs text-black">{{ $leave->visa_expiration->format('Y-m-d') }}</td>
-				<td class="px-2 py-2 text-xs text-black font-bold">{{ $leave->duration_in_days . Illuminate\Support\Pluralizer::plural(' day', $leave->duration_in_days) }}</td>
-				<td class="px-2 py-2 text-xs text-black">{{ $leave->remaining_leave_days . Illuminate\Support\Pluralizer::plural(' day', $leave->remaining_leave_days) }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $leave->visa_expiration?->format('Y-m-d') ?? '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black font-bold">{{ $leave->duration_in_days ? $leave->duration_in_days . Illuminate\Support\Pluralizer::plural(' day', $leave->duration_in_days) : '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $leave->remaining_leave_days ? $leave->remaining_leave_days . Illuminate\Support\Pluralizer::plural(' day', $leave->remaining_leave_days) : '-' }}</td>
 			</tr>
 			@endforeach
 		</tbody>
 	</table>
+	@endif
 </body>
 
 </html>

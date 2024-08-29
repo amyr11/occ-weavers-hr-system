@@ -38,15 +38,16 @@ class EmployeeTable
 			Section::make('Personal Information')
 				->schema([
 					Grid::make([
-						'md' => 2,
+						'md' => 3,
 					])
 						->schema([
+							TextInput::make('full_name')
+								->columnSpan(2)
+								->required(),
 							TextInput::make('employee_number')
 								->label('Employee no.')
 								->disabled()
 								->hiddenOn(['create']),
-							TextInput::make('full_name')
-								->required(),
 						]),
 					Grid::make([
 						'md' => 3,
