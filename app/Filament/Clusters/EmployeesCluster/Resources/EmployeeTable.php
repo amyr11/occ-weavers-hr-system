@@ -83,7 +83,6 @@ class EmployeeTable
 									];
 								})
 								->searchable(),
-							TextInput::make('photo_link'),
 						]),
 				]),
 			Section::make('Education')

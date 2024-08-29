@@ -25,8 +25,8 @@
 
 		<!-- Employee photo -->
 		<div class="col-span-1 mx-auto mb-5 h-40 w-32">
-			@if ($employee->photo_link)
-			<img src="{{ $employee->photo_link }}" alt="Employee Photo" class="h-full w-full rounded-md object-cover" />
+			@if ($employee->image)
+			<img src="{{ public_path('/storage/' . $employee->image ) }}" alt="Employee Photo" class="h-full w-full rounded-md object-cover" />
 			@else
 			<img src="https://placehold.co/40x60" alt="Employee Photo" class="h-full w-full rounded-md object-cover" />
 			@endif
