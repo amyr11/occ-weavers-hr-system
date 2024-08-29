@@ -74,10 +74,10 @@ class EmployeeImporter extends Importer
 
     public function resolveRecord(): ?Employee
     {
-        // return Employee::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
+        return Employee::firstOrNew([
+            // Update existing records, matching them by `$this->data['column_name']`
+            'employee_number' => $this->data['employee_number'],
+        ]);
 
         return new Employee();
     }
