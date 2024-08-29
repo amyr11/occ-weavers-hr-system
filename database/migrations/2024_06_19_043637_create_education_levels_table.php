@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('education_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('level');
+            $table->string('level')->unique();
             $table->timestamps();
         });
     }
