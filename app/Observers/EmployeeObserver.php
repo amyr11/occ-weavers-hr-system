@@ -40,6 +40,14 @@ class EmployeeObserver
         }
     }
 
+    private function deleteImage(Employee $employee): void
+    {
+        // Delete the image if it exists
+        if ($employee->isDirty('image') && $employee->image === null) {
+            unlink(public_path('storage/' . $employee->getOriginal('image')));
+        }
+    }
+
     /**
      * Handle the Employee "created" event.
      */
@@ -57,6 +65,7 @@ class EmployeeObserver
     {
         $this->updateStatusDates($employee);
         $this->convertHijriDatesToGregorian($employee);
+        $this->deleteImage($employee);
 
         $employee->saveQuietly();
     }
@@ -66,7 +75,7 @@ class EmployeeObserver
      */
     public function deleted(Employee $employee): void
     {
-        //
+        $this->deleteImage($employee);
     }
 
     /**
@@ -82,6 +91,6 @@ class EmployeeObserver
      */
     public function forceDeleted(Employee $employee): void
     {
-        //
+        $this->deleteImage($employee);
     }
 }

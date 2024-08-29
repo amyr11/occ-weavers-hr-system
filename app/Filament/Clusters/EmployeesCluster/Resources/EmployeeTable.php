@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Pluralizer;
 use Filament\Actions;
+use Filament\Forms\Components\FileUpload;
 
 class EmployeeTable
 {
@@ -38,6 +39,14 @@ class EmployeeTable
 		return [
 			Section::make('Personal Information')
 				->schema([
+					FileUpload::make('image')
+						->image()
+						->imageEditor()
+						->moveFiles()
+						->directory('employee-images')
+						->visibility('private')
+						->maxSize(7000)
+						->previewable(),
 					Grid::make([
 						'md' => 3,
 					])
