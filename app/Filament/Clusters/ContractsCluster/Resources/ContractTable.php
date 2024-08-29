@@ -10,6 +10,7 @@ use Filament\Forms;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use App\Models\Contract;
+use App\Utils\TableUtil;
 use Filament\Actions\ImportAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\MaxWidth;
@@ -315,6 +316,60 @@ class ContractTable
 	{
 		return [
 			Tables\Actions\DeleteBulkAction::make(),
+			Tables\Actions\BulkActionGroup::make([
+				TableUtil::getUpdateBulkAction(
+					column: 'employee_job_id',
+					icon: 'heroicon-o-briefcase',
+					label: 'Job Title',
+					form: [
+						Forms\Components\Select::make('employee_job_id')
+							->relationship('employeeJob', 'job_title')
+							->label('Job title')
+							->searchable()
+							->preload()
+							->createOptionForm(function () {
+								return [
+									Forms\Components\TextInput::make('job_title')
+										->label('Job title')
+										->required(),
+								];
+							})
+							->required(),
+					],
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'housing_allowance',
+					icon: 'heroicon-o-home',
+					label: 'Housing Allowance',
+					form: [
+						Forms\Components\TextInput::make('housing_allowance')
+							->prefix('SAR')
+							->numeric(),
+					],
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'transportation_allowance',
+					icon: 'heroicon-o-truck',
+					label: 'Transportation Allowance',
+					form: [
+						Forms\Components\TextInput::make('transportation_allowance')
+							->prefix('SAR')
+							->numeric(),
+					],
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'food_allowance',
+					icon: 'heroicon-o-shopping-cart',
+					label: 'Food Allowance',
+					form: [
+						Forms\Components\TextInput::make('food_allowance')
+							->prefix('SAR')
+							->numeric(),
+					],
+				),
+			])
+				->label('Edit')
+				->icon('heroicon-o-pencil'),
 			ExportBulkAction::make()
 				->icon('heroicon-o-arrow-down-tray')
 				->exporter(ContractExporter::class),

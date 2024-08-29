@@ -4,6 +4,7 @@ namespace App\Filament\Clusters\ProjectAssignmentsCluster\Resources;
 
 use App\Filament\Exports\ProjectAssignmentExporter;
 use App\Filament\Imports\ProjectAssignmentImporter;
+use App\Utils\TableUtil;
 use Filament\Actions\ImportAction;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -180,6 +181,29 @@ class ProjectAssignmentTable
 	{
 		return [
 			Tables\Actions\DeleteBulkAction::make(),
+			Tables\Actions\BulkActionGroup::make([
+				TableUtil::getUpdateBulkAction(
+					column: 'project_id',
+					icon: 'heroicon-o-building-office-2',
+					label: 'Project',
+					form: [
+						Forms\Components\Select::make('project_id')
+							->relationship('project', 'project_name')
+							->searchable()
+							->preload()
+							->createOptionForm(function () {
+								return [
+									Forms\Components\TextInput::make('project_name')
+										->label('Project name')
+										->required(),
+								];
+							})
+							->required(),
+					],
+				),
+			])
+				->label('Edit')
+				->icon('heroicon-o-pencil'),
 			ExportBulkAction::make()
 				->icon('heroicon-o-arrow-down-tray')
 				->exporter(ProjectAssignmentExporter::class),

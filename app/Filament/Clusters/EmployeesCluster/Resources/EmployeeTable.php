@@ -5,6 +5,7 @@ namespace App\Filament\Clusters\EmployeesCluster\Resources;
 use App\Filament\Exports\EmployeeExporter;
 use App\Filament\Imports\EmployeeImporter;
 use App\Models\Employee;
+use App\Utils\TableUtil;
 use Closure;
 use Filament\Actions\ImportAction;
 use Filament\Forms\Components\DatePicker;
@@ -217,9 +218,10 @@ class EmployeeTable
 					])
 						->schema([
 							TextInput::make('max_leave_days')
+								->numeric()
 								->default(21),
 							TextInput::make('current_leave_days')
-								->placeholder('-')
+								->numeric()
 								->hiddenOn(['create']),
 						]),
 				]),
@@ -738,9 +740,134 @@ class EmployeeTable
 		return [
 			Tables\Actions\DeleteBulkAction::make(),
 			Tables\Actions\BulkActionGroup::make([
-				self::getUpdateBulkAction('final_exit_date', 'heroicon-o-calendar', 'Final Exit Date'),
-				self::getUpdateBulkAction('visa_expired_date', 'heroicon-o-calendar', 'Visa Expired Date'),
-				self::getUpdateBulkAction('transferred_date', 'heroicon-o-calendar', 'Transferred Date'),
+				TableUtil::getUpdateBulkAction(
+					column: 'final_exit_date',
+					icon: 'heroicon-o-calendar',
+					color: 'danger',
+					label: 'Mark as Final Exit',
+					form: [
+						DatePicker::make('final_exit_date')
+							->label('Final Exit Date')
+							->required(),
+					]
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'visa_expired_date',
+					color: 'warning',
+					icon: 'heroicon-o-calendar',
+					label: 'Mark as Visa Expired',
+					form: [
+						DatePicker::make('visa_expired_date')
+							->label('Visa Expired Date')
+							->required(),
+					]
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'transferred_date',
+					color: 'info',
+					icon: 'heroicon-o-calendar',
+					label: 'Mark as Transferred',
+					form: [
+						DatePicker::make('transferred_date')
+							->label('Transferred Date')
+							->required(),
+					]
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'mark_as_active',
+					color: 'primary',
+					icon: 'heroicon-o-check-circle',
+					label: 'Mark as Active',
+					action: function ($records, array $data): void {
+						foreach ($records as $record) {
+							$record->update([
+								'final_exit_date' => null,
+								'visa_expired_date' => null,
+								'transferred_date' => null,
+							]);
+						}
+					}
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'country_id',
+					icon: 'heroicon-o-flag',
+					label: 'Country',
+					form: [
+						Select::make('country_id')
+							->relationship('country', 'name')
+							->preload()
+							->native(false)
+							->createOptionForm(function () {
+								return [
+									TextInput::make('name')
+										->label('Country'),
+								];
+							})
+							->searchable(),
+					]
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'insurance_class_id',
+					icon: 'heroicon-o-lifebuoy',
+					label: 'Insurance Class',
+					form: [
+						Select::make('insurance_class_id')
+							->relationship('insuranceClass', 'name')
+							->searchable()
+							->preload()
+							->native(false)
+							->createOptionForm(function () {
+								return [
+									TextInput::make('name')
+										->label('Insurance Class'),
+								];
+							}),
+					]
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'education_level_id',
+					icon: 'heroicon-o-academic-cap',
+					label: 'Education Level',
+					form: [
+						Select::make('education_level_id')
+							->relationship('educationLevel', 'level')
+							->native(false)
+							->preload()
+							->createOptionForm(function () {
+								return [
+									TextInput::make('level')
+										->label('Education Level'),
+								];
+							}),
+					]
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'degree_id',
+					icon: 'heroicon-o-academic-cap',
+					label: 'Degree',
+					form: [
+						Select::make('degree_id')
+							->relationship('degree', 'degree')
+							->searchable()
+							->native(false)
+							->createOptionForm(function () {
+								return [
+									TextInput::make('degree')
+										->label('Degree'),
+								];
+							})
+							->preload(),
+					]
+				),
+				TableUtil::getUpdateBulkAction(
+					column: 'max_leave_days',
+					icon: 'heroicon-o-calendar-days',
+					label: 'Max Leave Days',
+					form: [
+						TextInput::make('max_leave_days')
+							->numeric(),
+					]
+				),
 			])
 				->label('Edit')
 				->icon('heroicon-o-pencil'),
@@ -748,23 +875,6 @@ class EmployeeTable
 				->icon('heroicon-o-arrow-down-tray')
 				->exporter(EmployeeExporter::class),
 		];
-	}
-
-	private static function getUpdateBulkAction($column, $icon, $label, $action = null): Tables\Actions\BulkAction
-	{
-		return Tables\Actions\BulkAction::make($column)
-			->label($label)
-			->requiresConfirmation()
-			->icon($icon)
-			->deselectRecordsAfterCompletion()
-			->action($action ?? function ($records, array $data): void {
-				foreach ($records as $record) {
-					$record->update($data);
-				}
-			})
-			->form(fn($records) => [
-				DatePicker::make($column)
-			]);
 	}
 
 	public static function getTable(Table $table, ?array $columns = null): Table

@@ -6,6 +6,7 @@ use App\Filament\Exports\EmployeeLeaveExporter;
 use App\Filament\Imports\EmployeeLeaveImporter;
 use Filament\Tables\Columns\ToggleColumn;
 use App\Models\EmployeeLeave;
+use App\Utils\TableUtil;
 use Carbon\Carbon;
 use Filament\Actions\ImportAction;
 use Filament\Forms;
@@ -30,7 +31,8 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Actions;
-
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 
 class EmployeeLeaveTable
 {
@@ -288,23 +290,28 @@ class EmployeeLeaveTable
 	{
 		return [
 			Tables\Actions\DeleteBulkAction::make(),
-			Tables\Actions\BulkAction::make('Mark as arrived')
-				->requiresConfirmation()
-				->icon('heroicon-o-check-circle')
-				->deselectRecordsAfterCompletion()
-				->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => true]))),
-			Tables\Actions\BulkAction::make('Mark as visa expired')
-				->requiresConfirmation()
-				->color('warning')
-				->icon('heroicon-o-exclamation-circle')
-				->deselectRecordsAfterCompletion()
-				->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['visa_expired' => true]))),
-			Tables\Actions\BulkAction::make('Clear status')
-				->requiresConfirmation()
-				->color('gray')
-				->icon('heroicon-o-arrow-uturn-down')
-				->deselectRecordsAfterCompletion()
-				->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => false, 'visa_expired' => false]))),
+			Tables\Actions\BulkActionGroup::make([
+				Tables\Actions\BulkAction::make('Mark as arrived')
+					->requiresConfirmation()
+					->color('info')
+					->icon('heroicon-o-check-circle')
+					->deselectRecordsAfterCompletion()
+					->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => true]))),
+				Tables\Actions\BulkAction::make('Mark as visa expired')
+					->requiresConfirmation()
+					->color('danger')
+					->icon('heroicon-o-exclamation-triangle')
+					->deselectRecordsAfterCompletion()
+					->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['visa_expired' => true]))),
+				Tables\Actions\BulkAction::make('Clear status')
+					->requiresConfirmation()
+					->color('gray')
+					->icon('heroicon-o-arrow-uturn-down')
+					->deselectRecordsAfterCompletion()
+					->action(fn(Collection $records) => $records->each(fn($record) => $record->update(['arrived' => false, 'visa_expired' => false]))),
+			])
+				->label('Change status')
+				->icon('heroicon-o-check-circle'),
 			ExportBulkAction::make()
 				->icon('heroicon-o-arrow-down-tray')
 				->exporter(EmployeeLeaveExporter::class),
