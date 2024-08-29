@@ -27,21 +27,21 @@ return new class extends Migration
             $table->date('birthdate')->nullable();
             $table->integer('age')->nullable()->virtualAs('TIMESTAMPDIFF(YEAR, birthdate, CURDATE())');
             $table->string('mobile_number')->nullable();
-            $table->string('email')->nullable()->unique();
+            $table->string('email')->nullable();
             $table->string('photo_link')->nullable();
 
             // Education
             $table->date('college_graduation_date')->nullable();
 
             // Government information
-            $table->string('labor_office_number')->nullable()->unique();
-            $table->string('iban_number')->nullable()->unique();
-            $table->string('iqama_number')->nullable()->unique();
+            $table->string('labor_office_number')->nullable();
+            $table->string('iban_number')->nullable();
+            $table->string('iqama_number')->nullable();
             $table->string('iqama_job_title')->nullable();
             $table->string('iqama_expiration_hijri')->nullable();
             $table->date('iqama_expiration_gregorian')->nullable();
             $table->integer('iqama_expiration_remaining_days')->nullable()->virtualAs('CASE WHEN CURDATE() <= iqama_expiration_gregorian THEN DATEDIFF(iqama_expiration_gregorian, CURDATE()) ELSE NULL END');
-            $table->string('passport_number')->nullable()->unique();
+            $table->string('passport_number')->nullable();
             $table->date('passport_date_issue')->nullable();
             $table->date('passport_expiration')->nullable();
             $table->date('sce_expiration')->nullable();
