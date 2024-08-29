@@ -16,76 +16,50 @@ class EmployeeImporter extends Importer
         return [
             ImportColumn::make('employee_number')
                 ->rules(['nullable', 'integer']),
-            ImportColumn::make('first_name')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
-            ImportColumn::make('middle_name')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
-            ImportColumn::make('last_name')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
-            ImportColumn::make('suffix')
-                ->rules(['max:255']),
-            ImportColumn::make('country_id')
-                ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
-            ImportColumn::make('insurance_class_id')
-                ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
-            ImportColumn::make('education_level_id')
-                ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
-            ImportColumn::make('degree_id')
-                ->numeric()
-                ->rules(['integer']),
+            ImportColumn::make('full_name')
+                ->rules(['nullable', 'max:255']),
+            ImportColumn::make('country')
+                ->relationship(resolveUsing: 'name')
+                ->rules(['nullable']),
+            ImportColumn::make('insuranceClass')
+                ->relationship(resolveUsing: 'name')
+                ->rules(['nullable']),
+            ImportColumn::make('educationLevel')
+                ->relationship(resolveUsing: 'level')
+                ->rules(['nullable']),
+            ImportColumn::make('degree')
+                ->relationship(resolveUsing: 'degree')
+                ->rules(['nullable']),
             ImportColumn::make('birthdate')
-                ->requiredMapping()
-                ->rules(['required', 'date']),
+                ->rules(['nullable', 'date']),
             ImportColumn::make('mobile_number')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->rules(['nullable', 'max:255']),
             ImportColumn::make('email')
-                ->requiredMapping()
-                ->rules(['required', 'email', 'max:255']),
+                ->rules(['nullable', 'email', 'max:255']),
             ImportColumn::make('photo_link')
-                ->rules(['max:255']),
+                ->rules(['nullable', 'max:255']),
             ImportColumn::make('college_graduation_date')
-                ->requiredMapping()
-                ->rules(['required', 'date']),
+                ->rules(['nullable', 'date']),
             ImportColumn::make('labor_office_number')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->rules(['nullable', 'max:255']),
             ImportColumn::make('iban_number')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->rules(['nullable', 'max:255']),
             ImportColumn::make('iqama_number')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->rules(['nullable', 'max:255']),
             ImportColumn::make('iqama_job_title')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->rules(['nullable', 'max:255']),
             ImportColumn::make('iqama_expiration_hijri')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->rules(['nullable', 'max:255']),
             ImportColumn::make('passport_number')
-                ->requiredMapping()
-                ->rules(['required', 'max:255']),
+                ->rules(['nullable', 'max:255']),
             ImportColumn::make('passport_date_issue')
-                ->requiredMapping()
-                ->rules(['required', 'date']),
+                ->rules(['nullable', 'date']),
             ImportColumn::make('passport_expiration')
-                ->requiredMapping()
-                ->rules(['required', 'date']),
+                ->rules(['nullable', 'date']),
             ImportColumn::make('sce_expiration')
-                ->requiredMapping()
-                ->rules(['required', 'date']),
+                ->rules(['nullable', 'date']),
             ImportColumn::make('company_start_date')
-                ->requiredMapping()
-                ->rules(['required', 'date']),
+                ->rules(['nullable', 'date']),
             ImportColumn::make('final_exit_date')
                 ->rules(['nullable', 'date']),
             ImportColumn::make('visa_expired_date')
@@ -93,9 +67,8 @@ class EmployeeImporter extends Importer
             ImportColumn::make('transferred_date')
                 ->rules(['nullable', 'date']),
             ImportColumn::make('max_leave_days')
-                ->requiredMapping()
                 ->numeric()
-                ->rules(['required', 'integer']),
+                ->rules(['nullable', 'integer']),
         ];
     }
 
