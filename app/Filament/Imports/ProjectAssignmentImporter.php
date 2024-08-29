@@ -18,10 +18,10 @@ class ProjectAssignmentImporter extends Importer
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
-            ImportColumn::make('project_id')
+            ImportColumn::make('project')
                 ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+                ->relationship(resolveUsing: 'project_name')
+                ->rules(['required']),
             ImportColumn::make('transfer_date')
                 ->requiredMapping()
                 ->rules(['required', 'date']),

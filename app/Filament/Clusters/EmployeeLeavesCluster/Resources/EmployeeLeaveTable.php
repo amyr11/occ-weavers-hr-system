@@ -162,7 +162,6 @@ class EmployeeLeaveTable
 		$this->employee_number = Tables\Columns\TextColumn::make('employee_number')
 			->toggleable()
 			->label('Employee no.')
-			->numeric()
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
 			->sortable();

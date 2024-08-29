@@ -18,10 +18,8 @@ class ContractImporter extends Importer
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
-            ImportColumn::make('employee_job_id')
-                ->requiredMapping()
-                ->numeric()
-                ->rules(['required', 'integer']),
+            ImportColumn::make('employeeJob')
+                ->relationship(resolveUsing: 'job_title'),
             ImportColumn::make('start_date')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
