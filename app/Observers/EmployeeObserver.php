@@ -43,7 +43,7 @@ class EmployeeObserver
     private function deleteImage(Employee $employee): void
     {
         // Delete the image if it exists
-        if ($employee->isDirty('image') && $employee->image === null) {
+        if ($employee->isDirty('image') && $employee->getOriginal('image') != null) {
             unlink(public_path('storage/' . $employee->getOriginal('image')));
         }
     }
