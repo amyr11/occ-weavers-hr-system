@@ -2,6 +2,7 @@
 
 namespace App\Filament\Exports;
 
+use App\Filament\Exports\Utils\DateExportColumn;
 use App\Models\Employee;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
@@ -25,24 +26,25 @@ class EmployeeExporter extends Exporter
             ExportColumn::make('insuranceClass.name'),
             ExportColumn::make('educationLevel.level'),
             ExportColumn::make('degree.degree'),
-            ExportColumn::make('birthdate'),
+            DateExportColumn::make('birthdate'),
             ExportColumn::make('age'),
             ExportColumn::make('mobile_number'),
             ExportColumn::make('email'),
-            ExportColumn::make('college_graduation_date'),
+            DateExportColumn::make('college_graduation_date'),
             ExportColumn::make('labor_office_number'),
             ExportColumn::make('iban_number'),
             ExportColumn::make('iqama_number'),
             ExportColumn::make('iqama_job_title'),
-            ExportColumn::make('iqama_expiration'),
+            ExportColumn::make('iqama_expiration_hijri'),
+            DateExportColumn::make('iqama_expiration_gregorian'),
             ExportColumn::make('passport_number'),
-            ExportColumn::make('passport_date_issue'),
-            ExportColumn::make('passport_expiration'),
-            ExportColumn::make('sce_expiration'),
-            ExportColumn::make('company_start_date'),
-            ExportColumn::make('final_exit_date'),
-            ExportColumn::make('visa_expired_date'),
-            ExportColumn::make('transferred_date'),
+            DateExportColumn::make('passport_date_issue'),
+            DateExportColumn::make('passport_expiration'),
+            DateExportColumn::make('sce_expiration'),
+            DateExportColumn::make('company_start_date'),
+            DateExportColumn::make('final_exit_date'),
+            DateExportColumn::make('visa_expired_date'),
+            DateExportColumn::make('transferred_date'),
             ExportColumn::make('max_leave_days'),
             ExportColumn::make('current_leave_days'),
             ExportColumn::make('created_at'),

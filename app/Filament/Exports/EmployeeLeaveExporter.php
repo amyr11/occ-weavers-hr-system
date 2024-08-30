@@ -2,6 +2,7 @@
 
 namespace App\Filament\Exports;
 
+use App\Filament\Exports\Utils\DateExportColumn;
 use App\Models\EmployeeLeave;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
@@ -20,13 +21,13 @@ class EmployeeLeaveExporter extends Exporter
                 ->label('Employee name'),
             ExportColumn::make('contact_number'),
             ExportColumn::make('status'),
-            ExportColumn::make('start_date')
+            DateExportColumn::make('start_date')
                 ->label('Departure date'),
-            ExportColumn::make('end_date')
+            DateExportColumn::make('end_date')
                 ->label('Return date'),
             ExportColumn::make('duration_in_days'),
             ExportColumn::make('remaining_leave_days'),
-            ExportColumn::make('visa_expiration'),
+            DateExportColumn::make('visa_expiration'),
             ExportColumn::make('visa_duration_in_days'),
             ExportColumn::make('visa_remaining_days'),
             ExportColumn::make('arrived'),

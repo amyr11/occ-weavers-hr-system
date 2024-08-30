@@ -6,6 +6,7 @@ use App\Filament\Exports\EmployeeExporter;
 use App\Filament\Imports\EmployeeImporter;
 use App\Models\Employee;
 use App\Utils\TableUtil;
+use Carbon\Carbon;
 use Closure;
 use Filament\Actions\ImportAction;
 use Filament\Forms\Components\DatePicker;
@@ -75,7 +76,6 @@ class EmployeeTable
 							Select::make('country_id')
 								->relationship('country', 'name')
 								->preload()
-								->native(false)
 								->createOptionForm(function () {
 									return [
 										TextInput::make('name')
@@ -104,7 +104,6 @@ class EmployeeTable
 							Select::make('degree_id')
 								->relationship('degree', 'degree')
 								->searchable()
-								->native(false)
 								->createOptionForm(function () {
 									return [
 										TextInput::make('degree')
@@ -194,7 +193,6 @@ class EmployeeTable
 								->relationship('insuranceClass', 'name')
 								->searchable()
 								->preload()
-								->native(false)
 								->createOptionForm(function () {
 									return [
 										TextInput::make('name')
@@ -358,6 +356,7 @@ class EmployeeTable
 
 		$this->college_graduation_date = TextColumn::make('college_graduation_date')
 			->toggleable()
+			->date()
 			->placeholder('-')
 			->copyable()
 			->sortable();
@@ -804,7 +803,6 @@ class EmployeeTable
 						Select::make('country_id')
 							->relationship('country', 'name')
 							->preload()
-							->native(false)
 							->createOptionForm(function () {
 								return [
 									TextInput::make('name')
@@ -823,7 +821,6 @@ class EmployeeTable
 							->relationship('insuranceClass', 'name')
 							->searchable()
 							->preload()
-							->native(false)
 							->createOptionForm(function () {
 								return [
 									TextInput::make('name')
@@ -839,7 +836,6 @@ class EmployeeTable
 					form: [
 						Select::make('education_level_id')
 							->relationship('educationLevel', 'level')
-							->native(false)
 							->preload()
 							->createOptionForm(function () {
 								return [
@@ -857,7 +853,6 @@ class EmployeeTable
 						Select::make('degree_id')
 							->relationship('degree', 'degree')
 							->searchable()
-							->native(false)
 							->createOptionForm(function () {
 								return [
 									TextInput::make('degree')

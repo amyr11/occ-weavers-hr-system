@@ -2,6 +2,7 @@
 
 namespace App\Filament\Imports;
 
+use App\Filament\Imports\Utils\DateImportColumn;
 use App\Models\ProjectAssignment;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
@@ -22,7 +23,7 @@ class ProjectAssignmentImporter extends Importer
                 ->requiredMapping()
                 ->relationship(resolveUsing: 'project_name')
                 ->rules(['required']),
-            ImportColumn::make('transfer_date')
+            DateImportColumn::make('transfer_date')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
             ImportColumn::make('transfer_memo_link')

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Exports;
 
+use App\Filament\Exports\Utils\DateExportColumn;
 use App\Models\ProjectAssignment;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
@@ -19,7 +20,7 @@ class ProjectAssignmentExporter extends Exporter
             ExportColumn::make('employee.full_name')
                 ->label('Employee Name'),
             ExportColumn::make('project.project_name'),
-            ExportColumn::make('transfer_date'),
+            DateExportColumn::make('transfer_date'),
             ExportColumn::make('transfer_memo_link'),
             ExportColumn::make('created_at'),
             ExportColumn::make('updated_at'),

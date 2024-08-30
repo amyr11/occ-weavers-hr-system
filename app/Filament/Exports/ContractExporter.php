@@ -2,6 +2,7 @@
 
 namespace App\Filament\Exports;
 
+use App\Filament\Exports\Utils\DateExportColumn;
 use App\Models\Contract;
 use Filament\Actions\Exports\ExportColumn;
 use Filament\Actions\Exports\Exporter;
@@ -20,9 +21,9 @@ class ContractExporter extends Exporter
                 ->label('Employee name'),
             ExportColumn::make('employeeJob.job_title')
                 ->label('Job title'),
-            ExportColumn::make('start_date'),
-            ExportColumn::make('end_date'),
-            ExportColumn::make('paper_contract_end_date'),
+            DateExportColumn::make('start_date'),
+            DateExportColumn::make('end_date'),
+            DateExportColumn::make('paper_contract_end_date'),
             ExportColumn::make('duration_in_years'),
             ExportColumn::make('basic_salary'),
             ExportColumn::make('housing_allowance'),

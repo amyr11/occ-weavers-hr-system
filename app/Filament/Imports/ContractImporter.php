@@ -2,6 +2,7 @@
 
 namespace App\Filament\Imports;
 
+use App\Filament\Imports\Utils\DateImportColumn;
 use App\Models\Contract;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
@@ -20,14 +21,13 @@ class ContractImporter extends Importer
                 ->rules(['required', 'integer']),
             ImportColumn::make('employeeJob')
                 ->relationship(resolveUsing: 'job_title'),
-            ImportColumn::make('start_date')
+            DateImportColumn::make('start_date')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
-            ImportColumn::make('end_date')
+            DateImportColumn::make('end_date')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
-            ImportColumn::make('paper_contract_end_date')
-                ->rules(['nullable', 'date']),
+            DateImportColumn::make('paper_contract_end_date'),
             ImportColumn::make('basic_salary')
                 ->requiredMapping()
                 ->numeric()

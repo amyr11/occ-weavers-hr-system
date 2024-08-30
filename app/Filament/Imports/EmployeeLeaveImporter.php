@@ -2,6 +2,7 @@
 
 namespace App\Filament\Imports;
 
+use App\Filament\Imports\Utils\DateImportColumn;
 use App\Models\EmployeeLeave;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
@@ -22,23 +23,22 @@ class EmployeeLeaveImporter extends Importer
                 ->rules(['required', 'integer']),
             ImportColumn::make('contact_number')
                 ->rules(['max:255']),
-            ImportColumn::make('start_date')
+            DateImportColumn::make('start_date')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
-            ImportColumn::make('end_date')
+            DateImportColumn::make('end_date')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
-            ImportColumn::make('visa_duration_in_days')
-                ->numeric()
-                ->rules(['nullable', 'integer']),
-            ImportColumn::make('visa_expiration')
+            DateImportColumn::make('visa_expiration')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
             ImportColumn::make('arrived')
                 ->boolean()
+                ->castStateUsing(fn($state) => $state == null ? false : $state)
                 ->rules(['nullable', 'boolean']),
             ImportColumn::make('visa_expired')
                 ->boolean()
+                ->castStateUsing(fn($state) => $state == null ? false : $state)
                 ->rules(['nullable', 'boolean']),
         ];
     }
