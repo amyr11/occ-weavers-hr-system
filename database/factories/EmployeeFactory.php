@@ -40,7 +40,6 @@ class EmployeeFactory extends Factory
             'birthdate' => $this->faker->dateTimeBetween('-70 years', '-25 years')->format('Y-m-d'),
             'mobile_number' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
-            'photo_link' => $this->faker->imageUrl(),
             'college_graduation_date' => $this->faker->date(),
             'labor_office_number' => $this->faker->unique()->numberBetween(1000, 9999),
             'iban_number' => $this->faker->unique()->numberBetween(1000, 9999),
