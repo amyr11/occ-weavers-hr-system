@@ -3,15 +3,10 @@
 namespace App\Filament\Clusters\EmployeesCluster\Resources\EmployeesClusterResource\RelationManagers;
 
 use App\Filament\Clusters\ContractsCluster\Resources\ContractTable;
-use App\Filament\Imports\ContractImporter;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContractsRelationManager extends RelationManager
 {
@@ -27,7 +22,6 @@ class ContractsRelationManager extends RelationManager
     {
         return ContractTable::getTable($table)
             ->columns(array_slice(ContractTable::getColumns(), 2))
-            ->recordTitleAttribute('employee_number')
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ]);
