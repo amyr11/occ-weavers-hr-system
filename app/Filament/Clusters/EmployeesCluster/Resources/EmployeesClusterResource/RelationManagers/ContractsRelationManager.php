@@ -31,26 +31,5 @@ class ContractsRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make(),
             ]);
-
-        // return $table
-        //     ->recordTitleAttribute('start_date')
-        //     ->columns([
-        //         Tables\Columns\TextColumn::make('start_date'),
-        //     ])
-        //     ->filters([
-        //         //
-        //     ])
-        //     ->headerActions([
-        //         Tables\Actions\CreateAction::make(),
-        //     ])
-        //     ->actions([
-        //         Tables\Actions\EditAction::make(),
-        //         Tables\Actions\DeleteAction::make(),
-        //     ])
-        //     ->bulkActions([
-        //         Tables\Actions\BulkActionGroup::make([
-        //             Tables\Actions\DeleteBulkAction::make(),
-        //         ]),
-        //     ]);
     }
 }
