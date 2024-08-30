@@ -14,10 +14,10 @@ class CountrySeeder extends Seeder
     public function run(): void
     {
         $countries = [
-            ['name' => 'Saudi Arabia'],
-            ['name' => 'Philippines'],
-            ['name' => 'India'],
-            ['name' => 'Pakistan'],
+            ['name' => 'Saudi Arabian'],
+            ['name' => 'Pilipino'],
+            ['name' => 'Indian'],
+            ['name' => 'Pakistani'],
         ];
 
         for ($i = 0; $i < count($countries); $i++) {
