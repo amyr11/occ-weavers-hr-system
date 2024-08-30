@@ -33,4 +33,10 @@ class EmployeeLeave extends Model
         // Replace this with the actual computation logic
         return \Carbon\Carbon::parse($this->start_date)->diffInDays(\Carbon\Carbon::parse($this->end_date)) + 1;
     }
+
+    public function calculateVisaDurationDays(): void
+    {
+        $this->visa_duration_in_days = $this->start_date->diffInDays($this->visa_expiration) + 1;
+        $this->saveQuietly();
+    }
 }

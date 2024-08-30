@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Employee;
 use App\Models\EmployeeLeave;
 
 class EmployeeLeaveObserver
@@ -45,6 +44,7 @@ class EmployeeLeaveObserver
         // Modify the current_leave_days of the employee
         $employee = $employeeLeave->employee;
         $employee->current_leave_days -= $employeeLeave->duration_in_days;
+        $employeeLeave->calculateVisaDurationDays();
 
         $this->updateEmployeeStatus($employeeLeave);
         $employee->save();
@@ -61,6 +61,7 @@ class EmployeeLeaveObserver
         // Modify the current_leave_days of the employee
         $employee = $employeeLeave->employee;
         $employee->current_leave_days += $employeeLeave->getOriginal('duration_in_days') - $employeeLeave->duration_in_days;
+        $employeeLeave->calculateVisaDurationDays();
 
         $employeeLeave->remaining_leave_days = $employee->current_leave_days;
 
