@@ -12,7 +12,8 @@ class EmployeesOverview extends BaseWidget
     protected function getStats(): array
     {
         $activeEmployeesCount = Employee::where('status', 'Active')->count();
-        $filipinoEmployeesCount = Country::where('name', 'Pilipino')->first()->employees->where('status', 'Active')->count();
+        $philippines = Country::where('name', 'Pilipino')->first();
+        $filipinoEmployeesCount = $philippines != null ? $philippines->employees->where('status', 'Active')->count() : 0;
 
         return [
             Stat::make('✅ No. of Active Employees', $activeEmployeesCount),
