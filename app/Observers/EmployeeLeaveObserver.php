@@ -44,12 +44,12 @@ class EmployeeLeaveObserver
         // Modify the current_leave_days of the employee
         $employee = $employeeLeave->employee;
         $employee->current_leave_days -= $employeeLeave->duration_in_days;
-        $employeeLeave->calculateVisaDurationDays();
 
         $this->updateEmployeeStatus($employeeLeave);
         $employee->save();
 
         $employeeLeave->remaining_leave_days = $employee->current_leave_days;
+        $employeeLeave->calculateVisaDurationDays();
         $employeeLeave->saveQuietly();
     }
 
@@ -61,13 +61,13 @@ class EmployeeLeaveObserver
         // Modify the current_leave_days of the employee
         $employee = $employeeLeave->employee;
         $employee->current_leave_days += $employeeLeave->getOriginal('duration_in_days') - $employeeLeave->duration_in_days;
-        $employeeLeave->calculateVisaDurationDays();
 
         $employeeLeave->remaining_leave_days = $employee->current_leave_days;
 
         $this->updateEmployeeStatus($employeeLeave);
 
         $employee->save();
+        $employeeLeave->calculateVisaDurationDays();
         $employeeLeave->saveQuietly();
     }
 

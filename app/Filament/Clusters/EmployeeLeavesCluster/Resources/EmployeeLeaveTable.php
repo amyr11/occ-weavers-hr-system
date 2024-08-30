@@ -315,15 +315,17 @@ class EmployeeLeaveTable
 		];
 	}
 
-	public static function getFilters($statusOptions = [
-		'Visa expired (Resolved)' => 'Visa expired (Resolved)',
-		'Arrived (Resolved)' => 'Arrived (Resolved)',
-		'On vacation' => 'On vacation',
-		'For vacation' => 'For vacation',
-		'Visa expired' => 'Visa expired',
-		'Arrival expected' => 'Arrival expected',
-	])
+	public static function getFilters($statusOptions)
 	{
+		$statusOptions = $statusOptions ?? [
+			'Visa expired (Resolved)' => 'Visa expired (Resolved)',
+			'Arrived (Resolved)' => 'Arrived (Resolved)',
+			'On vacation' => 'On vacation',
+			'For vacation' => 'For vacation',
+			'Visa expired' => 'Visa expired',
+			'Arrival expected' => 'Arrival expected',
+		];
+
 		return [
 			Filter::make('employee_number')
 				->indicateUsing(function (array $data) {
