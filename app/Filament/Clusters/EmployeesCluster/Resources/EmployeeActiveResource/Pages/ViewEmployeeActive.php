@@ -3,6 +3,7 @@
 namespace App\Filament\Clusters\EmployeesCluster\Resources\EmployeeActiveResource\Pages;
 
 use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeActiveResource;
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeTable;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
@@ -12,8 +13,6 @@ class ViewEmployeeActive extends ViewRecord
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\EditAction::make(),
-        ];
+        return EmployeeTable::getViewHeaderActions();
     }
 }

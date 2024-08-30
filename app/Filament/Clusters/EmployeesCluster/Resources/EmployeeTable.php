@@ -2,6 +2,7 @@
 
 namespace App\Filament\Clusters\EmployeesCluster\Resources;
 
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeesClusterResource\RelationManagers\ContractsRelationManager;
 use App\Filament\Exports\EmployeeExporter;
 use App\Filament\Imports\EmployeeImporter;
 use App\Models\Employee;
@@ -39,6 +40,8 @@ class EmployeeTable
 	{
 		return [
 			Section::make('Personal Information')
+				->icon('heroicon-o-user')
+				->collapsible()
 				->schema([
 					FileUpload::make('image')
 						->image()
@@ -85,36 +88,74 @@ class EmployeeTable
 								->searchable(),
 						]),
 				]),
-			Section::make('Education')
+			Section::make('Company information')
+				->icon('heroicon-o-building-office')
+				->collapsible()
 				->schema([
 					Grid::make([
 						'md' => 2,
 					])
 						->schema([
-							Select::make('education_level_id')
-								->relationship('educationLevel', 'level')
-								->native(false)
+							Select::make('employee_job_id')
+								->label('Current job title')
+								->relationship('employeeJob', 'job_title')
+								->disabled(),
+							Select::make('project_id')
+								->label('Current project')
+								->relationship('project', 'project_name')
+								->disabled(),
+						]),
+					Grid::make([
+						'md' => 3,
+					])
+						->schema([
+							DatePicker::make('electronic_contract_start_date')
+								->disabled(),
+							DatePicker::make('electronic_contract_end_date')
+								->disabled(),
+							DatePicker::make('paper_contract_end_date')
+								->disabled(),
+						]),
+					Grid::make([
+						'md' => 2,
+					])
+						->schema([
+							DatePicker::make('company_start_date'),
+							Select::make('insurance_class_id')
+								->relationship('insuranceClass', 'name')
+								->searchable()
 								->preload()
 								->createOptionForm(function () {
 									return [
-										TextInput::make('level')
-											->label('Education Level'),
+										TextInput::make('name')
+											->label('Insurance Class'),
 									];
 								}),
-							Select::make('degree_id')
-								->relationship('degree', 'degree')
-								->searchable()
-								->createOptionForm(function () {
-									return [
-										TextInput::make('degree')
-											->label('Degree'),
-									];
-								})
-								->preload(),
 						]),
-					DatePicker::make('college_graduation_date'),
+					Grid::make([
+						'md' => 3,
+					])
+						->schema([
+							DatePicker::make('final_exit_date'),
+							DatePicker::make('visa_expired_date'),
+							DatePicker::make('transferred_date'),
+						]),
+					Grid::make([
+						'md' => 2,
+					])
+						->schema([
+							TextInput::make('max_leave_days')
+								->numeric()
+								->default(21),
+							TextInput::make('current_leave_days')
+								->numeric()
+								->hiddenOn(['create']),
+						]),
 				]),
 			Section::make('Government information')
+				->icon('heroicon-o-identification')
+				->collapsed()
+				->collapsible()
 				->schema([
 					Grid::make([
 						'md' => 2,
@@ -169,67 +210,37 @@ class EmployeeTable
 								->label('SCE Expiration'),
 						]),
 				]),
-			Section::make('Company information')
+			Section::make('Education')
+				->icon('heroicon-o-academic-cap')
+				->collapsed()
+				->collapsible()
 				->schema([
 					Grid::make([
 						'md' => 2,
 					])
 						->schema([
-							Select::make('employee_job_id')
-								->label('Current job title')
-								->relationship('employeeJob', 'job_title')
-								->disabled(),
-							Select::make('project_id')
-								->label('Current project')
-								->relationship('project', 'project_name')
-								->disabled(),
-						]),
-					Grid::make([
-						'md' => 2,
-					])
-						->schema([
-							DatePicker::make('company_start_date'),
-							Select::make('insurance_class_id')
-								->relationship('insuranceClass', 'name')
-								->searchable()
+							Select::make('education_level_id')
+								->relationship('educationLevel', 'level')
+								->native(false)
 								->preload()
 								->createOptionForm(function () {
 									return [
-										TextInput::make('name')
-											->label('Insurance Class'),
+										TextInput::make('level')
+											->label('Education Level'),
 									];
 								}),
+							Select::make('degree_id')
+								->relationship('degree', 'degree')
+								->searchable()
+								->createOptionForm(function () {
+									return [
+										TextInput::make('degree')
+											->label('Degree'),
+									];
+								})
+								->preload(),
 						]),
-					Grid::make([
-						'md' => 3,
-					])
-						->schema([
-							DatePicker::make('electronic_contract_start_date')
-								->disabled(),
-							DatePicker::make('electronic_contract_end_date')
-								->disabled(),
-							DatePicker::make('paper_contract_end_date')
-								->disabled(),
-						]),
-					Grid::make([
-						'md' => 3,
-					])
-						->schema([
-							DatePicker::make('final_exit_date'),
-							DatePicker::make('visa_expired_date'),
-							DatePicker::make('transferred_date'),
-						]),
-					Grid::make([
-						'md' => 2,
-					])
-						->schema([
-							TextInput::make('max_leave_days')
-								->numeric()
-								->default(21),
-							TextInput::make('current_leave_days')
-								->numeric()
-								->hiddenOn(['create']),
-						]),
+					DatePicker::make('college_graduation_date'),
 				]),
 		];
 	}
@@ -742,6 +753,18 @@ class EmployeeTable
 		];
 	}
 
+	public static function getViewHeaderActions(): array
+	{
+		return [
+			Actions\Action::make('file_information_sheet')
+				->label('PDF')
+				->color('danger')
+				->icon('heroicon-s-document')
+				->url(fn(Employee $employee) => route('file-information-sheet', $employee)),
+			Actions\EditAction::make(),
+		];
+	}
+
 	public static function getBulkActions()
 	{
 		return [
@@ -914,6 +937,13 @@ class EmployeeTable
 				->icon('heroicon-o-arrow-up-tray')
 				->importer(EmployeeImporter::class),
 			Actions\CreateAction::make(),
+		];
+	}
+
+	public static function getRelations()
+	{
+		return [
+			ContractsRelationManager::class,
 		];
 	}
 }

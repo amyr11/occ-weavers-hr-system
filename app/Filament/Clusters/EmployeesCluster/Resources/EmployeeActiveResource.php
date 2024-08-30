@@ -85,9 +85,7 @@ class EmployeeActiveResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return EmployeeTable::getRelations();
     }
 
     public static function getPages(): array
