@@ -3,6 +3,7 @@
 namespace App\Filament\Clusters\EmployeesCluster\Resources;
 
 use App\Filament\Clusters\EmployeesCluster\Resources\EmployeesClusterResource\RelationManagers\ContractsRelationManager;
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeesClusterResource\RelationManagers\ProjectAssignmentsRelationManager;
 use App\Filament\Exports\EmployeeExporter;
 use App\Filament\Imports\EmployeeImporter;
 use App\Models\Employee;
@@ -944,6 +945,7 @@ class EmployeeTable
 	{
 		return [
 			ContractsRelationManager::class,
+			ProjectAssignmentsRelationManager::class,
 		];
 	}
 }
