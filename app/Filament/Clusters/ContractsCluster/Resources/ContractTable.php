@@ -134,6 +134,7 @@ class ContractTable
 			->label('Employee no.')
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
+			->placeholder('-')
 			->sortable();
 
 		$this->employee_full_name = Tables\Columns\TextColumn::make('employee.full_name')
@@ -141,12 +142,14 @@ class ContractTable
 			->label('Employee name')
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
+			->placeholder('-')
 			->sortable();
 
 		$this->employeeJob_job_title = Tables\Columns\TextColumn::make('employeeJob.job_title')
 			->toggleable()
 			->label('Job title')
 			->copyable()
+			->placeholder('-')
 			->sortable();
 
 		$this->duration_in_years = Tables\Columns\TextColumn::make('duration_in_years')
@@ -156,18 +159,21 @@ class ContractTable
 				return $record->duration_string;
 			})
 			->numeric()
+			->placeholder('-')
 			->copyable()
 			->sortable();
 
 		$this->start_date = Tables\Columns\TextColumn::make('start_date')
 			->toggleable()
 			->date()
+			->placeholder('-')
 			->copyable()
 			->sortable();
 
 		$this->end_date = Tables\Columns\TextColumn::make('end_date')
 			->toggleable()
 			->date()
+			->placeholder('-')
 			->copyable()
 			->sortable();
 
@@ -182,6 +188,7 @@ class ContractTable
 			->toggleable()
 			->label('Basic salary (SAR)')
 			->numeric()
+			->placeholder('-')
 			->copyable()
 			->sortable();
 

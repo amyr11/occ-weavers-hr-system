@@ -164,6 +164,7 @@ class EmployeeLeaveTable
 			->label('Employee no.')
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
+			->placeholder('-')
 			->sortable();
 
 		$this->employee_full_name = Tables\Columns\TextColumn::make('employee.full_name')
@@ -171,10 +172,12 @@ class EmployeeLeaveTable
 			->label('Employee name')
 			->searchable(isIndividual: true, isGlobal: false)
 			->copyable()
+			->placeholder('-')
 			->sortable();
 
 		$this->contact_number = Tables\Columns\TextColumn::make('contact_number')
 			->toggleable()
+			->placeholder('-')
 			->copyable()
 			->sortable();
 
@@ -187,6 +190,7 @@ class EmployeeLeaveTable
 			->toggledHiddenByDefault();
 
 		$this->status = Tables\Columns\TextColumn::make('status')
+			->placeholder('-')
 			->toggleable()
 			->toggledHiddenByDefault()
 			->badge()
@@ -203,6 +207,7 @@ class EmployeeLeaveTable
 			->sortable();
 
 		$this->start_date = Tables\Columns\TextColumn::make('start_date')
+			->placeholder('-')
 			->toggleable()
 			->label('Departure date')
 			->date()
@@ -210,6 +215,7 @@ class EmployeeLeaveTable
 			->sortable();
 
 		$this->end_date = Tables\Columns\TextColumn::make('end_date')
+			->placeholder('-')
 			->toggleable()
 			->label('Return date')
 			->date()
@@ -217,6 +223,7 @@ class EmployeeLeaveTable
 			->sortable();
 
 		$this->duration_in_days = Tables\Columns\TextColumn::make('duration_in_days')
+			->placeholder('-')
 			->toggleable()
 			->label('Leave duration')
 			->state(fn(EmployeeLeave $record) => $record->duration_in_days ? "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days) : null)
@@ -231,12 +238,14 @@ class EmployeeLeaveTable
 			->copyable();
 
 		$this->visa_expiration = Tables\Columns\TextColumn::make('visa_expiration')
+			->placeholder('-')
 			->toggleable()
 			->date()
 			->copyable()
 			->sortable();
 
 		$this->visa_duration_in_days = Tables\Columns\TextColumn::make('visa_duration_in_days')
+			->placeholder('-')
 			->toggleable()
 			->label('Visa duration')
 			->state(fn(EmployeeLeave $record) => "{$record->visa_duration_in_days} " . Pluralizer::plural('day', $record->visa_duration_in_days))
