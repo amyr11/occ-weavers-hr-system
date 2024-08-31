@@ -156,7 +156,7 @@ class EmployeeTable
 				]),
 			Section::make('Government information')
 				->icon('heroicon-o-identification')
-				->collapsed()
+				->collapsed(fn(string $operation): bool => in_array($operation, ['view', 'edit']))
 				->collapsible()
 				->schema([
 					Grid::make([
@@ -214,7 +214,7 @@ class EmployeeTable
 				]),
 			Section::make('Education')
 				->icon('heroicon-o-academic-cap')
-				->collapsed()
+				->collapsed(fn(string $operation): bool => in_array($operation, ['view', 'edit']))
 				->collapsible()
 				->schema([
 					Grid::make([
