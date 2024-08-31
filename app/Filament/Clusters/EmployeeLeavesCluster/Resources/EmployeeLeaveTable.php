@@ -109,10 +109,12 @@ class EmployeeLeaveTable
 									$endDate = Carbon::parse($startDate)->addDay((int) $duration - 1)->format('Y-m-d');
 									$set('visa_expiration', $endDate);
 								})
+								->debounce(800)
 								->required(),
 							Forms\Components\DatePicker::make('visa_expiration')
 								->required()
 								->live()
+								->debounce(800)
 								->requiredWith('start_date')
 								->afterStateUpdated(function (Get $get, Set $set) {
 									$startDate = $get('start_date');
