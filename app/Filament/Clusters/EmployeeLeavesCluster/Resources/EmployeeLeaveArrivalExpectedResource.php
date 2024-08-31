@@ -30,7 +30,7 @@ class EmployeeLeaveArrivalExpectedResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return EmployeeLeaveArrivalExpectedResource::getQuery()->count();
+        return self::getQuery()->count();
     }
 
     public static function getNavigationBadgeColor(): ?string
@@ -46,8 +46,31 @@ class EmployeeLeaveArrivalExpectedResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return EmployeeLeaveTable::getTable($table, statusOptions: [])
-            ->query(EmployeeLeaveArrivalExpectedResource::getQuery());
+        $employeeLeaveTable = new EmployeeLeaveTable();
+
+        return EmployeeLeaveTable::getTable(
+            $table,
+            statusOptions: [],
+            columns: [
+                $employeeLeaveTable->employee_number,
+                $employeeLeaveTable->employee_full_name,
+                $employeeLeaveTable->arrived->toggledHiddenByDefault(false),
+                $employeeLeaveTable->visa_expired,
+                $employeeLeaveTable->status,
+                $employeeLeaveTable->contact_number,
+                $employeeLeaveTable->start_date,
+                $employeeLeaveTable->end_date,
+                $employeeLeaveTable->duration_in_days,
+                $employeeLeaveTable->remaining_leave_days,
+                $employeeLeaveTable->visa_expiration,
+                $employeeLeaveTable->visa_duration_in_days,
+                $employeeLeaveTable->visa_remaining_days,
+                $employeeLeaveTable->request_file_link,
+                $employeeLeaveTable->created_at,
+                $employeeLeaveTable->updated_at,
+            ],
+        )
+            ->query(self::getQuery());
     }
 
     public static function getRelations(): array

@@ -152,6 +152,8 @@ class EmployeeLeaveTable
 	public Column $visa_duration_in_days;
 	public Column $visa_remaining_days;
 	public Column $request_file_link;
+	public Column $arrived;
+	public Column $visa_expired;
 	public Column $created_at;
 	public Column $updated_at;
 
@@ -176,11 +178,13 @@ class EmployeeLeaveTable
 			->copyable()
 			->sortable();
 
-		ToggleColumn::make('arrived')
-			->toggleable();
+		$this->arrived = ToggleColumn::make('arrived')
+			->toggleable()
+			->toggledHiddenByDefault();
 
-		ToggleColumn::make('visa_expired')
-			->toggleable();
+		$this->visa_expired = ToggleColumn::make('visa_expired')
+			->toggleable()
+			->toggledHiddenByDefault();
 
 		$this->status = Tables\Columns\TextColumn::make('status')
 			->toggleable()
@@ -270,6 +274,8 @@ class EmployeeLeaveTable
 			$table->employee_full_name,
 			$table->contact_number,
 			$table->status,
+			$table->arrived,
+			$table->visa_expired,
 			$table->start_date,
 			$table->end_date,
 			$table->duration_in_days,
