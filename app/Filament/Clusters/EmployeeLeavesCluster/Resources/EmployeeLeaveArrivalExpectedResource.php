@@ -70,7 +70,8 @@ class EmployeeLeaveArrivalExpectedResource extends Resource
                 $employeeLeaveTable->updated_at,
             ],
         )
-            ->query(self::getQuery());
+            ->query(self::getQuery())
+            ->defaultsort('leave_remaining_days', 'asc');
     }
 
     public static function getRelations(): array

@@ -43,7 +43,8 @@ class EmployeeLeaveOnVacationResource extends Resource
     public static function table(Table $table): Table
     {
         return EmployeeLeaveTable::getTable($table, statusOptions: [])
-            ->query(EmployeeLeaveOnVacationResource::getQuery());
+            ->query(EmployeeLeaveOnVacationResource::getQuery())
+            ->defaultsort('leave_remaining_days', 'asc');
     }
 
     public static function getRelations(): array

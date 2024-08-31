@@ -390,7 +390,7 @@ class EmployeeLeaveTable
 			->actions(EmployeeLeaveTable::getActions())
 			->actions(EmployeeLeaveTable::getActions(), position: ActionsPosition::BeforeColumns)
 			->bulkActions(EmployeeLeaveTable::getBulkActions())
-			->defaultsort('leave_remaining_days', 'asc');
+			->defaultSort('start_date', 'desc');
 	}
 
 	public static function getHeaderActions()
