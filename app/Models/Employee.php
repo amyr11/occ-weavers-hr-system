@@ -74,9 +74,8 @@ class Employee extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function addLeaves(int $contractDurationYears)
+    public function addLeaves(int $days)
     {
-        $this->current_leave_days += $this->max_leave_days * $contractDurationYears;
-        $this->save();
+        $this->current_leave_days += $days;
     }
 }

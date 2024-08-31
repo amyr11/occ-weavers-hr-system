@@ -34,10 +34,19 @@ class Contract extends Model
         return $this->belongsTo(EmployeeJob::class);
     }
 
+    public function getDurationInDays()
+    {
+        return $this->start_date->diff($this->end_date->addDay(1))->format('%a');
+    }
+
+    public function getDurationInYears()
+    {
+        return round($this->getDurationInDays() / 365);
+    }
+
     public function getDurationStringAttribute()
     {
-        $time = $this->start_date->diff($this->end_date->addDay(1));
-        $duration_days = $time->format('%a');
+        $duration_days = $this->getDurationInDays();
 
         if (($duration_days / 365) % 365 >= 1) {
             $end_date = $this->start_date->addYear(round($duration_days / 365));

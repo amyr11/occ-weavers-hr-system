@@ -41,14 +41,17 @@ class EmployeeLeaveObserver
      */
     public function created(EmployeeLeave $employeeLeave): void
     {
-        // Modify the current_leave_days of the employee
         $employee = $employeeLeave->employee;
-        $employee->current_leave_days -= $employeeLeave->duration_in_days;
+
+        // Modify the current_leave_days of the employee
+        $employee->addLeaves(-$employeeLeave->duration_in_days);
 
         $this->updateEmployeeStatus($employeeLeave);
-        $employee->save();
 
         $employeeLeave->calculateVisaDurationDays();
+
+        $employee->save();
+        $employeeLeave->saveQuietly();
     }
 
     /**
@@ -56,15 +59,17 @@ class EmployeeLeaveObserver
      */
     public function updated(EmployeeLeave $employeeLeave): void
     {
-        // Modify the current_leave_days of the employee
         $employee = $employeeLeave->employee;
-        $employee->current_leave_days += $employeeLeave->getOriginal('duration_in_days') - $employeeLeave->duration_in_days;
 
+        // Modify the current_leave_days of the employee
+        $employee->addLeaves($employeeLeave->getOriginal('duration_in_days') - $employeeLeave->duration_in_days);
 
         $this->updateEmployeeStatus($employeeLeave);
 
-        $employee->save();
         $employeeLeave->calculateVisaDurationDays();
+
+        $employee->save();
+        $employeeLeave->saveQuietly();
     }
 
     /**
@@ -72,10 +77,13 @@ class EmployeeLeaveObserver
      */
     public function deleted(EmployeeLeave $employeeLeave): void
     {
-        // Modify the current_leave_days of the employee
         $employee = $employeeLeave->employee;
-        $employee->current_leave_days += $employeeLeave->duration_in_days;
+
+        // Modify the current_leave_days of the employee
+        $employee->addLeaves($employeeLeave->duration_in_days);
+
         $employee->visa_expired_date = null;
+
         $employee->save();
     }
 
@@ -84,12 +92,15 @@ class EmployeeLeaveObserver
      */
     public function restored(EmployeeLeave $employeeLeave): void
     {
-        // Modify the current_leave_days of the employee
         $employee = $employeeLeave->employee;
-        $employee->current_leave_days -= $employeeLeave->duration_in_days;
+
+        // Modify the current_leave_days of the employee
+        $employee->addLeaves(-$employeeLeave->duration_in_days);
 
         $this->setEmployeeStatus($employeeLeave, $employeeLeave->status);
+
         $employee->save();
+        $employeeLeave->saveQuietly();
     }
 
     /**
@@ -97,10 +108,14 @@ class EmployeeLeaveObserver
      */
     public function forceDeleted(EmployeeLeave $employeeLeave): void
     {
-        // Modify the current_leave_days of the employee
         $employee = $employeeLeave->employee;
-        $employee->current_leave_days += $employeeLeave->duration_in_days;
+
+        // Modify the current_leave_days of the employee
+        $employee->addLeaves($employeeLeave->duration_in_days);
+
         $employee->visa_expired_date = null;
+
         $employee->save();
+        $employeeLeave->saveQuietly();
     }
 }

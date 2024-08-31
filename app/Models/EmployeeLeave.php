@@ -37,6 +37,5 @@ class EmployeeLeave extends Model
     public function calculateVisaDurationDays(): void
     {
         $this->visa_duration_in_days = $this->start_date->diffInDays($this->visa_expiration) + 1;
-        $this->saveQuietly();
     }
 }
