@@ -74,11 +74,6 @@ class Employee extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function projectAssignments()
-    {
-        return $this->hasMany(ProjectAssignment::class, 'employee_number', 'employee_number');
-    }
-
     public function addLeaves(int $contractDurationYears)
     {
         $this->current_leave_days += $this->max_leave_days * $contractDurationYears;
