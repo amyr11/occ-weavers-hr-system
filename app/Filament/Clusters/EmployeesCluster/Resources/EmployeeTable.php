@@ -161,7 +161,7 @@ class EmployeeTable
 								->default(21),
 							TextInput::make('current_leave_days')
 								->numeric()
-								->hiddenOn(['create']),
+								->default(0),
 						]),
 				]),
 			Section::make('Government information')
