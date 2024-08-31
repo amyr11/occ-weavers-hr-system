@@ -224,22 +224,17 @@
 	<table class="w-full mt-5">
 		<thead>
 			<tr class="bg-[#f0f7f2] text-[#086A38]">
-				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Date</th>
-				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Visa expiration</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Departure</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Return</th>
 				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Duration</th>
-				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Remaining leave</th>
 			</tr>
 		</thead>
 		<tbody>
 			@foreach ($employee->leaves?->sortByDesc('start_date') as $leave)
 			<tr class="border-b border-gray-300">
-				<td class="px-2 py-2 text-xs text-black">
-					<span class="text-[10px] font-bold text-zinc-400">Departure:</span><br /> {{ $leave->start_date?->format(config('app.date_format')) ?? '-' }}<br />
-					<span class="text-[10px] font-bold text-zinc-400">Return:</span><br /> {{ $leave->end_date?->format(config('app.date_format')) ?? '-' }}<br />
-				</td>
-				<td class="px-2 py-2 text-xs text-black">{{ $leave->visa_expiration?->format(config('app.date_format')) ?? '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $leave->start_date?->format(config('app.date_format')) ?? '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $leave->end_date?->format(config('app.date_format')) ?? '-' }}</td>
 				<td class="px-2 py-2 text-xs text-black font-bold">{{ $leave->duration_in_days ? $leave->duration_in_days . Illuminate\Support\Pluralizer::plural(' day', $leave->duration_in_days) : '-' }}</td>
-				<td class="px-2 py-2 text-xs text-black">{{ $leave->remaining_leave_days ? $leave->remaining_leave_days . Illuminate\Support\Pluralizer::plural(' day', $leave->remaining_leave_days) : '-' }}</td>
 			</tr>
 			@endforeach
 		</tbody>

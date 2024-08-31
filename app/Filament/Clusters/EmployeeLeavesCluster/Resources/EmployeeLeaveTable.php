@@ -222,10 +222,10 @@ class EmployeeLeaveTable
 			->state(fn(EmployeeLeave $record) => "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days))
 			->copyable();
 
-		$this->remaining_leave_days = Tables\Columns\TextColumn::make('remaining_leave_days')
+		$this->remaining_leave_days = Tables\Columns\TextColumn::make('leave_remaining_days')
 			->toggleable()
-			->label('Leave balance')
-			->state(fn(EmployeeLeave $record) => "{$record->remaining_leave_days} " . Pluralizer::plural('day', $record->remaining_leave_days))
+			->label('Leave remaining days')
+			->state(fn(EmployeeLeave $record) => "{$record->leave_remaining_days} " . Pluralizer::plural('day', $record->leave_remaining_days))
 			->copyable();
 
 		$this->visa_expiration = Tables\Columns\TextColumn::make('visa_expiration')
