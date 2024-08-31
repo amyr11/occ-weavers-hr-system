@@ -84,7 +84,8 @@ class EmployeeTable
 								->createOptionForm(function () {
 									return [
 										TextInput::make('name')
-											->label('Country'),
+											->label('Country')
+											->required(),
 									];
 								})
 								->searchable(),
@@ -105,7 +106,15 @@ class EmployeeTable
 							Select::make('project_id')
 								->label('Current project')
 								->relationship('project', 'project_name')
-								->disabled(),
+								->preload()
+								->searchable()
+								->createOptionForm(function () {
+									return [
+										TextInput::make('project_name')
+											->label('Project Name')
+											->required(),
+									];
+								}),
 						]),
 					Grid::make([
 						'md' => 3,
@@ -130,7 +139,8 @@ class EmployeeTable
 								->createOptionForm(function () {
 									return [
 										TextInput::make('name')
-											->label('Insurance Class'),
+											->label('Insurance Class')
+											->required(),
 									];
 								}),
 						]),
@@ -228,7 +238,8 @@ class EmployeeTable
 								->createOptionForm(function () {
 									return [
 										TextInput::make('level')
-											->label('Education Level'),
+											->label('Education Level')
+											->required(),
 									];
 								}),
 							Select::make('degree_id')
@@ -237,7 +248,8 @@ class EmployeeTable
 								->createOptionForm(function () {
 									return [
 										TextInput::make('degree')
-											->label('Degree'),
+											->label('Degree')
+											->required(),
 									];
 								})
 								->preload(),
@@ -946,7 +958,6 @@ class EmployeeTable
 	{
 		return [
 			ContractsRelationManager::class,
-			ProjectAssignmentsRelationManager::class,
 			LeavesRelationManager::class,
 		];
 	}

@@ -8,5 +8,5 @@ class ContractsCluster extends Cluster
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-check';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 }
