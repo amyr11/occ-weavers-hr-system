@@ -181,37 +181,6 @@
 
 	<!-- @pageBreak -->
 
-	<!-- Transfer history header -->
-	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
-		<h1 class="mx-auto text-center text-sm font-medium">Transfer history</h1>
-	</div>
-
-	<!-- Transfer history table -->
-	@if ($employee->projectAssignments->isEmpty())
-	<p class="text-center text-sm text-gray-500 mb-5">No transfer history available.</p>
-	@else
-	<table class="w-full mt-5 mb-5">
-		<thead>
-			<tr class="bg-[#f0f7f2] text-[#086A38]">
-				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Transfer date</th>
-				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">From</th>
-				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">To</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach ($employee->projectAssignments?->sortByDesc('transfer_date') as $projectAssignment)
-			<tr class="border-b border-gray-300">
-				<td class="px-2 py-2 text-xs text-black">{{ $projectAssignment->transfer_date?->format(config('app.date_format')) ?? '-' }}</td>
-				<td class="px-2 py-2 text-xs text-black">{{ $projectAssignment->from_project?->project_name ?? '-' }}</td>
-				<td class="px-2 py-2 text-xs text-black font-bold">{{ $projectAssignment->project?->project_name ?? '-' }}</td>
-			</tr>
-			@endforeach
-		</tbody>
-	</table>
-	@endif
-
-	<!-- @pageBreak -->
-
 	<!-- Leave history header -->
 	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
 		<h1 class="mx-auto text-center text-sm font-medium">Leave history</h1>
