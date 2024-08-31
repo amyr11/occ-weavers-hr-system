@@ -53,7 +53,7 @@ class EmployeeLeaveResource extends Resource
                 $employeeLeaveTable->created_at,
                 $employeeLeaveTable->updated_at,
             ]
-        );
+        )->defaultSort('start_date', 'desc');
     }
 
     public static function getRelations(): array

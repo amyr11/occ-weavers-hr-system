@@ -219,13 +219,15 @@ class EmployeeLeaveTable
 		$this->duration_in_days = Tables\Columns\TextColumn::make('duration_in_days')
 			->toggleable()
 			->label('Leave duration')
-			->state(fn(EmployeeLeave $record) => "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days))
+			->state(fn(EmployeeLeave $record) => $record->duration_in_days ? "{$record->duration_in_days} " . Pluralizer::plural('day', $record->duration_in_days) : null)
+			->placeholder('-')
 			->copyable();
 
 		$this->remaining_leave_days = Tables\Columns\TextColumn::make('leave_remaining_days')
 			->toggleable()
 			->label('Leave remaining days')
-			->state(fn(EmployeeLeave $record) => "{$record->leave_remaining_days} " . Pluralizer::plural('day', $record->leave_remaining_days))
+			->state(fn(EmployeeLeave $record) => $record->leave_remaining_days ? "{$record->leave_remaining_days} " . Pluralizer::plural('day', $record->leave_remaining_days) : null)
+			->placeholder('-')
 			->copyable();
 
 		$this->visa_expiration = Tables\Columns\TextColumn::make('visa_expiration')
@@ -387,7 +389,8 @@ class EmployeeLeaveTable
 			->filtersFormWidth(MaxWidth::TwoExtraLarge)
 			->actions(EmployeeLeaveTable::getActions())
 			->actions(EmployeeLeaveTable::getActions(), position: ActionsPosition::BeforeColumns)
-			->bulkActions(EmployeeLeaveTable::getBulkActions());
+			->bulkActions(EmployeeLeaveTable::getBulkActions())
+			->defaultsort('leave_remaining_days', 'asc');
 	}
 
 	public static function getHeaderActions()

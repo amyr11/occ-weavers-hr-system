@@ -70,7 +70,8 @@ class EmployeeLeaveVisaExpiredResource extends Resource
                 $employeeLeaveTable->updated_at,
             ],
         )
-            ->query(self::getQuery());
+            ->query(self::getQuery())
+            ->defaultSort('visa_remaining_days', 'asc');
     }
 
     public static function getRelations(): array
