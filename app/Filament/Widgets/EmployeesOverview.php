@@ -12,12 +12,21 @@ class EmployeesOverview extends BaseWidget
     protected function getStats(): array
     {
         $activeEmployeesCount = Employee::where('status', 'Active')->count();
-        $philippines = Country::where('name', 'Pilipino')->first();
-        $filipinoEmployeesCount = $philippines != null ? $philippines->employees->where('status', 'Active')->count() : 0;
+        $saudi = Country::where('name', 'Saudi Arabian')->first();
+        $saudiArabiansCount = $saudi != null ? $saudi->employees->where('status', 'Active')->count() : 0;
+        $saudiArabiansPercentage = $saudiArabiansCount / $activeEmployeesCount * 100;
+        $nonSaudiArabiansCount = $activeEmployeesCount - $saudiArabiansCount;
+        $nonSaudiArabiansPercentage = $nonSaudiArabiansCount / $activeEmployeesCount * 100;
 
         return [
-            Stat::make('✅ No. of Active Employees', $activeEmployeesCount),
-            Stat::make('🇵🇭 No. of Filipino Employees', $filipinoEmployeesCount),
+            Stat::make('Active Employees', $activeEmployeesCount)
+                ->icon('heroicon-o-user-group')
+                ->description('As of ' . now()->format('M d, Y')),
+            Stat::make('Saudi Arabians', $saudiArabiansCount)
+                ->description($saudiArabiansPercentage . '%' . ' of active employees')
+                ->color('success'),
+            Stat::make('Non-Saudi Arabians', $nonSaudiArabiansCount)
+                ->description($nonSaudiArabiansPercentage . '%' . ' of active employees'),
         ];
     }
 }
