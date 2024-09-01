@@ -48,7 +48,6 @@ class EmployeeTable
 					FileUpload::make('image')
 						->image()
 						->optimize('webp')
-						// ->resize(80)
 						->avatar()
 						->imageEditor()
 						->moveFiles()
