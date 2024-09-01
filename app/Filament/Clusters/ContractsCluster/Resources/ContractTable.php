@@ -27,6 +27,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Actions;
+use Illuminate\Support\Pluralizer;
 
 class ContractTable
 {
@@ -124,6 +125,9 @@ class ContractTable
 	public Column $food_allowance;
 	public Column $remarks;
 	public Column $file_link;
+	public Column $e_contract_exp_rem_days;
+	public Column $p_contract_exp_rem_days;
+	public Column $status;
 	public Column $created_at;
 	public Column $updated_at;
 
@@ -164,6 +168,7 @@ class ContractTable
 			->sortable();
 
 		$this->start_date = Tables\Columns\TextColumn::make('start_date')
+			->label('Electronic contract start')
 			->toggleable()
 			->date()
 			->placeholder('-')
@@ -171,6 +176,7 @@ class ContractTable
 			->sortable();
 
 		$this->end_date = Tables\Columns\TextColumn::make('end_date')
+			->label('Electronic contract end')
 			->toggleable()
 			->date()
 			->placeholder('-')
@@ -178,6 +184,7 @@ class ContractTable
 			->sortable();
 
 		$this->paper_contract_end_date = Tables\Columns\TextColumn::make('paper_contract_end_date')
+			->label('Paper contract end')
 			->toggleable()
 			->date()
 			->placeholder('-')
@@ -231,6 +238,38 @@ class ContractTable
 			->color('info')
 			->placeholder('-');
 
+		$this->e_contract_exp_rem_days = Tables\Columns\TextColumn::make('e_contract_exp_rem_days')
+			->placeholder('-')
+			->toggleable()
+			->label('Remaining days (Electronic)')
+			->state(fn(Contract $record) => $record->e_contract_exp_rem_days ? "{$record->e_contract_exp_rem_days} " . Pluralizer::plural('day', $record->e_contract_exp_rem_days) : null)
+			->placeholder('-')
+			->copyable();
+
+		$this->p_contract_exp_rem_days = Tables\Columns\TextColumn::make('p_contract_exp_rem_days')
+			->placeholder('-')
+			->toggleable()
+			->label('Remaining days (Paper)')
+			->state(fn(Contract $record) => $record->p_contract_exp_rem_days ? "{$record->p_contract_exp_rem_days} " . Pluralizer::plural('day', $record->p_contract_exp_rem_days) : null)
+			->placeholder('-')
+			->copyable();
+
+		$this->status = Tables\Columns\TextColumn::make('status')
+			->toggleable()
+			->label('Status')
+			->copyable()
+			->badge()
+			->color(fn(string $state): string => match ($state) {
+				'Upcoming' => 'info',
+				'Active' => 'success',
+				'Expired (Both)' => 'danger',
+				'Expired (Electronic)' => 'warning',
+				'Expired (Paper)' => 'warning',
+				default => 'info',
+			})
+			->placeholder('-')
+			->sortable();
+
 		$this->created_at = Tables\Columns\TextColumn::make('created_at')
 			->dateTime()
 			->sortable()
@@ -251,9 +290,12 @@ class ContractTable
 			$table->employee_full_name,
 			$table->employeeJob_job_title,
 			$table->duration_in_years,
+			$table->status,
 			$table->start_date,
 			$table->end_date,
+			$table->e_contract_exp_rem_days,
 			$table->paper_contract_end_date,
+			$table->p_contract_exp_rem_days,
 			$table->basic_salary,
 			$table->housing_allowance,
 			$table->transportation_allowance,
@@ -390,7 +432,8 @@ class ContractTable
 			->filters(ContractTable::getFilters(), layout: FiltersLayout::Modal)
 			->filtersFormWidth(MaxWidth::TwoExtraLarge)
 			->actions(ContractTable::getActions(), position: ActionsPosition::BeforeColumns)
-			->bulkActions(ContractTable::getBulkActions());
+			->bulkActions(ContractTable::getBulkActions())
+			->defaultSort('status', 'desc');
 	}
 
 	public static function getHeaderActions(): array
