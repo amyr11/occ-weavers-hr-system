@@ -11,6 +11,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use App\Models\Contract;
 use App\Utils\TableUtil;
+use Faker\Core\Number;
 use Filament\Actions\ImportAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Support\Enums\MaxWidth;
@@ -337,6 +338,17 @@ class ContractTable
 				->relationship('employeeJob', 'job_title')
 				->preload()
 				->searchable(),
+			SelectFilter::make('status')
+				->label('Status')
+				->native(false)
+				->multiple()
+				->options([
+					'Upcoming' => 'Upcoming',
+					'Active' => 'Active',
+					'Expired (Both)' => 'Expired (Both)',
+					'Expired (Electronic)' => 'Expired (Electronic)',
+					'Expired (Paper)' => 'Expired (Paper)',
+				]),
 			QueryBuilder::make()
 				->constraints([
 					DateConstraint::make('start_date')
@@ -346,7 +358,21 @@ class ContractTable
 					DateConstraint::make('paper_contract_end_date')
 						->icon('heroicon-o-calendar'),
 					NumberConstraint::make('duration_in_years')
-						->icon('heroicon-o-hashtag')
+						->icon('heroicon-o-hashtag'),
+					NumberConstraint::make('basic_salary')
+						->icon('heroicon-o-currency-dollar'),
+					NumberConstraint::make('housing_allowance')
+						->icon('heroicon-o-home'),
+					NumberConstraint::make('transportation_allowance')
+						->icon('heroicon-o-truck'),
+					NumberConstraint::make('food_allowance')
+						->icon('heroicon-o-shopping-cart'),
+					NumberConstraint::make('e_contract_exp_rem_days')
+						->label('Remaining days (Electronic)')
+						->icon('heroicon-o-hashtag'),
+					NumberConstraint::make('p_contract_exp_rem_days')
+						->label('Remaining days (Paper)')
+						->icon('heroicon-o-hashtag'),
 				])
 		];
 	}
