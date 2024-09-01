@@ -35,12 +35,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Pluralizer;
 use Filament\Actions;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 
 class EmployeeTable
 {
 	public static function getSchema()
 	{
 		return [
+			Placeholder::make('updated_at')
+				->content(fn(Model $record): string => $record->updated_at->format('M d, Y H:i:s')),
 			Section::make('Personal Information')
 				->icon('heroicon-o-user')
 				->collapsible()

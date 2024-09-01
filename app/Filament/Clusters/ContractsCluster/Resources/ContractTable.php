@@ -2,6 +2,7 @@
 
 namespace App\Filament\Clusters\ContractsCluster\Resources;
 
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeResource\Pages\ViewEmployee;
 use App\Filament\Exports\ContractExporter;
 use App\Filament\Imports\ContractImporter;
 use Filament\Forms\Components\Grid;
@@ -10,6 +11,7 @@ use Filament\Forms;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use App\Models\Contract;
+use App\Models\Employee;
 use App\Utils\TableUtil;
 use Faker\Core\Number;
 use Filament\Actions\ImportAction;
@@ -28,6 +30,8 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Actions;
+use Filament\Forms\Components\Placeholder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Pluralizer;
 
 class ContractTable
@@ -35,6 +39,8 @@ class ContractTable
 	public static function getSchema()
 	{
 		return [
+			Placeholder::make('updated_at')
+				->content(fn(Model $record): string => $record->updated_at->format('M d, Y H:i:s')),
 			Section::make('Employee Information')
 				->schema([
 					Grid::make([
@@ -138,7 +144,6 @@ class ContractTable
 			->toggleable()
 			->label('Employee no.')
 			->searchable(isIndividual: true, isGlobal: false)
-			->copyable()
 			->placeholder('-')
 			->sortable();
 
@@ -294,8 +299,8 @@ class ContractTable
 			$table->status,
 			$table->start_date,
 			$table->end_date,
-			$table->e_contract_exp_rem_days,
 			$table->paper_contract_end_date,
+			$table->e_contract_exp_rem_days,
 			$table->p_contract_exp_rem_days,
 			$table->basic_salary,
 			$table->housing_allowance,
@@ -309,8 +314,16 @@ class ContractTable
 	}
 
 
-	public static function getFilters()
+	public static function getFilters($statusOptions)
 	{
+		$statusOptions = $statusOptions ?? [
+			'Active' => 'Active',
+			'Upcoming' => 'Upcoming',
+			'Expired (Electronic)' => 'Expired (Electronic)',
+			'Expired (Paper)' => 'Expired (Paper)',
+			'Expired (Both)' => 'Expired (Both)',
+		];
+
 		return [
 			Filter::make('employee_number')
 				->indicateUsing(function (array $data) {
@@ -339,16 +352,11 @@ class ContractTable
 				->preload()
 				->searchable(),
 			SelectFilter::make('status')
+				->hidden(condition: $statusOptions === [])
 				->label('Status')
 				->native(false)
 				->multiple()
-				->options([
-					'Upcoming' => 'Upcoming',
-					'Active' => 'Active',
-					'Expired (Both)' => 'Expired (Both)',
-					'Expired (Electronic)' => 'Expired (Electronic)',
-					'Expired (Paper)' => 'Expired (Paper)',
-				]),
+				->options($statusOptions),
 			QueryBuilder::make()
 				->constraints([
 					DateConstraint::make('start_date')
@@ -449,13 +457,16 @@ class ContractTable
 		];
 	}
 
-	public static function getTable(Table $table, ?array $columns = null): Table
+	public static function getTable(Table $table, ?array $columns = null, $statusOptions = null): Table
 	{
 		return $table
+			->recordUrl(
+				fn(Contract $record): string => ViewEmployee::getUrl([$record->employee_number]),
+			)
 			->searchOnBlur()
 			->defaultSort('start_date', 'desc')
 			->columns(ContractTable::getColumns($columns))
-			->filters(ContractTable::getFilters(), layout: FiltersLayout::Modal)
+			->filters(ContractTable::getFilters($statusOptions), layout: FiltersLayout::Modal)
 			->filtersFormWidth(MaxWidth::TwoExtraLarge)
 			->actions(ContractTable::getActions(), position: ActionsPosition::BeforeColumns)
 			->bulkActions(ContractTable::getBulkActions())

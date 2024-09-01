@@ -18,6 +18,8 @@ class ContractResource extends Resource
 
     protected static ?string $navigationLabel = 'All';
 
+    protected static ?int $navigationSort = 5;
+
     protected static ?string $cluster = ContractsCluster::class;
 
     public static function form(Form $form): Form

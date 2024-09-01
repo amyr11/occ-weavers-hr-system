@@ -2,6 +2,7 @@
 
 namespace App\Filament\Clusters\EmployeeLeavesCluster\Resources;
 
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeResource\Pages\ViewEmployee;
 use App\Filament\Exports\EmployeeLeaveExporter;
 use App\Filament\Imports\EmployeeLeaveImporter;
 use Filament\Tables\Columns\ToggleColumn;
@@ -31,12 +32,16 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Actions;
+use Filament\Forms\Components\Placeholder;
+use Illuminate\Database\Eloquent\Model;
 
 class EmployeeLeaveTable
 {
 	public static function getSchema()
 	{
 		return [
+			Placeholder::make('updated_at')
+				->content(fn(Model $record): string => $record->updated_at->format('M d, Y H:i:s')),
 			Section::make('Employee Information')
 				->schema([
 					Grid::make([
@@ -165,7 +170,6 @@ class EmployeeLeaveTable
 			->toggleable()
 			->label('Employee no.')
 			->searchable(isIndividual: true, isGlobal: false)
-			->copyable()
 			->placeholder('-')
 			->sortable();
 
@@ -393,6 +397,9 @@ class EmployeeLeaveTable
 	public static function getTable(Table $table, ?array $columns = null, ?array $statusOptions = null)
 	{
 		return $table
+			->recordUrl(
+				fn(EmployeeLeave $record): string => ViewEmployee::getUrl([$record->employee_number]),
+			)
 			->searchOnBlur()
 			->defaultSort('start_date', 'desc')
 			->columns(EmployeeLeaveTable::getColumns(columns: $columns))

@@ -7,6 +7,8 @@ use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeResource\Pages;
 use App\Filament\Clusters\EmployeesCluster\Resources\EmployeeTable;
 use App\Models\Employee;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
 use Filament\Tables\Table;
