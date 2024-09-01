@@ -48,13 +48,15 @@ class EmployeeTable
 					FileUpload::make('image')
 						->image()
 						->optimize('webp')
-						->resize(80)
+						// ->resize(80)
+						->avatar()
 						->imageEditor()
 						->moveFiles()
 						->directory('employee-images')
 						->visibility('private')
 						->maxSize(8000)
-						->previewable(),
+						->previewable()
+						->downloadable(),
 					Grid::make([
 						'md' => 3,
 					])
