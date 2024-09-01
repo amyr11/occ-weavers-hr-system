@@ -14,9 +14,9 @@ class EmployeesOverview extends BaseWidget
         $activeEmployeesCount = Employee::where('status', 'Active')->count();
         $saudi = Country::where('name', 'Saudi Arabian')->first();
         $saudiArabiansCount = $saudi != null ? $saudi->employees->where('status', 'Active')->count() : 0;
-        $saudiArabiansPercentage = $saudiArabiansCount / $activeEmployeesCount * 100;
+        $saudiArabiansPercentage = round($saudiArabiansCount / $activeEmployeesCount * 100, 1);
         $nonSaudiArabiansCount = $activeEmployeesCount - $saudiArabiansCount;
-        $nonSaudiArabiansPercentage = $nonSaudiArabiansCount / $activeEmployeesCount * 100;
+        $nonSaudiArabiansPercentage = round($nonSaudiArabiansCount / $activeEmployeesCount * 100, 1);
 
         return [
             Stat::make('Active Employees', $activeEmployeesCount)
