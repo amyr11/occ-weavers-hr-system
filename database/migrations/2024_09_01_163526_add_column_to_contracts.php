@@ -30,7 +30,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('contracts', function (Blueprint $table) {
-            //
+            $table->dropColumn('e_contract_exp_rem_days');
+            $table->dropColumn('p_contract_exp_rem_days');
+            $table->dropColumn('status');
         });
     }
 };
