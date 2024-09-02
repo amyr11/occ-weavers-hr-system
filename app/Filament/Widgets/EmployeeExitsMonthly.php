@@ -105,7 +105,7 @@ class EmployeeExitsMonthly extends ApexChartWidget
 
         return [
             'chart' => [
-                'type' => 'line',
+                'type' => 'bar',
                 'height' => 300,
             ],
             'series' => [
