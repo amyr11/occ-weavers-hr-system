@@ -45,8 +45,6 @@ class EmployeeTable
 	public static function getSchema()
 	{
 		return [
-			Placeholder::make('updated_at')
-				->content(fn(Model $record): string => $record->updated_at->format('M d, Y H:i:s')),
 			Section::make('Personal Information')
 				->icon('heroicon-o-user')
 				->collapsible()

@@ -15,7 +15,7 @@ class ContractsRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema(array_slice(ContractTable::getSchema(), 2));
+            ->schema(array_slice(ContractTable::getSchema(), 1));
     }
 
     public function table(Table $table): Table

@@ -40,8 +40,6 @@ class EmployeeLeaveTable
 	public static function getSchema()
 	{
 		return [
-			Placeholder::make('updated_at')
-				->content(fn(Model $record): string => $record->updated_at->format('M d, Y H:i:s')),
 			Section::make('Employee Information')
 				->schema([
 					Grid::make([
