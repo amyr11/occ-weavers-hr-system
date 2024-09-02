@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bonus;
 use App\Models\Project;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
             EmployeeSeeder::class,
             ContractSeeder::class,
             EmployeeLeaveSeeder::class,
+            BonusSeeder::class,
         ]);
     }
 }
