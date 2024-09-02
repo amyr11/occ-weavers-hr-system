@@ -961,7 +961,8 @@ class EmployeeTable
 			->filters(EmployeeTable::getFilters(), layout: FiltersLayout::Modal)
 			->filtersFormWidth(MaxWidth::TwoExtraLarge)
 			->actions(EmployeeTable::getActions(), position: ActionsPosition::BeforeColumns)
-			->bulkActions(EmployeeTable::getBulkActions());
+			->bulkActions(EmployeeTable::getBulkActions())
+			->defaultSort('updated_at', 'desc');
 	}
 
 	public static function getHeaderActions(): array
