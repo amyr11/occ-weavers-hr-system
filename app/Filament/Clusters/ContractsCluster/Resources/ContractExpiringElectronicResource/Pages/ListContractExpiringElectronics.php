@@ -3,6 +3,7 @@
 namespace App\Filament\Clusters\ContractsCluster\Resources\ContractExpiringElectronicResource\Pages;
 
 use App\Filament\Clusters\ContractsCluster\Resources\ContractExpiringElectronicResource;
+use App\Filament\Clusters\ContractsCluster\Resources\ContractTable;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -12,8 +13,6 @@ class ListContractExpiringElectronics extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        return [
-            Actions\CreateAction::make(),
-        ];
+        return ContractTable::getHeaderActions();
     }
 }
