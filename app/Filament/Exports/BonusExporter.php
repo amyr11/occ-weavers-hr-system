@@ -15,7 +15,10 @@ class BonusExporter extends Exporter
     public static function getColumns(): array
     {
         return [
-            ExportColumn::make('employee_number'),
+            ExportColumn::make('employee.employee_number')
+                ->label('Employee no.'),
+            ExportColumn::make('employee.full_name')
+                ->label('Employee name'),
             DateExportColumn::make('date_received'),
             ExportColumn::make('created_at'),
             ExportColumn::make('updated_at'),
