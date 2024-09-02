@@ -2,7 +2,6 @@
 
 namespace App\Filament\Imports;
 
-use App\Filament\Imports\Utils\DateImportColumn;
 use App\Models\Bonus;
 use Filament\Actions\Imports\ImportColumn;
 use Filament\Actions\Imports\Importer;
@@ -19,7 +18,11 @@ class BonusImporter extends Importer
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
-            DateImportColumn::make('date_received')
+            ImportColumn::make('bonus')
+                ->requiredMapping()
+                ->numeric()
+                ->rules(['required', 'numeric']),
+            ImportColumn::make('date_received')
                 ->requiredMapping()
                 ->rules(['required', 'date']),
         ];
