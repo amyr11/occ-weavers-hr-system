@@ -52,7 +52,6 @@ class EmployeeTable
 				->schema([
 					FileUpload::make('image')
 						->image()
-						->optimize('webp')
 						->avatar()
 						->imageEditor()
 						->moveFiles()
