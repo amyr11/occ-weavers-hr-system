@@ -36,6 +36,9 @@ use Illuminate\Support\Pluralizer;
 use Filament\Actions;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
+use Spatie\LaravelPdf\Enums\Format;
+
+use function Spatie\LaravelPdf\Support\pdf;
 
 class EmployeeTable
 {
@@ -769,7 +772,9 @@ class EmployeeTable
 				->label('PDF')
 				->color('danger')
 				->icon('heroicon-s-document')
-				->url(fn(Employee $employee) => route('file-information-sheet', $employee)),
+				->action(function (Model $record) {
+					return self::downloadPdf($record);
+				}),
 		];
 	}
 
@@ -780,9 +785,22 @@ class EmployeeTable
 				->label('PDF')
 				->color('danger')
 				->icon('heroicon-s-document')
-				->url(fn(Employee $employee) => route('file-information-sheet', $employee)),
+				->action(function (Model $record) {
+					return self::downloadPdf($record);
+				}),
 			Actions\EditAction::make(),
 		];
+	}
+
+	public static function downloadPdf($record)
+	{
+		return response()->streamDownload(function () use ($record) {
+			echo base64_decode(pdf()
+				->view('pdf.file_information_sheet', ['employee' => $record])
+				->format(Format::A4)
+				->margins(5, 10, 5, 10)
+				->base64());
+		}, $record->employee_number . '-' . $record->full_name . '.pdf');
 	}
 
 	public static function getBulkActions()
