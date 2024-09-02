@@ -143,14 +143,14 @@ class ContractTable
 		$this->employee_number = Tables\Columns\TextColumn::make('employee_number')
 			->toggleable()
 			->label('Employee no.')
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->placeholder('-')
 			->sortable();
 
 		$this->employee_full_name = Tables\Columns\TextColumn::make('employee.full_name')
 			->toggleable()
 			->label('Employee name')
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->copyable()
 			->placeholder('-')
 			->sortable();
@@ -233,7 +233,7 @@ class ContractTable
 			->toggleable()
 			->copyable()
 			->placeholder('-')
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->extraAttributes([
 				'style' => 'min-width: 200px',
 			]);

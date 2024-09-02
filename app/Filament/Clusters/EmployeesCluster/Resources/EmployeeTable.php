@@ -313,7 +313,7 @@ class EmployeeTable
 			->placeholder('-')
 			->searchable()
 			->sortable()
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->extraAttributes([
 				'style' => 'min-width: 150px',
 			]);
@@ -324,7 +324,7 @@ class EmployeeTable
 			->searchable()
 			->placeholder('-')
 			->sortable()
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->extraAttributes([
 				'style' => 'min-width: 200px',
 			]);
@@ -373,7 +373,7 @@ class EmployeeTable
 			->toggleable()
 			->placeholder('-')
 			->sortable()
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->extraAttributes([
 				'style' => 'min-width: 200px',
 			]);
@@ -399,7 +399,7 @@ class EmployeeTable
 			->label('Mobile no.')
 			->toggleable()
 			->placeholder('-')
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->copyable()
 			->sortable()
 			->extraAttributes([
@@ -409,7 +409,7 @@ class EmployeeTable
 		$this->labor_office_number = TextColumn::make('labor_office_number')
 			->label('Labor Office no.')
 			->toggleable()
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->copyable()
 			->placeholder('-')
 			->sortable()
@@ -420,7 +420,7 @@ class EmployeeTable
 		$this->iban_number = TextColumn::make('iban_number')
 			->label('IBAN no.')
 			->toggleable()
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->copyable()
 			->placeholder('-')
 			->sortable()
@@ -431,7 +431,7 @@ class EmployeeTable
 		$this->iqama_number = TextColumn::make('iqama_number')
 			->label('IQAMA no.')
 			->toggleable()
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->copyable()
 			->placeholder('-')
 			->sortable()
@@ -442,7 +442,7 @@ class EmployeeTable
 		$this->iqama_job_title = TextColumn::make('iqama_job_title')
 			->label('IQAMA Job Title')
 			->toggleable()
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->copyable()
 			->sortable()
 			->placeholder('-')
@@ -476,7 +476,7 @@ class EmployeeTable
 		$this->passport_number = TextColumn::make('passport_number')
 			->label('Passport no.')
 			->toggleable()
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->copyable()
 			->placeholder('-')
 			->sortable()

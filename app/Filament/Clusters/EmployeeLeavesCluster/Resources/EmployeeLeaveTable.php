@@ -169,20 +169,21 @@ class EmployeeLeaveTable
 		$this->employee_number = Tables\Columns\TextColumn::make('employee_number')
 			->toggleable()
 			->label('Employee no.')
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->placeholder('-')
 			->sortable();
 
 		$this->employee_full_name = Tables\Columns\TextColumn::make('employee.full_name')
 			->toggleable()
 			->label('Employee name')
-			->searchable(isIndividual: true, isGlobal: false)
+			->searchable(isIndividual: true, isGlobal: true)
 			->copyable()
 			->placeholder('-')
 			->sortable();
 
 		$this->contact_number = Tables\Columns\TextColumn::make('contact_number')
 			->toggleable()
+			->searchable(isIndividual: true, isGlobal: true)
 			->placeholder('-')
 			->copyable()
 			->sortable();
@@ -377,10 +378,17 @@ class EmployeeLeaveTable
 			QueryBuilder::make()
 				->constraints([
 					DateConstraint::make('start_date')
+						->label('Departure date')
 						->icon('heroicon-o-calendar'),
 					DateConstraint::make('end_date')
+						->label('Return date')
+						->icon('heroicon-o-calendar'),
+					DateConstraint::make('visa_expiration')
+						->label('Visa expiration')
 						->icon('heroicon-o-calendar'),
 					NumberConstraint::make('duration_in_days')
+						->icon('heroicon-o-hashtag'),
+					NumberConstraint::make('visa_duration_in_days')
 						->icon('heroicon-o-hashtag'),
 				])
 		];
