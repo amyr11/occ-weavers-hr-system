@@ -74,15 +74,6 @@ class EmployeeTable
 						'md' => 3,
 					])
 						->schema([
-							DatePicker::make('birthdate'),
-							TextInput::make('mobile_number'),
-							TextInput::make('email')
-								->email(),
-						]),
-					Grid::make([
-						'md' => 2,
-					])
-						->schema([
 							Select::make('country_id')
 								->relationship('country', 'name')
 								->preload()
@@ -94,6 +85,19 @@ class EmployeeTable
 									];
 								})
 								->searchable(),
+							TextInput::make('mobile_number'),
+							TextInput::make('email')
+								->email(),
+						]),
+					Grid::make([
+						'md' => 2,
+					])
+						->schema([
+							DatePicker::make('birthdate'),
+							TextInput::make('age')
+								->numeric()
+								->hiddenOn(['create'])
+								->disabled(),
 						]),
 				]),
 			Section::make('Company information')
