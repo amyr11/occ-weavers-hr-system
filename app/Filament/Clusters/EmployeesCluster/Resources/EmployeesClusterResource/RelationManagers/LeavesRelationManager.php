@@ -18,7 +18,7 @@ class LeavesRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema(array_merge(array_slice(EmployeeLeaveTable::getSchema(), 1), [
+            ->schema(array_merge(array_slice(EmployeeLeaveTable::getSchema(), 2), [
                 Forms\Components\TextInput::make('contact_number')
                     ->label('Contact number')
                     ->maxLength(255),
