@@ -1,3 +1,7 @@
 @import '/vendor/filament/filament/resources/css/theme.css';
 
 @config 'tailwind.config.js';
+
+.fi-simple-layout {
+	@apply bg-[url('https://wallpapers.com/images/hd/saudi-arabia-s-center-point-tower-gab22a7zldrkum0h.jpg')] bg-no-repeat bg-cover;
+}
