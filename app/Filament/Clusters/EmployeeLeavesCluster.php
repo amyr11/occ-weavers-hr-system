@@ -6,7 +6,7 @@ use Filament\Clusters\Cluster;
 
 class EmployeeLeavesCluster extends Cluster
 {
-    protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
+    protected static ?string $navigationIcon = 'heroicon-m-calendar-days';
 
     protected static ?int $navigationSort = 3;
 }
