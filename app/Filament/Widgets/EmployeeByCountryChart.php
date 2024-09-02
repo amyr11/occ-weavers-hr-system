@@ -23,6 +23,23 @@ class EmployeeByCountryChart extends ApexChartWidget
 
     protected int | string | array $columnSpan = 'full';
 
+    private function sortDataByPercentage(array $percentages, array $countries)
+    {
+        $data = [];
+        foreach ($percentages as $index => $percentage) {
+            $data[] = [
+                'country' => $countries[$index],
+                'percentage' => $percentage,
+            ];
+        }
+
+        usort($data, function ($a, $b) {
+            return $b['percentage'] > $a['percentage'];
+        });
+
+        return $data;
+    }
+
     /**
      * Chart options (series, labels, types, size, animations...)
      * https://apexcharts.com/docs/options
@@ -37,6 +54,7 @@ class EmployeeByCountryChart extends ApexChartWidget
         $data = $countries->map(fn($nationality) => $nationality->employees->where('status', 'Active')->count());
         $total = $data->sum();
         $percentages = $data->map(fn($count) => $total ? round(($count / $total) * 100, 1) : 0);
+        $sortedData = $this->sortDataByPercentage($percentages->toArray(), $countryNames->toArray());
 
         return [
             'chart' => [
@@ -46,11 +64,11 @@ class EmployeeByCountryChart extends ApexChartWidget
             'series' => [
                 [
                     'name' => 'Percentage',
-                    'data' => $percentages,
+                    'data' => array_map(fn($item) => $item['percentage'], $sortedData),
                 ],
             ],
             'xaxis' => [
-                'categories' => $countryNames,
+                'categories' => array_map(fn($item) => $item['country'], $sortedData),
                 'labels' => [
                     'style' => [
                         'fontFamily' => 'inherit',
