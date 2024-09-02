@@ -21,6 +21,8 @@ class EmployeeByCountryChart extends ApexChartWidget
      */
     protected static ?string $heading = 'Employee % by Country';
 
+    protected int | string | array $columnSpan = 'full';
+
     /**
      * Chart options (series, labels, types, size, animations...)
      * https://apexcharts.com/docs/options
