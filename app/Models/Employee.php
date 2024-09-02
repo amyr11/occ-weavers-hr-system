@@ -34,6 +34,11 @@ class Employee extends Model
 
     protected $guarded = [];
 
+    public function bonuses()
+    {
+        return $this->hasMany(Bonus::class, 'employee_number', 'employee_number');
+    }
+
     public function country()
     {
         return $this->belongsTo(Country::class);

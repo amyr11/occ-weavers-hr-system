@@ -2,6 +2,7 @@
 
 namespace App\Filament\Clusters\EmployeesCluster\Resources;
 
+use App\Filament\Clusters\EmployeesCluster\Resources\EmployeesClusterResource\RelationManagers\BonusesRelationManager;
 use App\Filament\Clusters\EmployeesCluster\Resources\EmployeesClusterResource\RelationManagers\ContractsRelationManager;
 use App\Filament\Clusters\EmployeesCluster\Resources\EmployeesClusterResource\RelationManagers\LeavesRelationManager;
 use App\Filament\Clusters\EmployeesCluster\Resources\EmployeesClusterResource\RelationManagers\ProjectAssignmentsRelationManager;
@@ -979,6 +980,7 @@ class EmployeeTable
 		return [
 			ContractsRelationManager::class,
 			LeavesRelationManager::class,
+			BonusesRelationManager::class,
 		];
 	}
 }

@@ -190,7 +190,7 @@
 	@if ($employee->leaves->isEmpty())
 	<p class="text-center text-sm text-gray-500 mb-5">No leave history available.</p>
 	@else
-	<table class="w-full mt-5">
+	<table class="w-full mt-5 mb-5">
 		<thead>
 			<tr class="bg-[#f0f7f2] text-[#086A38]">
 				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Departure</th>
@@ -204,6 +204,35 @@
 				<td class="px-2 py-2 text-xs text-black">{{ $leave->start_date?->format(config('app.date_format')) ?? '-' }}</td>
 				<td class="px-2 py-2 text-xs text-black">{{ $leave->end_date?->format(config('app.date_format')) ?? '-' }}</td>
 				<td class="px-2 py-2 text-xs text-black font-bold">{{ $leave->duration_in_days ? $leave->duration_in_days . Illuminate\Support\Pluralizer::plural(' day', $leave->duration_in_days) : '-' }}</td>
+			</tr>
+			@endforeach
+		</tbody>
+	</table>
+	@endif
+
+	<!-- @pageBreak -->
+
+	<!-- Bonus history header -->
+	<div class="mb-5 flex rounded-md bg-[#086A38] p-2 text-white">
+		<h1 class="mx-auto text-center text-sm font-medium">Bonus history</h1>
+	</div>
+
+	<!-- Bonus history table -->
+	@if ($employee->bonuses->isEmpty())
+	<p class="text-center text-sm text-gray-500 mb-5">No bonus history available.</p>
+	@else
+	<table class="w-full mt-5">
+		<thead>
+			<tr class="bg-[#f0f7f2] text-[#086A38]">
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Date received</th>
+				<th class="border-separate border-b border-[#086A38] px-2 py-2 text-start text-xs font-medium">Bonus</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach ($employee->bonuses?->sortByDesc('date_received') as $bonus)
+			<tr class="border-b border-gray-300">
+				<td class="px-2 py-2 text-xs text-black">{{ $bonus->date_received?->format(config('app.date_format')) ?? '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black">{{ $bonus->bonus ?? '-' }} <span class="text-[#086A38] font-medium text-[9px]">SAR</span></td>
 			</tr>
 			@endforeach
 		</tbody>

@@ -117,12 +117,14 @@ class BonusTable
 		$this->created_at = Tables\Columns\TextColumn::make('created_at')
 			->dateTime()
 			->sortable()
-			->toggleable();
+			->toggleable()
+			->toggledHiddenByDefault();
 
 		$this->updated_at = Tables\Columns\TextColumn::make('updated_at')
 			->dateTime()
 			->sortable()
-			->toggleable();
+			->toggleable()
+			->toggledHiddenByDefault();
 	}
 
 	public static function getColumns(?array $columns = null)
