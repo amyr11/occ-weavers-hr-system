@@ -69,8 +69,6 @@ class EmployeeTable
 								->required(),
 							TextInput::make('employee_number')
 								->label('Employee no.')
-								->disabled()
-								->hiddenOn(['create']),
 						]),
 					Grid::make([
 						'md' => 3,
