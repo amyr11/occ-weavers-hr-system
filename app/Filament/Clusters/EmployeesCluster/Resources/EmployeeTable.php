@@ -126,12 +126,14 @@ class EmployeeTable
 								}),
 						]),
 					Grid::make([
-						'md' => 3,
+						'md' => 4,
 					])
 						->schema([
 							DatePicker::make('electronic_contract_start_date')
 								->disabled(),
 							DatePicker::make('electronic_contract_end_date')
+								->disabled(),
+							DatePicker::make('paper_contract_start_date')
 								->disabled(),
 							DatePicker::make('paper_contract_end_date')
 								->disabled(),
