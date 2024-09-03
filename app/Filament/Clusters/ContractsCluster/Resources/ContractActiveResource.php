@@ -24,7 +24,12 @@ class ContractActiveResource extends Resource
 
     private static function getQuery()
     {
-        return Contract::where('status', '=', 'Active');
+        return Contract::where(
+            function ($query) {
+                $query->where('status', '=', 'Active')
+                    ->orWhere('status', '=', 'Expired (Paper)');
+            }
+        );
     }
 
     public static function getNavigationBadge(): ?string
@@ -49,26 +54,9 @@ class ContractActiveResource extends Resource
 
         return ContractTable::getTable(
             $table,
-            statusOptions: [],
-            columns: [
-                $contractTable->employee_number,
-                $contractTable->employee_full_name,
-                $contractTable->employeeJob_job_title,
-                $contractTable->duration_in_years,
-                $contractTable->status->toggledHiddenByDefault(),
-                $contractTable->start_date,
-                $contractTable->end_date,
-                $contractTable->paper_contract_end_date,
-                $contractTable->e_contract_exp_rem_days,
-                $contractTable->p_contract_exp_rem_days,
-                $contractTable->basic_salary,
-                $contractTable->housing_allowance,
-                $contractTable->transportation_allowance,
-                $contractTable->food_allowance,
-                $contractTable->remarks,
-                $contractTable->file_link,
-                $contractTable->created_at,
-                $contractTable->updated_at,
+            statusOptions: [
+                'Active' => 'Active',
+                'Expired (Paper)' => 'Expired (Paper)',
             ],
         )
             ->query(self::getQuery());

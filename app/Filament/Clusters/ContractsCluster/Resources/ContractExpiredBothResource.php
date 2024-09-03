@@ -24,7 +24,17 @@ class ContractExpiredBothResource extends Resource
 
     private static function getQuery()
     {
-        return Contract::where('status', '=', 'Expired (Both)');
+        // All employees have many contracts
+        // Return the contracts that are past end_date
+        // But, if the employee has a latest active contract, do not return the expired contracts
+        return Contract::where('status', '=', 'Expired (Both)')
+            ->whereNotIn(
+                'employee_number',
+                Contract::where('status', '=', 'Active')
+                    ->orWhere('status', '=', 'Upcoming')
+                    ->orWhere('status', '=', 'Expired (Paper)')
+                    ->pluck('employee_number')
+            );
     }
 
     public static function getNavigationBadge(): ?string
