@@ -15,6 +15,7 @@ class ContractObserver
         $employee->employee_job_id = $latestContract ? $latestContract->employee_job_id : null;
         $employee->electronic_contract_start_date = $latestContract ? $latestContract->start_date : null;
         $employee->electronic_contract_end_date = $latestContract ? $latestContract->end_date : null;
+        $employee->paper_contract_start_date = $latestContract ? $latestContract->paper_contract_start_date : null;
         $employee->paper_contract_end_date = $latestContract ? $latestContract->paper_contract_end_date : null;
 
         $employee->save();
