@@ -161,17 +161,6 @@ class EmployeeTable
 							DatePicker::make('visa_expired_date'),
 							DatePicker::make('transferred_date'),
 						]),
-					Grid::make([
-						'md' => 2,
-					])
-						->schema([
-							TextInput::make('max_leave_days')
-								->numeric()
-								->default(21),
-							TextInput::make('current_leave_days')
-								->numeric()
-								->default(0),
-						]),
 				]),
 			Section::make('Government information')
 				->icon('heroicon-o-identification')
@@ -299,8 +288,6 @@ class EmployeeTable
 	public Column $final_exit_date;
 	public Column $visa_expired_date;
 	public Column $transferred_date;
-	public Column $max_leave_days;
-	public Column $current_leave_days;
 	public Column $created_at;
 	public Column $updated_at;
 
@@ -561,18 +548,6 @@ class EmployeeTable
 			->placeholder('-')
 			->sortable();
 
-		$this->max_leave_days = TextColumn::make('max_leave_days')
-			->copyable()
-			->toggleable()
-			->placeholder('-')
-			->sortable();
-
-		$this->current_leave_days = TextColumn::make('current_leave_days')
-			->copyable()
-			->toggleable()
-			->placeholder('-')
-			->sortable();
-
 		$this->created_at = TextColumn::make('created_at')
 			->copyable()
 			->toggleable()
@@ -622,8 +597,6 @@ class EmployeeTable
 			$table->final_exit_date,
 			$table->visa_expired_date,
 			$table->transferred_date,
-			$table->max_leave_days,
-			$table->current_leave_days,
 			$table->created_at,
 			$table->updated_at,
 		];
@@ -755,10 +728,6 @@ class EmployeeTable
 						->icon('heroicon-o-calendar'),
 					DateConstraint::make('transferred_date')
 						->icon('heroicon-o-calendar'),
-					NumberConstraint::make('max_leave_days')
-						->icon('heroicon-o-hashtag'),
-					NumberConstraint::make('current_leave_days')
-						->icon('heroicon-o-hashtag'),
 				])
 		];
 	}
@@ -921,15 +890,6 @@ class EmployeeTable
 								];
 							})
 							->preload(),
-					]
-				),
-				TableUtil::getUpdateBulkAction(
-					column: 'max_leave_days',
-					icon: 'heroicon-o-calendar-days',
-					label: 'Max Leave Days',
-					form: [
-						TextInput::make('max_leave_days')
-							->numeric(),
 					]
 				),
 			])

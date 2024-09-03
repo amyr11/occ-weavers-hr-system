@@ -78,8 +78,6 @@ class EmployeeSeniorsResource extends Resource
                 $employeeTable->final_exit_date->toggledHiddenByDefault(),
                 $employeeTable->visa_expired_date->toggledHiddenByDefault(),
                 $employeeTable->transferred_date->toggledHiddenByDefault(),
-                $employeeTable->max_leave_days->toggledHiddenByDefault(),
-                $employeeTable->current_leave_days->toggledHiddenByDefault(),
                 $employeeTable->created_at,
                 $employeeTable->updated_at,
             ],

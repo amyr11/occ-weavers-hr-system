@@ -26,8 +26,8 @@ class ContractActiveResource extends Resource
     {
         return Contract::where(
             function ($query) {
-                $query->where('status', '=', 'Active')
-                    ->orWhere('status', '=', 'Expired (Paper)');
+                $query->where('start_date', '<=', now())
+                    ->where('end_date', '>', now());
             }
         );
     }

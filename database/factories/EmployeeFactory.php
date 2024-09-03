@@ -51,7 +51,6 @@ class EmployeeFactory extends Factory
             'passport_expiration' => $this->faker->date(),
             'sce_expiration' => $this->faker->date(),
             'company_start_date' => $this->faker->date(),
-            'max_leave_days' => 21,
         ];
     }
 }

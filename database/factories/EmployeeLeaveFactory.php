@@ -19,7 +19,7 @@ class EmployeeLeaveFactory extends Factory
      */
     public function definition(): array
     {
-        $employee = Employee::where('current_leave_days', '>', 0)->inRandomOrder()->first();
+        $employee = Employee::all()->random();
 
         // Define the date range
         $startRange = Carbon::create(2023, 1, 1);
@@ -37,7 +37,7 @@ class EmployeeLeaveFactory extends Factory
         }
 
         // Calculate end date
-        $end_date = $this->faker->dateTimeBetween($start_date, $start_date . " + {$employee->current_leave_days} days")->format('Y-m-d');
+        $end_date = $this->faker->dateTimeBetween($start_date, $start_date . " + {$this->faker->numberBetween(30, 60)} days")->format('Y-m-d');
         $end_date = Carbon::parse($end_date)->greaterThan($endRange) ? $endRange : $end_date;
         $end_date = Carbon::parse($end_date)->lessThan($startRange) ? $start_date : $end_date;
 

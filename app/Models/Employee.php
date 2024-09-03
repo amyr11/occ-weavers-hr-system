@@ -78,9 +78,4 @@ class Employee extends Model
     {
         return $this->belongsTo(Project::class);
     }
-
-    public function addLeaves(int $days)
-    {
-        $this->current_leave_days += $days;
-    }
 }

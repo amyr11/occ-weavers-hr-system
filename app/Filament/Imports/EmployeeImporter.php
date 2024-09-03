@@ -84,10 +84,6 @@ class EmployeeImporter extends Importer
                 ->ignoreBlankState(),
             DateImportColumn::make('transferred_date')
                 ->ignoreBlankState(),
-            ImportColumn::make('max_leave_days')
-                ->ignoreBlankState()
-                ->numeric()
-                ->rules(['nullable', 'integer']),
         ];
     }
 

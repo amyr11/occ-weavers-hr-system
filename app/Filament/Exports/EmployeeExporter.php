@@ -45,8 +45,6 @@ class EmployeeExporter extends Exporter
             DateExportColumn::make('final_exit_date'),
             DateExportColumn::make('visa_expired_date'),
             DateExportColumn::make('transferred_date'),
-            ExportColumn::make('max_leave_days'),
-            ExportColumn::make('current_leave_days'),
             ExportColumn::make('created_at'),
             ExportColumn::make('updated_at'),
         ];

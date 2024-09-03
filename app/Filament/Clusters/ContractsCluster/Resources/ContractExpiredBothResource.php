@@ -5,6 +5,7 @@ namespace App\Filament\Clusters\ContractsCluster\Resources;
 use App\Filament\Clusters\ContractsCluster;
 use App\Filament\Clusters\ContractsCluster\Resources\ContractExpiredBothResource\Pages;
 use App\Models\Contract;
+use App\Models\Employee;
 use Filament\Forms\Form;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Resources\Resource;
@@ -27,13 +28,23 @@ class ContractExpiredBothResource extends Resource
         // All employees have many contracts
         // Return the contracts that are past end_date
         // But, if the employee has a latest active contract, do not return the expired contracts
-        return Contract::where('status', '=', 'Expired (Both)')
+        return Contract::where(
+            function ($query) {
+                $query->where('status', '=', 'Expired (Both)')
+                    ->orWhereNull('end_date');
+            }
+        )
             ->whereNotIn(
                 'employee_number',
-                Contract::where('status', '=', 'Active')
-                    ->orWhere('status', '=', 'Upcoming')
-                    ->orWhere('status', '=', 'Expired (Paper)')
-                    ->pluck('employee_number')
+                Contract::where(
+                    function ($query) {
+                        $query->where('end_date', '>', now());
+                    }
+                )->pluck('employee_number')
+            )
+            ->whereNotIn(
+                'employee_number',
+                Employee::where('status', '!=', 'Active')->pluck('employee_number')
             );
     }
 

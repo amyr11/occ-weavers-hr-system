@@ -79,10 +79,8 @@ class ContractTable
 						'md' => 3,
 					])
 						->schema([
-							Forms\Components\DatePicker::make('start_date')
-								->required(),
-							Forms\Components\DatePicker::make('end_date')
-								->required(),
+							Forms\Components\DatePicker::make('start_date'),
+							Forms\Components\DatePicker::make('end_date'),
 							Forms\Components\DatePicker::make('paper_contract_end_date'),
 						])
 				]),
@@ -269,7 +267,7 @@ class ContractTable
 				'Expired (Both)' => 'danger',
 				'Expired (Electronic)' => 'warning',
 				'Expired (Paper)' => 'warning',
-				default => 'info',
+				default => 'gray',
 			})
 			->placeholder('-')
 			->sortable();

@@ -42,12 +42,7 @@ class EmployeeLeaveObserver
     public function created(EmployeeLeave $employeeLeave): void
     {
         $employee = $employeeLeave->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves(-$employeeLeave->duration_in_days);
-
         $this->updateEmployeeStatus($employeeLeave);
-
         $employeeLeave->calculateVisaDurationDays();
 
         $employee->save();
@@ -60,12 +55,7 @@ class EmployeeLeaveObserver
     public function updated(EmployeeLeave $employeeLeave): void
     {
         $employee = $employeeLeave->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves($employeeLeave->getOriginal('duration_in_days') - $employeeLeave->duration_in_days);
-
         $this->updateEmployeeStatus($employeeLeave);
-
         $employeeLeave->calculateVisaDurationDays();
 
         $employee->save();
@@ -78,10 +68,6 @@ class EmployeeLeaveObserver
     public function deleted(EmployeeLeave $employeeLeave): void
     {
         $employee = $employeeLeave->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves($employeeLeave->duration_in_days);
-
         $employee->visa_expired_date = null;
 
         $employee->save();
@@ -93,10 +79,6 @@ class EmployeeLeaveObserver
     public function restored(EmployeeLeave $employeeLeave): void
     {
         $employee = $employeeLeave->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves(-$employeeLeave->duration_in_days);
-
         $this->setEmployeeStatus($employeeLeave, $employeeLeave->status);
 
         $employee->save();
@@ -109,10 +91,6 @@ class EmployeeLeaveObserver
     public function forceDeleted(EmployeeLeave $employeeLeave): void
     {
         $employee = $employeeLeave->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves($employeeLeave->duration_in_days);
-
         $employee->visa_expired_date = null;
 
         $employee->save();

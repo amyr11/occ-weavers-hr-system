@@ -74,8 +74,6 @@ class EmployeeActiveResource extends Resource
                 $employeeTable->final_exit_date,
                 $employeeTable->visa_expired_date,
                 $employeeTable->transferred_date,
-                $employeeTable->max_leave_days,
-                $employeeTable->current_leave_days,
                 $employeeTable->created_at,
                 $employeeTable->updated_at,
             ],

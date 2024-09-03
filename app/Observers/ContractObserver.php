@@ -7,13 +7,17 @@ use App\Models\Employee;
 
 class ContractObserver
 {
-    private function updateEmployeeContractDates(Employee $employee): void
+    private function updateEmployeeContractDates(Contract $contract): void
     {
+        $employee = $contract->employee;
         $latestContract = $employee->contracts()->latest('end_date')->first();
+
         $employee->employee_job_id = $latestContract ? $latestContract->employee_job_id : null;
         $employee->electronic_contract_start_date = $latestContract ? $latestContract->start_date : null;
         $employee->electronic_contract_end_date = $latestContract ? $latestContract->end_date : null;
         $employee->paper_contract_end_date = $latestContract ? $latestContract->paper_contract_end_date : null;
+
+        $employee->save();
     }
 
     /**
@@ -21,14 +25,7 @@ class ContractObserver
      */
     public function created(Contract $contract): void
     {
-        $employee = $contract->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves($employee->max_leave_days * $contract->getDurationInYears());
-
-        $this->updateEmployeeContractDates($employee);
-
-        $employee->save();
+        $this->updateEmployeeContractDates($contract);
     }
 
     /**
@@ -36,14 +33,7 @@ class ContractObserver
      */
     public function updated(Contract $contract): void
     {
-        $employee = $contract->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves(($contract->getDurationInYears() - $contract->getOriginal('duration_in_years')) * $employee->max_leave_days);
-
-        $this->updateEmployeeContractDates($employee);
-
-        $employee->save();
+        $this->updateEmployeeContractDates($contract);
     }
 
     /**
@@ -51,14 +41,7 @@ class ContractObserver
      */
     public function deleted(Contract $contract): void
     {
-        $employee = $contract->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves(-$contract->getDurationInYears() * $employee->max_leave_days);
-
-        $this->updateEmployeeContractDates($employee);
-
-        $employee->save();
+        $this->updateEmployeeContractDates($contract);
     }
 
     /**
@@ -66,14 +49,7 @@ class ContractObserver
      */
     public function restored(Contract $contract): void
     {
-        $employee = $contract->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves($employee->max_leave_days * $contract->getDurationInYears());
-
-        $this->updateEmployeeContractDates($employee);
-
-        $employee->save();
+        $this->updateEmployeeContractDates($contract);
     }
 
     /**
@@ -81,13 +57,6 @@ class ContractObserver
      */
     public function forceDeleted(Contract $contract): void
     {
-        $employee = $contract->employee;
-
-        // Modify the current_leave_days of the employee
-        $employee->addLeaves(-$contract->getDurationInYears() * $employee->max_leave_days);
-
-        $this->updateEmployeeContractDates($employee);
-
-        $employee->save();
+        $this->updateEmployeeContractDates($contract);
     }
 }
