@@ -79,7 +79,7 @@ class ContractExpiredBothResource extends Resource
                 $contractTable->status->toggledHiddenByDefault(),
                 $contractTable->start_date,
                 $contractTable->end_date,
-                $contractTable->paper_contract_end_date,
+                $contractTable->paper_contract_start_date,
                 $contractTable->paper_contract_end_date,
                 $contractTable->e_contract_exp_rem_days,
                 $contractTable->p_contract_exp_rem_days,
