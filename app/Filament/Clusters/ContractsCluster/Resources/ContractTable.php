@@ -76,13 +76,23 @@ class ContractTable
 							];
 						}),
 					Grid::make([
-						'md' => 3,
+						'md' => 2,
 					])
 						->schema([
-							Forms\Components\DatePicker::make('start_date'),
-							Forms\Components\DatePicker::make('end_date'),
-							Forms\Components\DatePicker::make('paper_contract_end_date'),
-						])
+							Forms\Components\DatePicker::make('start_date')
+								->label('Electronic contract start'),
+							Forms\Components\DatePicker::make('end_date')
+								->label('Electronic contract end'),
+						]),
+					Grid::make([
+						'md' => 2,
+					])
+						->schema([
+							Forms\Components\DatePicker::make('paper_contract_start_date')
+								->label('Paper contract start'),
+							Forms\Components\DatePicker::make('paper_contract_end_date')
+								->label('Paper contract end'),
+						]),
 				]),
 			Section::make('Salary/Allowance')
 				->schema([
@@ -121,6 +131,7 @@ class ContractTable
 	public Column $duration_in_years;
 	public Column $start_date;
 	public Column $end_date;
+	public Column $paper_contract_start_date;
 	public Column $paper_contract_end_date;
 	public Column $basic_salary;
 	public Column $housing_allowance;
@@ -179,6 +190,14 @@ class ContractTable
 
 		$this->end_date = Tables\Columns\TextColumn::make('end_date')
 			->label('Electronic contract end')
+			->toggleable()
+			->date()
+			->placeholder('-')
+			->copyable()
+			->sortable();
+
+		$this->paper_contract_start_date = Tables\Columns\TextColumn::make('paper_contract_start_date')
+			->label('Paper contract start')
 			->toggleable()
 			->date()
 			->placeholder('-')
@@ -295,6 +314,7 @@ class ContractTable
 			$table->status,
 			$table->start_date,
 			$table->end_date,
+			$table->paper_contract_start_date,
 			$table->paper_contract_end_date,
 			$table->e_contract_exp_rem_days,
 			$table->p_contract_exp_rem_days,
@@ -358,6 +378,8 @@ class ContractTable
 					DateConstraint::make('start_date')
 						->icon('heroicon-o-calendar'),
 					DateConstraint::make('end_date')
+						->icon('heroicon-o-calendar'),
+					DateConstraint::make('paper_contract_start_date')
 						->icon('heroicon-o-calendar'),
 					DateConstraint::make('paper_contract_end_date')
 						->icon('heroicon-o-calendar'),

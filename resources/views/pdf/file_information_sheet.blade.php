@@ -153,6 +153,7 @@
 				<td class="px-2 py-2 text-xs text-black">
 					<span class="text-[10px] font-bold text-zinc-400">Electronic contract start:</span><br /> {{ $contract->start_date?->format(config('app.date_format')) ?? '-' }}<br />
 					<span class="text-[10px] font-bold text-zinc-400">Electronic contract end:</span><br /> {{ $contract->end_date?->format(config('app.date_format')) ?? '-' }}<br />
+					<span class="text-[10px] font-bold text-zinc-400">Paper contract start:</span><br /> {{ $contract->paper_contract_start_date?->format(config('app.date_format')) ?? '-' }}<br />
 					<span class="text-[10px] font-bold text-zinc-400">Paper contract end:</span><br /> {{ $contract->paper_contract_end_date?->format(config('app.date_format')) ?? '-' }}<br />
 				</td>
 				<td class="px-2 py-2 text-xs font-bold text-black">{{ $contract->duration_string ?? '-' }}</td>

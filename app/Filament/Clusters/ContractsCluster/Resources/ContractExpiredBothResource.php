@@ -80,6 +80,7 @@ class ContractExpiredBothResource extends Resource
                 $contractTable->start_date,
                 $contractTable->end_date,
                 $contractTable->paper_contract_end_date,
+                $contractTable->paper_contract_end_date,
                 $contractTable->e_contract_exp_rem_days,
                 $contractTable->p_contract_exp_rem_days,
                 $contractTable->basic_salary,

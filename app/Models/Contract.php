@@ -19,6 +19,7 @@ class Contract extends Model
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'paper_contract_start_date' => 'date',
         'paper_contract_end_date' => 'date',
     ];
 
