@@ -60,6 +60,7 @@ class EmployeeSeniorsResource extends Resource
                 $employeeTable->iqama_number,
                 $employeeTable->electronic_contract_start_date,
                 $employeeTable->electronic_contract_end_date,
+                $employeeTable->paper_contract_start_date,
                 $employeeTable->paper_contract_end_date,
                 $employeeTable->country_name->toggledHiddenByDefault(),
                 $employeeTable->email->toggledHiddenByDefault(),

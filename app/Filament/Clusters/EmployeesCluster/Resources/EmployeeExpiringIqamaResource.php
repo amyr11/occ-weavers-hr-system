@@ -65,6 +65,7 @@ class EmployeeExpiringIqamaResource extends Resource
                 $employeeTable->project_project_name,
                 $employeeTable->electronic_contract_start_date,
                 $employeeTable->electronic_contract_end_date,
+                $employeeTable->paper_contract_start_date,
                 $employeeTable->paper_contract_end_date,
                 $employeeTable->country_name->toggledHiddenByDefault(),
                 $employeeTable->age->toggledHiddenByDefault(),

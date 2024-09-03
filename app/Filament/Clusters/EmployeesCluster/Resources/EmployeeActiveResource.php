@@ -70,6 +70,7 @@ class EmployeeActiveResource extends Resource
                 $employeeTable->company_start_date,
                 $employeeTable->electronic_contract_start_date,
                 $employeeTable->electronic_contract_end_date,
+                $employeeTable->paper_contract_start_date,
                 $employeeTable->paper_contract_end_date,
                 $employeeTable->final_exit_date,
                 $employeeTable->visa_expired_date,

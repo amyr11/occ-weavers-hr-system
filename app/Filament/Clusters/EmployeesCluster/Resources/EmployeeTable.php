@@ -286,6 +286,7 @@ class EmployeeTable
 	public Column $company_start_date;
 	public Column $electronic_contract_start_date;
 	public Column $electronic_contract_end_date;
+	public Column $paper_contract_start_date;
 	public Column $paper_contract_end_date;
 	public Column $final_exit_date;
 	public Column $visa_expired_date;
@@ -522,6 +523,13 @@ class EmployeeTable
 			->placeholder('-')
 			->sortable();
 
+		$this->paper_contract_start_date = TextColumn::make('paper_contract_start_date')
+			->date()
+			->toggleable()
+			->copyable()
+			->placeholder('-')
+			->sortable();
+
 		$this->paper_contract_end_date = TextColumn::make('paper_contract_end_date')
 			->date()
 			->toggleable()
@@ -595,6 +603,7 @@ class EmployeeTable
 			$table->company_start_date,
 			$table->electronic_contract_start_date,
 			$table->electronic_contract_end_date,
+			$table->paper_contract_start_date,
 			$table->paper_contract_end_date,
 			$table->final_exit_date,
 			$table->visa_expired_date,
@@ -723,6 +732,14 @@ class EmployeeTable
 						->label('SCE Expiration')
 						->icon('heroicon-o-calendar'),
 					DateConstraint::make('company_start_date')
+						->icon('heroicon-o-calendar'),
+					DateConstraint::make('electronic_contract_start_date')
+						->icon('heroicon-o-calendar'),
+					DateConstraint::make('electronic_contract_end_date')
+						->icon('heroicon-o-calendar'),
+					DateConstraint::make('paper_contract_start_date')
+						->icon('heroicon-o-calendar'),
+					DateConstraint::make('paper_contract_end_date')
 						->icon('heroicon-o-calendar'),
 					DateConstraint::make('final_exit_date')
 						->icon('heroicon-o-calendar'),
