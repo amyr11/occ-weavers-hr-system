@@ -504,7 +504,7 @@ class ContractTable
 			->filtersFormWidth(MaxWidth::TwoExtraLarge)
 			->actions(ContractTable::getActions(), position: ActionsPosition::BeforeColumns)
 			->bulkActions(ContractTable::getBulkActions())
-			->defaultSort('start_date', 'desc');
+			->defaultSort(fn($query) => $query->orderBy('start_date', 'desc')->orderBy('paper_contract_start_date', 'desc'));
 	}
 
 	public static function getHeaderActions(): array
