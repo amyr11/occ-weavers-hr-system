@@ -33,8 +33,8 @@ class Contract extends Model
         return $this->belongsTo(EmployeeJob::class);
     }
 
-    public static function getDurationString(int $duration)
+    public static function getDurationString(int|null $duration)
     {
-        return $duration . ' ' . Pluralizer::plural('year', $duration);
+        return $duration != null ? $duration . ' ' . Pluralizer::plural('year', $duration) : null;
     }
 }
