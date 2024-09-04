@@ -90,7 +90,7 @@ class EmployeeTable
 								->email(),
 						]),
 					Grid::make([
-						'md' => 3,
+						'md' => 2,
 					])
 						->schema([
 							DatePicker::make('birthdate'),
@@ -98,7 +98,6 @@ class EmployeeTable
 								->numeric()
 								->hiddenOn(['create'])
 								->disabled(),
-							DatePicker::make('college_graduation_date'),
 						]),
 				]),
 			Section::make('Company information')
@@ -233,7 +232,6 @@ class EmployeeTable
 	public Column $country_name;
 	public Column $age;
 	public Column $email;
-	public Column $college_graduation_date;
 	public Column $mobile_number;
 	public Column $labor_office_number;
 	public Column $iban_number;
@@ -331,13 +329,6 @@ class EmployeeTable
 			->extraAttributes([
 				'style' => 'min-width: 200px',
 			]);
-
-		$this->college_graduation_date = TextColumn::make('college_graduation_date')
-			->toggleable()
-			->date()
-			->placeholder('-')
-			->copyable()
-			->sortable();
 
 		$this->mobile_number = TextColumn::make('mobile_number')
 			->label('Mobile no.')
@@ -538,7 +529,6 @@ class EmployeeTable
 			$table->country_name,
 			$table->age,
 			$table->email,
-			$table->college_graduation_date,
 			$table->mobile_number,
 			$table->labor_office_number,
 			$table->iban_number,
@@ -642,8 +632,6 @@ class EmployeeTable
 					//     ->icon('heroicon-o-user'),
 					// TextConstraint::make('email')
 					//     ->icon('heroicon-o-user'),
-					DateConstraint::make('college_graduation_date')
-						->icon('heroicon-o-calendar'),
 					// TextConstraint::make('labor_office_number')
 					//     ->icon('heroicon-o-hashtag'),
 					// TextConstraint::make('iban_number')

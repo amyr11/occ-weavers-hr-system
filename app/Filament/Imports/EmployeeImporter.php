@@ -42,8 +42,6 @@ class EmployeeImporter extends Importer
             ImportColumn::make('email')
                 ->ignoreBlankState()
                 ->rules(['nullable', 'email', 'max:255']),
-            DateImportColumn::make('college_graduation_date')
-                ->ignoreBlankState(),
             ImportColumn::make('labor_office_number')
                 ->ignoreBlankState()
                 ->rules(['nullable', 'max:255']),

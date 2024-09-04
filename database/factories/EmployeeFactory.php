@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Country;
 use App\Models\InsuranceClass;
+use App\Models\Project;
 use App\Utils\HijriUtil;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,11 +29,11 @@ class EmployeeFactory extends Factory
         return [
             'insurance_class_id' => InsuranceClass::all()->random()->id,
             'country_id' => Country::all()->random()->id,
+            'project_id' => Project::all()->random()->id,
             'full_name' => $this->faker->name(),
             'birthdate' => $this->faker->dateTimeBetween('-70 years', '-25 years')->format('Y-m-d'),
             'mobile_number' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
-            'college_graduation_date' => $this->faker->date(),
             'labor_office_number' => $this->faker->unique()->numberBetween(1000, 9999),
             'iban_number' => $this->faker->unique()->numberBetween(1000, 9999),
             'iqama_number' => $this->faker->unique()->numberBetween(1000, 9999),

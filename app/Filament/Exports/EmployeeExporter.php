@@ -28,7 +28,6 @@ class EmployeeExporter extends Exporter
             ExportColumn::make('age'),
             ExportColumn::make('mobile_number'),
             ExportColumn::make('email'),
-            DateExportColumn::make('college_graduation_date'),
             ExportColumn::make('labor_office_number'),
             ExportColumn::make('iban_number'),
             ExportColumn::make('iqama_number'),

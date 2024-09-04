@@ -17,7 +17,6 @@ class Employee extends Model
 
     protected $casts = [
         'birthdate' => 'date',
-        'college_graduation_date' => 'date',
         'iqama_expiration_hijri' => HijriDate::class,
         'iqama_expiration_gregorian' => 'date',
         'passport_date_issue' => 'date',
