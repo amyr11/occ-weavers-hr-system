@@ -13,6 +13,7 @@ use Filament\Forms\Set;
 use App\Models\Contract;
 use App\Models\Employee;
 use App\Utils\TableUtil;
+use Carbon\Carbon;
 use Faker\Core\Number;
 use Filament\Actions\ImportAction;
 use Filament\Forms\Components\TextInput;
@@ -128,7 +129,8 @@ class ContractTable
 	public Column $employee_number;
 	public Column $employee_full_name;
 	public Column $employeeJob_job_title;
-	public Column $duration_in_years;
+	public Column $electronic_duration_in_years;
+	public Column $paper_duration_in_years;
 	public Column $start_date;
 	public Column $end_date;
 	public Column $paper_contract_start_date;
@@ -169,11 +171,22 @@ class ContractTable
 			->placeholder('-')
 			->sortable();
 
-		$this->duration_in_years = Tables\Columns\TextColumn::make('duration_in_years')
+		$this->electronic_duration_in_years = Tables\Columns\TextColumn::make('electronic_duration_in_years')
 			->toggleable()
-			->label('Duration')
+			->label('Duration (Electronic)')
 			->state(function (Contract $record) {
-				return $record->duration_string;
+				return Contract::getDurationString($record->electronic_duration_in_years);
+			})
+			->numeric()
+			->placeholder('-')
+			->copyable()
+			->sortable();
+
+		$this->paper_duration_in_years = Tables\Columns\TextColumn::make('paper_duration_in_years')
+			->toggleable()
+			->label('Duration (Paper)')
+			->state(function (Contract $record) {
+				return Contract::getDurationString($record->paper_duration_in_years);
 			})
 			->numeric()
 			->placeholder('-')
@@ -310,7 +323,8 @@ class ContractTable
 			$table->employee_number,
 			$table->employee_full_name,
 			$table->employeeJob_job_title,
-			$table->duration_in_years,
+			$table->electronic_duration_in_years,
+			$table->paper_duration_in_years,
 			$table->status,
 			$table->start_date,
 			$table->end_date,
@@ -383,7 +397,9 @@ class ContractTable
 						->icon('heroicon-o-calendar'),
 					DateConstraint::make('paper_contract_end_date')
 						->icon('heroicon-o-calendar'),
-					NumberConstraint::make('duration_in_years')
+					NumberConstraint::make('electronic_duration_in_years')
+						->icon('heroicon-o-hashtag'),
+					NumberConstraint::make('paper_duration_in_years')
 						->icon('heroicon-o-hashtag'),
 					NumberConstraint::make('basic_salary')
 						->icon('heroicon-o-currency-dollar'),
