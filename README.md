@@ -1,66 +1,45 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# OCC Weavers HR System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+An HR system for managing employees. Built for a top-tier construction company in Saudi Arabia.
 
-## About Laravel
+# Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. Add/edit/delete employees.
+    1. See employee’s status such as:
+        1. Active
+        2. Expiring IQAMA
+        3. Ages 60 and up
+2. Add/edit/delete contracts.
+    1. See employee’s contracts’ status such as:
+        1. Active
+        2. Upcoming
+        3. Expiring (Electronic contract and paper)
+        4. Expired contracts (For renewal)
+3. Add/edit/delete leaves.
+    1. See employee’s leave’s status such as:
+        1. For arrival
+        2. For vacation
+        3. On vacation
+        4. Visa expired
+4. Add/edit/delete bonuses.
+5. Generate “File Information Sheet” PDF containing all employee’s important information and history of contracts, leaves, and bonuses.
+6. Import data from csv.
+7. Export tables to excel.
+8. Dashboard
+    1. No. of active employees
+    2. No. of active Saudi Arabian/Non-Saudi Arabian employees
+    3. No. of active employees per nationality
+    4. No. of employees who exited per month and year.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# File Information Sheet (Generated)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<img width="1489" alt="Screenshot 2024-09-05 at 2 01 52 AM" src="https://github.com/user-attachments/assets/83370ae5-58da-4c72-a352-43f7ad23ce71">
 
-## Learning Laravel
+# Some screenshots from the app
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<img width="1319" alt="Screenshot 2024-09-05 at 2 32 06 AM" src="https://github.com/user-attachments/assets/6b9374f4-63bc-4484-b955-b72fbeefd233">
+<img width="1103" alt="Screenshot 2024-09-05 at 2 31 51 AM" src="https://github.com/user-attachments/assets/0dd529ab-3044-4a3b-a4e9-acfc0acc3eec">
+<img width="1468" alt="Screenshot 2024-09-05 at 2 13 40 AM" src="https://github.com/user-attachments/assets/eb6c95a8-372a-4b66-a9f8-47923be9884c">
+<img width="1469" alt="Screenshot 2024-09-05 at 1 57 49 AM" src="https://github.com/user-attachments/assets/1b9d67b6-0d93-40f2-8379-50171fe89bae">
+<img width="1462" alt="Screenshot 2024-09-05 at 2 13 52 AM" src="https://github.com/user-attachments/assets/4c7550d6-1f1e-4c4f-883c-dccc7a32c840">
+<img width="1462" alt="Screenshot 2024-09-05 at 2 14 04 AM" src="https://github.com/user-attachments/assets/cc571fa4-555e-4e4d-9969-e7a8a13440f9">
