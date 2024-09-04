@@ -13,8 +13,7 @@
 		<img src="{{ public_path('/images/logo.png') }}" alt="Logo" class="mx-auto mb-2 h-10 w-10 object-cover" />
 
 		<!-- Company header -->
-		<p class="text-center text-sm font-medium text-[#086A38]">OCC Weavers Ltd.</p>
-		<p class="mb-4 text-center text-xs text-[#086A38]">7081 Al-Madinah Al-Munawarah Rd, Ash Sharafiyah District, Jeddah 23216, Saudi Arabia</p>
+		<p class="text-center text-sm font-medium text-[#086A38] mb-4">OCC Weavers Ltd.</p>
 
 		<!-- Employee information header -->
 		<div class="mb-5 flex items-center justify-between rounded-md bg-[#086A38] p-2 text-white">
@@ -109,16 +108,6 @@
 		</div>
 		<div class="mb-2 grid grid-cols-2 gap-2">
 			<div>
-				<label class="mb-2 block text-xs font-medium text-zinc-600">Education level</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->educationLevel?->level ?? '-' }}</p>
-			</div>
-			<div>
-				<label class="mb-2 block text-xs font-medium text-zinc-600">Degree (if applicable)</label>
-				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->degree?->degree ?? '-' }}</p>
-			</div>
-		</div>
-		<div class="mb-2 grid grid-cols-2 gap-2">
-			<div>
 				<label class="mb-2 block text-xs font-medium text-zinc-600">IBAN no.</label>
 				<p class="block w-full border-b border-gray-300 bg-gray-50 p-2.5 text-sm text-black">{{ $employee->iban_number ?? '-' }}</p>
 			</div>
@@ -156,7 +145,10 @@
 					<span class="text-[10px] font-bold text-zinc-400">Paper contract start:</span><br /> {{ $contract->paper_contract_start_date?->format(config('app.date_format')) ?? '-' }}<br />
 					<span class="text-[10px] font-bold text-zinc-400">Paper contract end:</span><br /> {{ $contract->paper_contract_end_date?->format(config('app.date_format')) ?? '-' }}<br />
 				</td>
-				<td class="px-2 py-2 text-xs font-bold text-black">{{ $contract->duration_string ?? '-' }}</td>
+				<td class="px-2 py-2 text-xs text-black">
+					<span class="text-[10px] font-bold text-zinc-400">Electronic:</span><br /> {{ $contract->getDurationString($contract->electronic_duration_in_years) ?? '-' }}<br />
+					<span class="text-[10px] font-bold text-zinc-400">Paper:</span><br /> {{ $contract->getDurationString($contract->paper_duration_in_years) ?? '-' }}<br />
+				</td>
 				<td class="px-2 py-2 text-xs text-black">{{ $contract->employeeJob?->job_title ?? '-' }}</td>
 				<td class="px-2 py-2 text-xs text-black">{{ $contract->basic_salary ?? '-' }} <span class="text-[#086A38] font-medium text-[9px]">SAR</span></td>
 				<td class="px-2 py-2 text-xs text-black">
