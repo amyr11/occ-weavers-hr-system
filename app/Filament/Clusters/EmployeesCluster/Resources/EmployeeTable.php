@@ -68,6 +68,7 @@ class EmployeeTable
 								->columnSpan(2)
 								->required(),
 							TextInput::make('employee_number')
+								->unique(ignoreRecord: true)
 								->label('Employee no.')
 						]),
 					Grid::make([
