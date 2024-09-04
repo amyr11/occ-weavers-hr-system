@@ -140,14 +140,22 @@
 			@foreach ($employee->contracts?->sortByDesc('start_date') as $contract)
 			<tr class="border-b border-gray-300">
 				<td class="px-2 py-2 text-xs text-black">
+					@if ($contract->start_date && $contract->end_date)
 					<span class="text-[10px] font-bold text-zinc-400">Electronic contract start:</span><br /> {{ $contract->start_date?->format(config('app.date_format')) ?? '-' }}<br />
 					<span class="text-[10px] font-bold text-zinc-400">Electronic contract end:</span><br /> {{ $contract->end_date?->format(config('app.date_format')) ?? '-' }}<br />
+					@endif
+					@if ($contract->paper_contract_start_date && $contract->paper_contract_end_date)
 					<span class="text-[10px] font-bold text-zinc-400">Paper contract start:</span><br /> {{ $contract->paper_contract_start_date?->format(config('app.date_format')) ?? '-' }}<br />
 					<span class="text-[10px] font-bold text-zinc-400">Paper contract end:</span><br /> {{ $contract->paper_contract_end_date?->format(config('app.date_format')) ?? '-' }}<br />
+					@endif
 				</td>
 				<td class="px-2 py-2 text-xs text-black">
+					@if ($contract->start_date && $contract->end_date)
 					<span class="text-[10px] font-bold text-zinc-400">Electronic:</span><br /> {{ $contract->getDurationString($contract->electronic_duration_in_years) ?? '-' }}<br />
+					@endif
+					@if ($contract->paper_contract_start_date && $contract->paper_contract_end_date)
 					<span class="text-[10px] font-bold text-zinc-400">Paper:</span><br /> {{ $contract->getDurationString($contract->paper_duration_in_years) ?? '-' }}<br />
+					@endif
 				</td>
 				<td class="px-2 py-2 text-xs text-black">{{ $contract->employeeJob?->job_title ?? '-' }}</td>
 				<td class="px-2 py-2 text-xs text-black">{{ $contract->basic_salary ?? '-' }} <span class="text-[#086A38] font-medium text-[9px]">SAR</span></td>
