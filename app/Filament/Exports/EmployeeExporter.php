@@ -24,8 +24,6 @@ class EmployeeExporter extends Exporter
                 ->label('Current project'),
             ExportColumn::make('country.name'),
             ExportColumn::make('insuranceClass.name'),
-            ExportColumn::make('educationLevel.level'),
-            ExportColumn::make('degree.degree'),
             DateExportColumn::make('birthdate'),
             ExportColumn::make('age'),
             ExportColumn::make('mobile_number'),

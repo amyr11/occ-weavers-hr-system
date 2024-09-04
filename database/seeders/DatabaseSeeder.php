@@ -18,8 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CountrySeeder::class,
             InsuranceClassSeeder::class,
-            EducationLevelSeeder::class,
-            DegreeSeeder::class,
             ProjectSeeder::class,
             EmployeeJobSeeder::class,
             EmployeeSeeder::class,

@@ -70,8 +70,6 @@ class EmployeeExpiringIqamaResource extends Resource
                 $employeeTable->country_name->toggledHiddenByDefault(),
                 $employeeTable->age->toggledHiddenByDefault(),
                 $employeeTable->email->toggledHiddenByDefault(),
-                $employeeTable->educationLevel_level->toggledHiddenByDefault(),
-                $employeeTable->degree_degree->toggledHiddenByDefault(),
                 $employeeTable->college_graduation_date->toggledHiddenByDefault(),
                 $employeeTable->mobile_number->toggledHiddenByDefault(),
                 $employeeTable->labor_office_number->toggledHiddenByDefault(),

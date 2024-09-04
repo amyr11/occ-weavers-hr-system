@@ -2,10 +2,7 @@
 
 namespace Database\Factories;
 
-use Alkoumi\LaravelHijriDate\Hijri;
 use App\Models\Country;
-use App\Models\Degree;
-use App\Models\EducationLevel;
 use App\Models\InsuranceClass;
 use App\Utils\HijriUtil;
 use Carbon\Carbon;
@@ -23,17 +20,12 @@ class EmployeeFactory extends Factory
      */
     public function definition(): array
     {
-        $education_level = EducationLevel::all()->random();
-        $degree_id = $education_level->level === 'Bachelor\'s Degree' ? Degree::all()->random()->id : null;
-
         $iqamaStartRange = Carbon::create(2024, 9, 1);
         $iqamaEndRange = Carbon::create(2025, 12, 31);
         $iqamaGregorian = $this->faker->dateTimeBetween($iqamaStartRange, $iqamaEndRange)->format('Y-m-d');
         $iqamaHijri = HijriUtil::toHijri($iqamaGregorian);
 
         return [
-            'education_level_id' => $education_level->id,
-            'degree_id' => $degree_id,
             'insurance_class_id' => InsuranceClass::all()->random()->id,
             'country_id' => Country::all()->random()->id,
             'full_name' => $this->faker->name(),

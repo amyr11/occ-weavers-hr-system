@@ -34,14 +34,6 @@ class EmployeeImporter extends Importer
                 ->ignoreBlankState()
                 ->relationship(resolveUsing: 'name')
                 ->rules(['nullable']),
-            ImportColumn::make('educationLevel')
-                ->ignoreBlankState()
-                ->relationship(resolveUsing: 'level')
-                ->rules(['nullable']),
-            ImportColumn::make('degree')
-                ->ignoreBlankState()
-                ->relationship(resolveUsing: 'degree')
-                ->rules(['nullable']),
             DateImportColumn::make('birthdate')
                 ->ignoreBlankState(),
             ImportColumn::make('mobile_number')

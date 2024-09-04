@@ -51,8 +51,6 @@ class EmployeeActiveResource extends Resource
                 $employeeTable->country_name,
                 $employeeTable->age,
                 $employeeTable->email,
-                $employeeTable->educationLevel_level,
-                $employeeTable->degree_degree,
                 $employeeTable->college_graduation_date,
                 $employeeTable->mobile_number,
                 $employeeTable->labor_office_number,

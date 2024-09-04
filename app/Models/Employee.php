@@ -49,16 +49,6 @@ class Employee extends Model
         return $this->belongsTo(InsuranceClass::class);
     }
 
-    public function educationLevel()
-    {
-        return $this->belongsTo(EducationLevel::class);
-    }
-
-    public function degree()
-    {
-        return $this->belongsTo(Degree::class);
-    }
-
     public function leaves()
     {
         return $this->hasMany(EmployeeLeave::class, 'employee_number', 'employee_number');

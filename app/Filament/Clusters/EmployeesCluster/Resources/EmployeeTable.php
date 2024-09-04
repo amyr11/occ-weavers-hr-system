@@ -90,7 +90,7 @@ class EmployeeTable
 								->email(),
 						]),
 					Grid::make([
-						'md' => 2,
+						'md' => 3,
 					])
 						->schema([
 							DatePicker::make('birthdate'),
@@ -98,6 +98,7 @@ class EmployeeTable
 								->numeric()
 								->hiddenOn(['create'])
 								->disabled(),
+							DatePicker::make('college_graduation_date'),
 						]),
 				]),
 			Section::make('Company information')
@@ -166,7 +167,6 @@ class EmployeeTable
 				]),
 			Section::make('Government information')
 				->icon('heroicon-o-identification')
-				->collapsed(fn(string $operation): bool => in_array($operation, ['view', 'edit']))
 				->collapsible()
 				->schema([
 					Grid::make([
@@ -222,40 +222,6 @@ class EmployeeTable
 								->label('SCE Expiration'),
 						]),
 				]),
-			Section::make('Education')
-				->icon('heroicon-o-academic-cap')
-				->collapsed(fn(string $operation): bool => in_array($operation, ['view', 'edit']))
-				->collapsible()
-				->schema([
-					Grid::make([
-						'md' => 2,
-					])
-						->schema([
-							Select::make('education_level_id')
-								->relationship('educationLevel', 'level')
-								->native(false)
-								->preload()
-								->createOptionForm(function () {
-									return [
-										TextInput::make('level')
-											->label('Education Level')
-											->required(),
-									];
-								}),
-							Select::make('degree_id')
-								->relationship('degree', 'degree')
-								->searchable()
-								->createOptionForm(function () {
-									return [
-										TextInput::make('degree')
-											->label('Degree')
-											->required(),
-									];
-								})
-								->preload(),
-						]),
-					DatePicker::make('college_graduation_date'),
-				]),
 		];
 	}
 
@@ -267,8 +233,6 @@ class EmployeeTable
 	public Column $country_name;
 	public Column $age;
 	public Column $email;
-	public Column $educationLevel_level;
-	public Column $degree_degree;
 	public Column $college_graduation_date;
 	public Column $mobile_number;
 	public Column $labor_office_number;
@@ -367,16 +331,6 @@ class EmployeeTable
 			->extraAttributes([
 				'style' => 'min-width: 200px',
 			]);
-
-		$this->educationLevel_level = TextColumn::make('educationLevel.level')
-			->toggleable()
-			->placeholder('-')
-			->sortable();
-
-		$this->degree_degree = TextColumn::make('degree.degree')
-			->toggleable()
-			->placeholder('-')
-			->sortable();
 
 		$this->college_graduation_date = TextColumn::make('college_graduation_date')
 			->toggleable()
@@ -584,8 +538,6 @@ class EmployeeTable
 			$table->country_name,
 			$table->age,
 			$table->email,
-			$table->educationLevel_level,
-			$table->degree_degree,
 			$table->college_graduation_date,
 			$table->mobile_number,
 			$table->labor_office_number,
@@ -677,22 +629,6 @@ class EmployeeTable
 				->relationship('insuranceClass', 'name')
 				->options(function () {
 					return \App\Models\InsuranceClass::pluck('name', 'id');
-				}),
-			SelectFilter::make('education_level_id')
-				->label('Education Level')
-				->multiple()
-				->preload()
-				->relationship('educationLevel', 'level')
-				->options(function () {
-					return \App\Models\EducationLevel::pluck('level', 'id');
-				}),
-			SelectFilter::make('degree_id')
-				->label('Degree')
-				->multiple()
-				->preload()
-				->relationship('degree', 'degree')
-				->options(function () {
-					return \App\Models\Degree::pluck('degree', 'id');
 				}),
 			QueryBuilder::make()
 				->constraints([
@@ -876,39 +812,6 @@ class EmployeeTable
 										->label('Insurance Class'),
 								];
 							}),
-					]
-				),
-				TableUtil::getUpdateBulkAction(
-					column: 'education_level_id',
-					icon: 'heroicon-o-academic-cap',
-					label: 'Education Level',
-					form: [
-						Select::make('education_level_id')
-							->relationship('educationLevel', 'level')
-							->preload()
-							->createOptionForm(function () {
-								return [
-									TextInput::make('level')
-										->label('Education Level'),
-								];
-							}),
-					]
-				),
-				TableUtil::getUpdateBulkAction(
-					column: 'degree_id',
-					icon: 'heroicon-o-academic-cap',
-					label: 'Degree',
-					form: [
-						Select::make('degree_id')
-							->relationship('degree', 'degree')
-							->searchable()
-							->createOptionForm(function () {
-								return [
-									TextInput::make('degree')
-										->label('Degree'),
-								];
-							})
-							->preload(),
 					]
 				),
 			])
