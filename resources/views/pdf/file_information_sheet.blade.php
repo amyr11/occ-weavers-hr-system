@@ -137,7 +137,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach ($employee->contracts?->sortByDesc('start_date')->sortByDesc('paper_contract_start_date') as $contract)
+			@foreach ($employee->contracts?->sortBy([['start_date', 'desc'], ['paper_contract_start_date', 'desc']]) as $contract)
 			<tr class="border-b border-gray-300">
 				<td class="px-2 py-2 text-xs text-black">
 					@if ($contract->start_date && $contract->end_date)
