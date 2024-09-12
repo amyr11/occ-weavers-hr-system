@@ -137,7 +137,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach ($employee->contracts?->sortBy([['start_date', 'desc'], ['paper_contract_start_date', 'desc']]) as $contract)
+			@foreach ($employee->contracts?->sortBy([['start_date', 'asc'], ['paper_contract_start_date', 'asc']]) as $contract)
 			<tr class="border-b border-gray-300">
 				<td class="px-2 py-2 text-xs text-black">
 					@if ($contract->start_date && $contract->end_date)
@@ -200,7 +200,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach ($employee->leaves?->sortByDesc('start_date') as $leave)
+			@foreach ($employee->leaves?->sortBy([['start_date', 'asc']]) as $leave)
 			<tr class="border-b border-gray-300">
 				<td class="px-2 py-2 text-xs text-black">{{ $leave->start_date?->format(config('app.date_format')) ?? '-' }}</td>
 				<td class="px-2 py-2 text-xs text-black">{{ $leave->end_date?->format(config('app.date_format')) ?? '-' }}</td>
@@ -230,7 +230,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach ($employee->bonuses?->sortByDesc('date_received') as $bonus)
+			@foreach ($employee->bonuses?->sortBy([['date_received', 'asc']]) as $bonus)
 			<tr class="border-b border-gray-300">
 				<td class="px-2 py-2 text-xs text-black">{{ $bonus->date_received?->format(config('app.date_format')) ?? '-' }}</td>
 				<td class="px-2 py-2 text-xs text-black">{{ $bonus->bonus ?? '-' }} <span class="text-[#086A38] font-medium text-[9px]">SAR</span></td>
