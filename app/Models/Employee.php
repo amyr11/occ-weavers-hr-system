@@ -28,6 +28,7 @@ class Employee extends Model
         'transferred_date' => 'date',
         'electronic_contract_start_date' => 'date',
         'electronic_contract_end_date' => 'date',
+        'paper_contract_start_date' => 'date',
         'paper_contract_end_date' => 'date',
     ];
 
